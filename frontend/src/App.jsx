@@ -53,6 +53,10 @@ function App() {
           element={<ReportIncident />}
         />
         <Route
+          path='/reportIncident'
+          element={<ReportIncident />}
+        />
+        <Route
           path='/reportsSubmitted'
           element={<ReportSubmitted />}
         />

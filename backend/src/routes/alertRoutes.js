@@ -24,9 +24,18 @@ router.get(
   (req, res, next) => alertController.listAlerts(req, res, next)
 );
 
+router.get('/active', (req, res, next) => alertController.getActiveAlerts(req, res, next));
+
 router.get('/:id', (req, res, next) => alertController.getAlertById(req, res, next));
 
 router.post(
+  '/:id/acknowledge',
+  authenticate,
+  authorizeRoles('admin', 'analyst', 'field_officer'),
+  (req, res, next) => alertController.acknowledgeAlert(req, res, next)
+);
+
+router.patch(
   '/:id/acknowledge',
   authenticate,
   authorizeRoles('admin', 'analyst', 'field_officer'),
@@ -41,4 +50,12 @@ router.post(
   (req, res, next) => alertController.resolveAlert(req, res, next)
 );
 
+router.patch(
+  '/:id/resolve',
+  authenticate,
+  authorizeRoles('admin', 'analyst'),
+  (req, res, next) => alertController.resolveAlert(req, res, next)
+);
+
 module.exports = router;
+

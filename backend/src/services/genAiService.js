@@ -102,6 +102,59 @@ class GenAiService {
       requiresHumanConfirmation: true,
     };
   }
+
+  /**
+   * Conversational Q&A Grounded Chat with Landslide Decision Support Context
+   */
+  async chat(message, zoneId, conversationHistory = []) {
+    let zone = null;
+    if (zoneId) {
+      zone = await RiskZone.findById(zoneId).catch(() => null);
+    }
+    if (!zone) {
+      zone = await RiskZone.findOne().sort({ currentRiskScore: -1 }).catch(() => null);
+    }
+
+    const structuredContext = {
+      userQuery: message,
+      zoneName: zone ? zone.name : 'Regional High-Risk Slopes',
+      zoneCode: zone ? zone.code : 'ZONE-NER-ALL',
+      riskLevel: zone ? zone.currentRiskLevel : 'HIGH',
+      riskScore: zone ? zone.currentRiskScore : 0.78,
+      soilType: zone?.soilType || 'Colluvial Scree',
+      slopeAngle: zone?.baselineSlopeAngle || 38.5,
+    };
+
+    const aiResult = await genAiClient.generateRiskExplanation(structuredContext);
+
+    return {
+      reply: aiResult.explanation,
+      explanation: aiResult.explanation,
+      modelUsed: aiResult.modelUsed,
+      disclaimer: aiResult.disclaimer,
+      contextUsed: {
+        zoneName: structuredContext.zoneName,
+        riskLevel: structuredContext.riskLevel,
+        riskScore: structuredContext.riskScore,
+      },
+      requiresHumanConfirmation: true,
+    };
+  }
+
+  /**
+   * Generate situation summary report
+   */
+  async generateReport(zoneId, reportType = 'situation_summary') {
+    return this.explainRiskForZone(zoneId);
+  }
+
+  /**
+   * Generate alert communication bulletin
+   */
+  async generateAlert(alertContext) {
+    return genAiClient.draftPublicAdvisory(alertContext);
+  }
 }
 
 module.exports = new GenAiService();
+

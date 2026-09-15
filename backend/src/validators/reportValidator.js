@@ -2,6 +2,7 @@ const Joi = require('joi');
 
 const createReportSchema = Joi.object({
   reportType: Joi.string()
+    .uppercase()
     .valid(
       'CRACK_FORMATION',
       'ROCKFALL',
@@ -9,10 +10,18 @@ const createReportSchema = Joi.object({
       'GROUND_SUBSIDENCE',
       'DEBRIS_FLOW',
       'LEANING_TREES_OR_POLES',
+      'LANDSLIDE',
+      'SLOPE_CRACK',
+      'SOIL_MOVEMENT',
+      'ROAD_BLOCKED',
+      'WATER_ACCUMULATION',
       'OTHER'
     )
     .required(),
-  severity: Joi.string().valid('LOW', 'MODERATE', 'SEVERE', 'CRITICAL').default('MODERATE'),
+  severity: Joi.string()
+    .uppercase()
+    .valid('LOW', 'MODERATE', 'MEDIUM', 'HIGH', 'SEVERE', 'CRITICAL')
+    .default('MODERATE'),
   description: Joi.string().trim().min(5).max(1000).required(),
   location: Joi.object({
     type: Joi.string().valid('Point').default('Point'),
@@ -22,20 +31,28 @@ const createReportSchema = Joi.object({
       .required(),
   }).required(),
   addressOrLandmark: Joi.string().trim().allow('', null),
+  landmark: Joi.string().trim().allow('', null),
+  zoneId: Joi.string().trim().allow('', null),
+  riskZoneId: Joi.string().trim().allow('', null),
   imageUrls: Joi.array().items(Joi.string().uri()).default([]),
+  media: Joi.array().default([]),
   isAnonymous: Joi.boolean().default(false),
   reporterName: Joi.string().trim().allow('', null),
   reporterPhone: Joi.string().trim().allow('', null),
 });
 
 const verifyReportSchema = Joi.object({
-  verificationStatus: Joi.string().valid('VERIFIED', 'FALSE_ALARM', 'RESOLVED').required(),
+  verificationStatus: Joi.string().uppercase().valid('VERIFIED', 'FALSE_ALARM', 'RESOLVED', 'REJECTED').default('VERIFIED'),
+  status: Joi.string().allow('', null),
+  notes: Joi.string().trim().max(1000).allow('', null),
   officerNotes: Joi.string().trim().max(1000).allow('', null),
 });
 
 const reportQuerySchema = Joi.object({
-  verificationStatus: Joi.string().valid('PENDING', 'VERIFIED', 'FALSE_ALARM', 'RESOLVED'),
+  verificationStatus: Joi.string(),
+  status: Joi.string(),
   reportType: Joi.string(),
+  severity: Joi.string(),
   page: Joi.number().integer().min(1).default(1),
   limit: Joi.number().integer().min(1).max(100).default(20),
 });
@@ -45,3 +62,4 @@ module.exports = {
   verifyReportSchema,
   reportQuerySchema,
 };
+

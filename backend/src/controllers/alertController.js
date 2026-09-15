@@ -33,6 +33,15 @@ class AlertController {
     }
   }
 
+  async getActiveAlerts(req, res, next) {
+    try {
+      const result = await alertService.listAlerts({ status: 'ACTIVE' }, 1, 50);
+      return ApiResponse.success(res, result.alerts, 'Active alerts retrieved successfully');
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async getAlertById(req, res, next) {
     try {
       const alert = await alertService.getAlertById(req.params.id);

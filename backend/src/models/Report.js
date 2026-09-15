@@ -57,13 +57,20 @@ const reportSchema = new mongoose.Schema(
     },
     reportType: {
       type: String,
+      set: (v) => (typeof v === 'string' ? v.toLowerCase() : v),
       enum: [
         'crack_formation',
+        'slope_crack',
         'rockfall',
         'water_seepage',
         'ground_subsidence',
+        'soil_movement',
         'debris_flow',
+        'road_blocked',
+        'water_accumulation',
         'leaning_structures',
+        'leaning_trees_or_poles',
+        'landslide',
         'other',
       ],
       required: [true, 'Report type is required'],
@@ -71,13 +78,15 @@ const reportSchema = new mongoose.Schema(
     },
     severity: {
       type: String,
+      set: (v) => (typeof v === 'string' ? v.toUpperCase() : v),
       enum: {
-        values: CONSTANTS.RISK_LEVELS.LIST,
+        values: ['LOW', 'MODERATE', 'MEDIUM', 'HIGH', 'SEVERE', 'CRITICAL'],
         message: 'Invalid severity level: {VALUE}',
       },
-      default: CONSTANTS.RISK_LEVELS.MODERATE,
+      default: 'MODERATE',
       index: true,
     },
+
     description: {
       type: String,
       required: [true, 'Observation description is required'],

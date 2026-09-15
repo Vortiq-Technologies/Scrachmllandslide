@@ -210,20 +210,21 @@ const seedDatabase = async () => {
     await Report.create({
       reporterId: citizenUser._id,
       reporterName: citizenUser.name,
-      reporterPhone: citizenUser.phone,
+      reporterContact: citizenUser.phone,
       location: {
         type: 'Point',
         coordinates: [79.064, 30.733],
       },
-      zoneId: zone1._id,
-      reportType: 'CRACK_FORMATION',
-      severity: 'SEVERE',
+      riskZoneId: zone1._id,
+      reportType: 'crack_formation',
+      severity: 'high',
       description: 'Noticed 2-inch wide continuous transverse tension cracks along the road shoulder near km stone 14.',
-      verificationStatus: 'VERIFIED',
+      verificationStatus: 'verified',
       verifiedBy: officerUser._id,
       verifiedAt: new Date(now - 1 * 60 * 60 * 1000),
       officerNotes: 'Confirmed 50m long tension crack. Road maintenance notified to seal fissures.',
     });
+
 
     // 7. Seed Terrain, Weather, Satellite, and Historical Events
     logger.info('Seeding Terrain, Weather, Satellite, and Historical Events...');
@@ -238,36 +239,51 @@ const seedDatabase = async () => {
     });
 
     await WeatherData.create({
-      zoneId: zone1._id,
-      location: zone1.center,
-      rainfallHourlyMm: 8.5,
-      rainfallAccumulated24hMm: 92.4,
-      temperatureCelsius: 11.2,
-      humidityPct: 94,
-      windSpeedKmh: 24,
+      riskZoneId: zone1._id,
+      location: {
+        type: 'Point',
+        coordinates: [79.07, 30.74],
+      },
+      source: 'IMD AWS Automated Network',
+      metrics: {
+        rainfallLast1hMm: 8.5,
+        rainfallLast24hMm: 92.4,
+        rainfallForecast24hMm: 45.0,
+        temperatureC: 11.2,
+        relativeHumidityPct: 94,
+        windSpeedKmh: 24,
+      },
     });
 
     await SatelliteData.create({
-      zoneId: zone1._id,
+      riskZoneId: zone1._id,
+      satelliteName: 'Sentinel-1 SAR / Sentinel-2 MSI',
+      acquisitionDate: new Date(now - 24 * 60 * 60 * 1000),
       boundary: zone1.boundary,
-      ndvi: 0.28,
-      soilMoistureIndex: 0.78,
-      insarDisplacementMm: 14.5,
-      opticalChangeDetected: true,
-      satelliteSource: 'Sentinel-1 InSAR / Sentinel-2 MSI',
+      indices: {
+        sarDisplacementMmPerYear: 14.5,
+        ndviMean: 0.28,
+        soilMoistureIndex: 0.78,
+        cloudCoverPct: 15,
+        resolutionMeters: 10,
+      },
     });
 
+
     await HistoricalEvent.create({
+      eventCode: 'HIST-KD-2013-01',
       name: 'Kedarnath Debris Flow 2013',
+      riskZoneId: zone1._id,
       location: {
         type: 'Point',
         coordinates: [79.067, 30.734],
       },
       eventDate: new Date('2013-06-16'),
-      triggerType: 'cloudburst_extreme_rainfall',
-      severity: 'catastrophic',
+      triggerType: 'cloudburst',
+      severity: 'CRITICAL',
       damageSummary: 'Major valley scouring and catastrophic infrastructure damage downslope.',
     });
+
 
     logger.info('Database seeded successfully!');
     logger.info('--- Credentials ---');

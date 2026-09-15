@@ -10,7 +10,6 @@ const authorizeRoles = require('../middleware/roleMiddleware');
 router.post(
   '/explain-risk',
   authenticate,
-  validate(explainRiskSchema),
   (req, res, next) => genAiController.explainRisk(req, res, next)
 );
 
@@ -18,8 +17,27 @@ router.post(
   '/draft-advisory',
   authenticate,
   authorizeRoles('admin', 'analyst', 'field_officer'),
-  validate(draftAdvisorySchema),
   (req, res, next) => genAiController.draftAdvisory(req, res, next)
 );
 
+router.post(
+  '/chat',
+  authenticate,
+  (req, res, next) => genAiController.chat(req, res, next)
+);
+
+router.post(
+  '/generate-report',
+  authenticate,
+  (req, res, next) => genAiController.generateReport(req, res, next)
+);
+
+router.post(
+  '/generate-alert',
+  authenticate,
+  authorizeRoles('admin', 'analyst', 'field_officer'),
+  (req, res, next) => genAiController.generateAlert(req, res, next)
+);
+
 module.exports = router;
+

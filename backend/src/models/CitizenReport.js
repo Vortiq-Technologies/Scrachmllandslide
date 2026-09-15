@@ -43,6 +43,7 @@ const citizenReportSchema = new mongoose.Schema(
     },
     reportType: {
       type: String,
+      set: (v) => (typeof v === 'string' ? v.toUpperCase().replace(/\s+/g, '_') : v),
       enum: [
         'CRACK_FORMATION',
         'ROCKFALL',
@@ -50,6 +51,11 @@ const citizenReportSchema = new mongoose.Schema(
         'GROUND_SUBSIDENCE',
         'DEBRIS_FLOW',
         'LEANING_TREES_OR_POLES',
+        'LANDSLIDE',
+        'SLOPE_CRACK',
+        'SOIL_MOVEMENT',
+        'ROAD_BLOCKED',
+        'WATER_ACCUMULATION',
         'OTHER',
       ],
       required: [true, 'Report type is required'],
@@ -57,7 +63,8 @@ const citizenReportSchema = new mongoose.Schema(
     },
     severity: {
       type: String,
-      enum: ['LOW', 'MODERATE', 'SEVERE', 'CRITICAL'],
+      set: (v) => (typeof v === 'string' ? v.toUpperCase() : v),
+      enum: ['LOW', 'MODERATE', 'MEDIUM', 'HIGH', 'SEVERE', 'CRITICAL'],
       default: 'MODERATE',
       index: true,
     },

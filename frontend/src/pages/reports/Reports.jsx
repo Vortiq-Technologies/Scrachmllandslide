@@ -20,7 +20,6 @@ import Sidebar from '../../components/Sidebar';
 import ThemeToggle from '../../components/ThemeToggle';
 import { reportsApi } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
-
 import './Reports.css';
 
 function Reports() {
@@ -53,7 +52,7 @@ function Reports() {
       setActionLoading(reportId);
       await reportsApi.verifyReport(reportId, 'Verified by field officer');
       setReports((prev) =>
-        prev.map((r) => (r._id === reportId ? { ...r, status: 'verified', verifiedAt: new Date() } : r))
+        prev.map((r) => (r._id === reportId ? { ...r, status: 'verified', verificationStatus: 'VERIFIED', verifiedAt: new Date() } : r))
       );
     } catch (err) {
       alert('Verification failed: ' + err.message);
@@ -67,7 +66,7 @@ function Reports() {
       setActionLoading(reportId);
       await reportsApi.resolveReport(reportId, 'Resolved by emergency team');
       setReports((prev) =>
-        prev.map((r) => (r._id === reportId ? { ...r, status: 'resolved', resolvedAt: new Date() } : r))
+        prev.map((r) => (r._id === reportId ? { ...r, status: 'resolved', verificationStatus: 'RESOLVED', resolvedAt: new Date() } : r))
       );
     } catch (err) {
       alert('Resolution failed: ' + err.message);
@@ -77,12 +76,12 @@ function Reports() {
   };
 
   const totalCount = reports.length;
-  const pendingCount = reports.filter((r) => (r.status || 'pending').toLowerCase() === 'pending').length;
-  const verifiedCount = reports.filter((r) => (r.status || '').toLowerCase() === 'verified').length;
-  const resolvedCount = reports.filter((r) => (r.status || '').toLowerCase() === 'resolved').length;
+  const pendingCount = reports.filter((r) => (r.verificationStatus || r.status || 'pending').toLowerCase() === 'pending').length;
+  const verifiedCount = reports.filter((r) => (r.verificationStatus || r.status || '').toLowerCase() === 'verified').length;
+  const resolvedCount = reports.filter((r) => (r.verificationStatus || r.status || '').toLowerCase() === 'resolved').length;
 
   const filteredReports = reports.filter((report) => {
-    const st = (report.status || 'pending').toLowerCase();
+    const st = (report.verificationStatus || report.status || 'pending').toLowerCase();
     if (statusFilter !== 'ALL' && st !== statusFilter.toLowerCase()) return false;
 
     if (searchQuery.trim()) {
@@ -241,7 +240,7 @@ function Reports() {
           ) : filteredReports.length > 0 ? (
             filteredReports.map((report) => {
               const severity = (report.severity || 'MODERATE').toLowerCase();
-              const status = (report.status || 'pending').toLowerCase();
+              const status = (report.verificationStatus || report.status || 'pending').toLowerCase();
               const timeStr = report.createdAt
                 ? new Date(report.createdAt).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })
                 : 'Recent';
@@ -276,8 +275,8 @@ function Reports() {
                           <Clock size={13} />
                           {timeStr}
                         </span>
-                        {report.submittedBy?.name && (
-                          <span>By: {report.submittedBy.name}</span>
+                        {report.reporterName && (
+                          <span>By: {report.reporterName}</span>
                         )}
                         {report.media && report.media.length > 0 && (
                           <span>
@@ -347,4 +346,3 @@ function Reports() {
 }
 
 export default Reports;
-

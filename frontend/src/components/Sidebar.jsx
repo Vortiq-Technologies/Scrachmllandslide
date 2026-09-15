@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, Link } from 'react-router-dom';
 import {
   Home,
   Map,
@@ -18,7 +18,9 @@ function Sidebar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
+  const handleLogout = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     logout();
     navigate('/login');
   };
@@ -29,7 +31,7 @@ function Sidebar() {
   };
 
   const getDisplayRole = () => {
-    if (!user) return 'Guest';
+    if (!user) return 'GUEST';
     const role = user.role || 'user';
     return role.replace('_', ' ').toUpperCase();
   };
@@ -39,105 +41,114 @@ function Sidebar() {
     return user.name.charAt(0).toUpperCase();
   };
 
+  const navClass = ({ isActive }) =>
+    isActive ? 'nav-item active' : 'nav-item';
+
   return (
     <aside className='sidebar'>
+      {/* ================= LOGO ================= */}
       <div className='sidebar-logo'>
         <img
           src='/images/logo.png'
           alt='Landslide Early Warning System'
         />
 
-        <div>
+        <div className='sidebar-logo-text'>
           <h2>LANDSLIDE</h2>
           <span>Early Warning System</span>
         </div>
       </div>
 
-      {/* Navigation */}
+      {/* ================= MAIN NAVIGATION ================= */}
+      <div className='sidebar-menu-label'>MAIN MENU</div>
+
       <nav className='sidebar-nav'>
         <NavLink
           to='/dashboard'
-          className={({ isActive }) =>
-            isActive ? 'nav-item active' : 'nav-item'
-          }
+          className={navClass}
         >
-          <Home size={20} />
+          <Home size={19} />
           <span>Dashboard</span>
         </NavLink>
 
         <NavLink
           to='/map'
-          className={({ isActive }) =>
-            isActive ? 'nav-item active' : 'nav-item'
-          }
+          className={navClass}
         >
-          <Map size={20} />
+          <Map size={19} />
           <span>Risk Map</span>
         </NavLink>
 
         <NavLink
           to='/reports'
-          className={({ isActive }) =>
-            isActive ? 'nav-item active' : 'nav-item'
-          }
+          className={navClass}
         >
-          <FileText size={20} />
+          <FileText size={19} />
           <span>Reports</span>
         </NavLink>
 
         <NavLink
           to='/alerts'
-          className={({ isActive }) =>
-            isActive ? 'nav-item active' : 'nav-item'
-          }
+          className={navClass}
         >
-          <Bell size={20} />
+          <Bell size={19} />
           <span>Alerts</span>
         </NavLink>
+      </nav>
 
+      {/* ================= AI SECTION ================= */}
+      <div className='sidebar-menu-label ai-label'>INTELLIGENCE</div>
+
+      <nav className='sidebar-nav'>
         <NavLink
           to='/copilot'
-          className={({ isActive }) =>
-            isActive ? 'nav-item active' : 'nav-item'
-          }
+          className={navClass}
         >
-          <Bot size={20} />
+          <Bot size={19} />
           <span>AI Copilot</span>
+          <span className='ai-badge'>AI</span>
         </NavLink>
+      </nav>
 
+      {/* ================= SYSTEM SECTION ================= */}
+      <div className='sidebar-menu-label'>SYSTEM</div>
+
+      <nav className='sidebar-nav'>
         <NavLink
           to='/settings'
-          className={({ isActive }) =>
-            isActive ? 'nav-item active' : 'nav-item'
-          }
+          className={navClass}
         >
-          <Settings size={20} />
+          <Settings size={19} />
           <span>Settings</span>
         </NavLink>
       </nav>
 
-      {/* Bottom Section */}
+      {/* ================= BOTTOM AREA ================= */}
       <div className='sidebar-bottom'>
         {/* System Status */}
         <div className='system-status'>
           <div className='status-icon'>
-            <Activity size={18} />
+            <Activity size={16} />
           </div>
 
-          <div>
+          <div className='status-content'>
             <span className='status-title'>System Status</span>
-            <span className='status-online'>All systems operational</span>
+            <span className='status-online'>
+              <span className='online-dot'></span>
+              All systems operational
+            </span>
           </div>
         </div>
 
-        {/* User Profile & Logout */}
+        {/* User Profile */}
         <div className='sidebar-user'>
-          <div className='user-avatar'>{getInitials()}</div>
-
-          <div className='user-info'>
-            <strong>{getDisplayName()}</strong>
-            <span>{getDisplayRole()}</span>
-          </div>
+          <Link to='/profile' style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', flex: 1, minWidth: 0 }}>
+            <div className='user-avatar'>{getInitials()}</div>
+            <div className='user-info'>
+              <strong>{getDisplayName()}</strong>
+              <span>{getDisplayRole()}</span>
+            </div>
+          </Link>
 
           <button
             className='logout-btn'
@@ -153,4 +164,3 @@ function Sidebar() {
 }
 
 export default Sidebar;
-

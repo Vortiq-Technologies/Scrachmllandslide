@@ -12,8 +12,8 @@ const createAlertSchema = Joi.object({
     .required(),
   triggerSource: Joi.string()
     .valid(
-      'ML_MODEL', 'SENSOR_THRESHOLD', 'MANUAL_AUTHORITY', 'CITIZEN_REPORT_CLUSTER',
-      'ml_prediction', 'sensor_threshold', 'manual_authority', 'citizen_report_cluster'
+      'ML_MODEL', 'SENSOR_THRESHOLD', 'MANUAL_AUTHORITY', 'CITIZEN_REPORT_CLUSTER', 'AI_MODEL',
+      'ml_prediction', 'sensor_threshold', 'manual_authority', 'citizen_report_cluster', 'ai_model'
     )
     .default('MANUAL_AUTHORITY'),
   title: Joi.string().trim().min(3).max(200).required(),
