@@ -28,6 +28,8 @@ body,
 
 :root,
 [data-theme='dark'] {
+  color-scheme: dark;
+
   --page-bg: #08111f;
 
   --page-bg-secondary: #0b1726;
@@ -113,6 +115,76 @@ body,
   --info-color: #2563eb;
 
   --shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
+}
+
+/* Keep older page styles connected to the active theme palette. */
+:root,
+[data-theme='dark'] {
+  --bg: var(--page-bg);
+  --bg-main: var(--page-bg);
+  --bg-primary: var(--page-bg);
+  --bg-card: var(--card-bg);
+  --card: var(--card-bg);
+  --bg-hover: var(--card-bg-hover);
+  --primary: var(--accent-color);
+  --primary-light: var(--accent-light);
+  --primary-dark: var(--accent-dark);
+  --primary-bg: var(--accent-soft);
+  --text: var(--text-primary);
+  --text-main: var(--text-primary);
+  --text-light: var(--text-secondary);
+  --text-white: #ffffff;
+  --border: var(--border-color);
+  --card-shadow: var(--shadow);
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+}
+
+/* Page shells and shared surfaces that predate the theme variables. */
+[data-theme='dark']
+  :is(
+    .alerts-page,
+    .copilot-page,
+    .risk-map-page,
+    .zone-details-page,
+    .profile-page,
+    .report-details-page,
+    .reports-page,
+    .report-incident-page,
+    .report-submitted-page,
+    .settings-page
+  ) {
+  background: var(--page-bg);
+  color: var(--text-primary);
+}
+
+[data-theme='dark']
+  :is(
+    .alerts-sidebar,
+    .map-sidebar,
+    .zone-sidebar,
+    .profile-sidebar,
+    .report-sidebar,
+    .settings-sidebar,
+    .copilot-sidebar,
+    .reports-sidebar
+  ) {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark']
+  :is(
+    [class*='-card'],
+    [class*='-container'],
+    [class*='-panel'],
+    [class*='-overview'],
+    [class*='-box']
+  ):not(.welcome-card) {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
 }
 
 /* =====================================================
