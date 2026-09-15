@@ -11,6 +11,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 
 import Sidebar from '../../components/Sidebar';
+import ThemeToggle from '../../components/ThemeToggle';
 
 import './ReportIncident.css';
 
@@ -31,18 +32,24 @@ function ReportIncident() {
 
       {/* Main Content */}
       <main className='report-incident-main'>
-        {/* Back */}
-        <Link
-          to='/reports'
-          className='back-to-reports'
-        >
-          <ArrowLeft size={17} />
-          Back to Reports
-        </Link>
+        {/* Top Navigation */}
+        <div className='incident-topbar'>
+          <Link
+            to='/reports'
+            className='back-to-reports'
+          >
+            <ArrowLeft size={17} />
+            Back to Reports
+          </Link>
+
+          <ThemeToggle />
+        </div>
 
         {/* Header */}
         <div className='incident-header'>
           <div>
+            <span className='page-eyebrow'>FIELD REPORTING</span>
+
             <h1>Report an Incident</h1>
 
             <p>Submit a field observation or suspected landslide incident</p>
@@ -83,17 +90,11 @@ function ReportIncident() {
                 <option value=''>Select incident type</option>
 
                 <option>Landslide</option>
-
                 <option>Soil Cracks</option>
-
                 <option>Rockfall</option>
-
                 <option>Soil Movement</option>
-
                 <option>Waterlogging</option>
-
                 <option>Surface Erosion</option>
-
                 <option>Other</option>
               </select>
             </div>
@@ -244,7 +245,7 @@ function ReportIncident() {
 
             <div className='gps-box'>
               <div className='gps-icon'>
-                <Navigation size={18} />
+                <Navigation size={19} />
               </div>
 
               <div className='gps-content'>
@@ -282,7 +283,7 @@ function ReportIncident() {
 
             <div className='upload-area'>
               <div className='upload-icon'>
-                <Upload size={22} />
+                <Upload size={23} />
               </div>
 
               <h3>Upload photos or videos</h3>
@@ -316,7 +317,9 @@ function ReportIncident() {
           ========================= */}
 
           <div className='report-warning'>
-            <AlertTriangle size={20} />
+            <div className='warning-icon'>
+              <AlertTriangle size={19} />
+            </div>
 
             <div>
               <strong>Important</strong>

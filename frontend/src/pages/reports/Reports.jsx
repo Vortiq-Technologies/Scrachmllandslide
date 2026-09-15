@@ -5,9 +5,15 @@ import {
   Clock,
   Camera,
   ChevronRight,
+  FileWarning,
+  ClipboardList,
+  Eye,
+  CheckCircle2,
 } from 'lucide-react';
 
 import Sidebar from '../../components/Sidebar';
+import ThemeToggle from '../../components/ThemeToggle';
+
 import { Link } from 'react-router-dom';
 
 import './Reports.css';
@@ -20,53 +26,95 @@ function Reports() {
 
       {/* Main Content */}
       <main className='reports-main'>
-        {/* Header */}
+        {/* ================= HEADER ================= */}
+
         <div className='reports-header'>
           <div>
+            <span className='page-eyebrow'>FIELD MONITORING</span>
+
             <h1>Reports</h1>
 
             <p>Review and manage field incident reports</p>
           </div>
 
-          <Link
-            to='/reportsIncident'
-            className='create-report-btn'
-          >
-            + Report Incident
-          </Link>
+          <div className='reports-header-actions'>
+            <ThemeToggle />
+
+            <Link
+              to='/reportsIncident'
+              className='create-report-btn'
+            >
+              <span>+</span>
+              Report Incident
+            </Link>
+          </div>
         </div>
 
-        {/* Summary Cards */}
+        {/* ================= SUMMARY ================= */}
+
         <div className='report-summary'>
           <div className='report-summary-card'>
-            <span>Total Reports</span>
+            <div className='summary-top'>
+              <span>Total Reports</span>
+
+              <div className='summary-icon green'>
+                <ClipboardList size={17} />
+              </div>
+            </div>
+
             <strong>24</strong>
+
             <small>All submitted reports</small>
           </div>
 
           <div className='report-summary-card'>
-            <span>Pending Review</span>
+            <div className='summary-top'>
+              <span>Pending Review</span>
+
+              <div className='summary-icon orange'>
+                <FileWarning size={17} />
+              </div>
+            </div>
+
             <strong className='pending-number'>8</strong>
+
             <small>Need attention</small>
           </div>
 
           <div className='report-summary-card'>
-            <span>Under Review</span>
+            <div className='summary-top'>
+              <span>Under Review</span>
+
+              <div className='summary-icon blue'>
+                <Eye size={17} />
+              </div>
+            </div>
+
             <strong className='review-number'>5</strong>
+
             <small>Currently reviewing</small>
           </div>
 
           <div className='report-summary-card'>
-            <span>Resolved</span>
+            <div className='summary-top'>
+              <span>Resolved</span>
+
+              <div className='summary-icon success'>
+                <CheckCircle2 size={17} />
+              </div>
+            </div>
+
             <strong className='resolved-number'>11</strong>
+
             <small>Successfully resolved</small>
           </div>
         </div>
 
-        {/* Filters */}
+        {/* ================= FILTERS ================= */}
+
         <div className='reports-filters'>
           <div className='report-search'>
-            <Search size={18} />
+            <Search size={17} />
 
             <input
               type='text'
@@ -75,33 +123,38 @@ function Reports() {
           </div>
 
           <button className='filter-button'>
-            <Filter size={16} />
+            <Filter size={15} />
             All Status
           </button>
 
           <button className='filter-button'>
-            <MapPin size={16} />
+            <MapPin size={15} />
             All Zones
           </button>
 
           <button className='filter-button'>Recent</button>
         </div>
 
-        {/* Reports Section */}
+        {/* ================= REPORT SECTION ================= */}
+
         <section className='reports-section'>
           <div className='section-heading'>
             <div>
+              <span className='section-label'>INCIDENT LOG</span>
+
               <h2>Recent Reports</h2>
+
               <p>Latest field reports submitted by users</p>
             </div>
 
             <span className='report-count'>24 Reports</span>
           </div>
 
-          {/* Report Card 1 */}
+          {/* ================= REPORT 1 ================= */}
+
           <div className='report-card'>
             <div className='report-card-left'>
-              <div className='report-icon critical-report'>⚠</div>
+              <div className='report-icon critical-report'>!</div>
 
               <div className='report-content'>
                 <div className='report-title-row'>
@@ -143,12 +196,13 @@ function Reports() {
                 className='view-report'
               >
                 View Details
-                <ChevronRight size={16} />
+                <ChevronRight size={15} />
               </Link>
             </div>
           </div>
 
-          {/* Report Card 2 */}
+          {/* ================= REPORT 2 ================= */}
+
           <div className='report-card'>
             <div className='report-card-left'>
               <div className='report-icon high-report'>!</div>
@@ -190,12 +244,13 @@ function Reports() {
                 className='view-report'
               >
                 View Details
-                <ChevronRight size={16} />
+                <ChevronRight size={15} />
               </Link>
             </div>
           </div>
 
-          {/* Report Card 3 */}
+          {/* ================= REPORT 3 ================= */}
+
           <div className='report-card'>
             <div className='report-card-left'>
               <div className='report-icon moderate-report'>i</div>
@@ -239,12 +294,13 @@ function Reports() {
                 className='view-report'
               >
                 View Details
-                <ChevronRight size={16} />
+                <ChevronRight size={15} />
               </Link>
             </div>
           </div>
 
-          {/* Report Card 4 */}
+          {/* ================= REPORT 4 ================= */}
+
           <div className='report-card'>
             <div className='report-card-left'>
               <div className='report-icon low-report'>✓</div>
@@ -286,7 +342,7 @@ function Reports() {
                 className='view-report'
               >
                 View Details
-                <ChevronRight size={16} />
+                <ChevronRight size={15} />
               </Link>
             </div>
           </div>
