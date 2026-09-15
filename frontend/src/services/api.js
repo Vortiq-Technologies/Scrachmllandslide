@@ -3,7 +3,10 @@
  * Handles base URL, auth token injection, error parsing, and API endpoints.
  */
 
-const API_BASE = '/api/v1';
+const rawApiUrl = import.meta.env.VITE_API_URL || '';
+const API_BASE = rawApiUrl
+  ? (rawApiUrl.endsWith('/api/v1') ? rawApiUrl : `${rawApiUrl.replace(/\/$/, '')}/api/v1`)
+  : '/api/v1';
 
 /**
  * Universal request wrapper
