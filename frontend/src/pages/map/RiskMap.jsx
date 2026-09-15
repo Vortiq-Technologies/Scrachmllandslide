@@ -1,7 +1,7 @@
 import {
   Search,
   Filter,
-  MapPin,
+  Map,
   Layers,
   Plus,
   Minus,
@@ -13,6 +13,8 @@ import {
   XCircle,
   CloudRain,
   Info,
+  MapPin,
+  Activity,
 } from 'lucide-react';
 
 import './RiskMap.css';
@@ -21,40 +23,140 @@ import Sidebar from '../../components/Sidebar';
 function RiskMap() {
   return (
     <div className='risk-map-page'>
-      {/* ================= SIDEBAR ================= */}
+      {/* =========================================
+          SIDEBAR
+      ========================================= */}
 
       <aside className='map-sidebar'>
         <Sidebar />
       </aside>
 
-      {/* ================= MAIN ================= */}
+      {/* =========================================
+          MAIN
+      ========================================= */}
 
       <main className='map-main'>
-        {/* ================= HEADER ================= */}
+        {/* =========================================
+            HERO / PAGE BANNER
+        ========================================= */}
 
-        <div className='map-header'>
-          <div>
-            <h1>Risk Map</h1>
+        <section className='risk-hero'>
+          <div className='risk-hero-content'>
+            <div className='risk-hero-icon'>
+              <Map size={24} />
+            </div>
 
-            <p>Monitor landslide risk across monitored zones</p>
+            <div>
+              <span className='risk-eyebrow'>LIVE MONITORING</span>
+
+              <h1>RISK MAP</h1>
+
+              <p>
+                Monitor landslide risk levels across all monitored zones and
+                locations.
+              </p>
+            </div>
           </div>
 
-          <div className='map-header-status'>
+          <div className='risk-live-status'>
             <span></span>
             Live Monitoring
           </div>
+        </section>
+
+        {/* =========================================
+            RISK OVERVIEW
+        ========================================= */}
+
+        <section className='risk-overview'>
+          <div className='risk-stat'>
+            <div className='risk-stat-icon zones'>
+              <MapPin size={17} />
+            </div>
+
+            <strong>5</strong>
+
+            <span>Monitored Zones</span>
+          </div>
+
+          <div className='risk-stat'>
+            <div className='risk-stat-icon critical'>
+              <AlertTriangle size={17} />
+            </div>
+
+            <strong className='critical-number'>2</strong>
+
+            <span>Critical Zones</span>
+          </div>
+
+          <div className='risk-stat'>
+            <div className='risk-stat-icon high'>
+              <Activity size={17} />
+            </div>
+
+            <strong className='high-number'>1</strong>
+
+            <span>High Risk</span>
+          </div>
+
+          <div className='risk-stat'>
+            <div className='risk-stat-icon normal'>
+              <ShieldCheck size={17} />
+            </div>
+
+            <strong className='normal-number'>2</strong>
+
+            <span>Normal</span>
+          </div>
+        </section>
+
+        {/* =========================================
+            ALERT
+        ========================================= */}
+
+        <div className='risk-alert'>
+          <div className='risk-alert-icon'>
+            <AlertTriangle size={16} />
+          </div>
+
+          <div>
+            <strong>2 zones reporting elevated risk</strong>
+
+            <span>
+              Check the map below for critical and high-risk locations.
+            </span>
+          </div>
         </div>
 
-        {/* ================= MAP SECTION ================= */}
+        {/* =========================================
+            MAP CARD
+        ========================================= */}
 
-        <section className='map-section'>
-          {/* MAP TOOLBAR */}
+        <section className='map-card'>
+          {/* MAP CARD HEADER */}
+
+          <div className='map-card-header'>
+            <div>
+              <span className='section-label'>MONITORED AREA</span>
+
+              <h2>Risk Monitoring Map</h2>
+
+              <p>Live overview of landslide risk across monitored zones.</p>
+            </div>
+
+            <div className='map-last-update'>
+              <span></span>
+              Updated 10:24 AM
+            </div>
+          </div>
+
+          {/* =========================================
+              TOOLBAR
+          ========================================= */}
 
           <div className='map-toolbar'>
-            {/* SEARCH */}
-
             <div className='map-search'>
-              <Search size={17} />
+              <Search size={16} />
 
               <input
                 type='text'
@@ -62,28 +164,24 @@ function RiskMap() {
               />
             </div>
 
-            {/* FILTER */}
-
-            <button className='map-filter-btn'>
-              <Filter size={16} />
+            <button className='map-tool-button'>
+              <Filter size={15} />
               Filters
             </button>
 
-            {/* LAYERS */}
-
-            <button className='map-layer-btn'>
-              <Layers size={16} />
+            <button className='map-tool-button'>
+              <Layers size={15} />
               Layers
             </button>
           </div>
 
-          {/* ================= MAP ================= */}
+          {/* =========================================
+              MAP
+          ========================================= */}
 
           <div className='map-container'>
-            {/* Fake terrain background */}
-
             <div className='terrain'>
-              {/* ================= ZONE A ================= */}
+              {/* ZONE A */}
 
               <div className='zone-marker critical zone-a'>
                 <div className='marker-pulse'></div>
@@ -96,7 +194,7 @@ function RiskMap() {
                 </div>
               </div>
 
-              {/* ================= ZONE B ================= */}
+              {/* ZONE B */}
 
               <div className='zone-marker moderate zone-b'>
                 <div className='marker-pulse'></div>
@@ -109,7 +207,7 @@ function RiskMap() {
                 </div>
               </div>
 
-              {/* ================= ZONE C ================= */}
+              {/* ZONE C */}
 
               <div className='zone-marker low zone-c'>
                 <div className='marker-pulse'></div>
@@ -122,7 +220,7 @@ function RiskMap() {
                 </div>
               </div>
 
-              {/* ================= ZONE D ================= */}
+              {/* ZONE D */}
 
               <div className='zone-marker high zone-d'>
                 <div className='marker-pulse'></div>
@@ -135,7 +233,7 @@ function RiskMap() {
                 </div>
               </div>
 
-              {/* ================= ZONE E ================= */}
+              {/* ZONE E */}
 
               <div className='zone-marker critical zone-e'>
                 <div className='marker-pulse'></div>
@@ -149,69 +247,65 @@ function RiskMap() {
               </div>
             </div>
 
-            {/* ================= MAP CONTROLS ================= */}
+            {/* MAP CONTROLS */}
 
             <div className='map-controls'>
               <button>
-                <Plus size={18} />
+                <Plus size={17} />
               </button>
 
               <button>
-                <Minus size={18} />
+                <Minus size={17} />
               </button>
 
               <button>
-                <Navigation size={17} />
+                <Navigation size={16} />
               </button>
             </div>
 
-            {/* ================= MAP LEGEND ================= */}
+            {/* LEGEND */}
 
             <div className='map-legend'>
-              <h4>Risk Level</h4>
+              <strong>Risk Level</strong>
 
-              <div className='legend-item'>
+              <div>
                 <span className='legend-dot low-dot'></span>
                 Low
               </div>
 
-              <div className='legend-item'>
+              <div>
                 <span className='legend-dot moderate-dot'></span>
                 Moderate
               </div>
 
-              <div className='legend-item'>
+              <div>
                 <span className='legend-dot high-dot'></span>
                 High
               </div>
 
-              <div className='legend-item'>
+              <div>
                 <span className='legend-dot critical-dot'></span>
                 Critical
               </div>
             </div>
 
-            {/* ================= SELECTED ZONE ================= */}
+            {/* SELECTED ZONE */}
 
             <div className='selected-zone-card'>
               <div className='selected-zone-header'>
                 <div>
-                  <span className='selected-label'>SELECTED ZONE</span>
-
+                  <span>SELECTED ZONE</span>
                   <h3>Zone A</h3>
                 </div>
 
                 <button>
-                  <X size={16} />
+                  <X size={15} />
                 </button>
               </div>
-
-              {/* RISK */}
 
               <div className='selected-risk'>
                 <div>
                   <span>Risk Level</span>
-
                   <strong>CRITICAL</strong>
                 </div>
 
@@ -228,201 +322,154 @@ function RiskMap() {
           </div>
         </section>
 
-        {/* ================= BOTTOM INFO ================= */}
-
-        <div className='map-bottom-info'>
-          <div>
-            <strong>5</strong>
-            <span>Monitored Zones</span>
-          </div>
-
-          <div>
-            <strong className='critical-text'>2</strong>
-
-            <span>Critical</span>
-          </div>
-
-          <div>
-            <strong className='high-text'>1</strong>
-
-            <span>High Risk</span>
-          </div>
-
-          <div>
-            <strong className='normal-text'>2</strong>
-
-            <span>Normal</span>
-          </div>
-
-          <p>Last updated: 10:24 AM</p>
-        </div>
-
-        {/* =====================================================
+        {/* =========================================
             SAFETY GUIDANCE
-        ====================================================== */}
+        ========================================= */}
 
         <section className='safety-guidance'>
-          {/* ================= SAFETY HEADER ================= */}
-
-          <div className='safety-guidance-header'>
-            <div className='safety-title-group'>
-              <div className='safety-main-icon'>
-                <ShieldCheck size={21} />
+          <div className='safety-header'>
+            <div className='safety-title'>
+              <div className='safety-icon'>
+                <ShieldCheck size={19} />
               </div>
 
               <div>
                 <span>FIELD SAFETY</span>
-
                 <h2>Safety Guidance</h2>
 
                 <p>
-                  Important information when monitoring or approaching
-                  landslide-prone areas.
+                  Follow these precautions when monitoring landslide-prone
+                  areas.
                 </p>
               </div>
             </div>
 
-            <div className='safety-info-badge'>
-              <Info size={15} />
+            <div className='stay-alert'>
+              <Info size={14} />
               Stay Alert
             </div>
           </div>
 
-          {/* ================= SAFETY CARDS ================= */}
+          {/* SAFETY CARDS */}
 
-          <div className='safety-guidance-grid'>
-            {/* ================= WARNING SIGNS ================= */}
+          <div className='safety-grid'>
+            {/* WARNING */}
 
-            <div className='safety-info-card warning-signs'>
-              <div className='safety-card-top'>
+            <div className='safety-card warning-card'>
+              <div className='safety-card-heading'>
                 <div className='safety-card-icon warning'>
-                  <AlertTriangle size={18} />
+                  <AlertTriangle size={17} />
                 </div>
 
                 <div>
                   <h3>Warning Signs</h3>
-
                   <span>Watch for these changes</span>
                 </div>
               </div>
 
-              <div className='safety-points'>
-                <div>
-                  <span className='point-dot'></span>
+              <div className='safety-list'>
+                <p>
+                  <i></i>
+                  New cracks appearing on roads or slopes
+                </p>
 
-                  <p>New cracks appearing on roads or slopes</p>
-                </div>
+                <p>
+                  <i></i>
+                  Sudden changes in water flow
+                </p>
 
-                <div>
-                  <span className='point-dot'></span>
+                <p>
+                  <i></i>
+                  Falling rocks or soil movement
+                </p>
 
-                  <p>Sudden changes in water flow</p>
-                </div>
-
-                <div>
-                  <span className='point-dot'></span>
-
-                  <p>Falling rocks or soil movement</p>
-                </div>
-
-                <div>
-                  <span className='point-dot'></span>
-
-                  <p>Unusual ground deformation</p>
-                </div>
+                <p>
+                  <i></i>
+                  Unusual ground deformation
+                </p>
               </div>
             </div>
 
-            {/* ================= WHAT TO DO ================= */}
+            {/* DO */}
 
-            <div className='safety-info-card do-card'>
-              <div className='safety-card-top'>
+            <div className='safety-card do-card'>
+              <div className='safety-card-heading'>
                 <div className='safety-card-icon do'>
-                  <CheckCircle size={18} />
+                  <CheckCircle size={17} />
                 </div>
 
                 <div>
                   <h3>What to Do</h3>
-
                   <span>Recommended actions</span>
                 </div>
               </div>
 
-              <div className='safety-points'>
-                <div>
-                  <span className='point-dot'></span>
+              <div className='safety-list'>
+                <p>
+                  <i></i>
+                  Monitor official warnings and alerts
+                </p>
 
-                  <p>Monitor official warnings and alerts</p>
-                </div>
+                <p>
+                  <i></i>
+                  Follow evacuation instructions
+                </p>
 
-                <div>
-                  <span className='point-dot'></span>
+                <p>
+                  <i></i>
+                  Keep a safe distance from unstable slopes
+                </p>
 
-                  <p>Follow evacuation instructions</p>
-                </div>
-
-                <div>
-                  <span className='point-dot'></span>
-
-                  <p>Keep a safe distance from unstable slopes</p>
-                </div>
-
-                <div>
-                  <span className='point-dot'></span>
-
-                  <p>Report new hazards immediately</p>
-                </div>
+                <p>
+                  <i></i>
+                  Report new hazards immediately
+                </p>
               </div>
             </div>
 
-            {/* ================= WHAT TO AVOID ================= */}
+            {/* DON'T */}
 
-            <div className='safety-info-card dont-card'>
-              <div className='safety-card-top'>
+            <div className='safety-card dont-card'>
+              <div className='safety-card-heading'>
                 <div className='safety-card-icon dont'>
-                  <XCircle size={18} />
+                  <XCircle size={17} />
                 </div>
 
                 <div>
                   <h3>What to Avoid</h3>
-
                   <span>Important precautions</span>
                 </div>
               </div>
 
-              <div className='safety-points'>
-                <div>
-                  <span className='point-dot'></span>
+              <div className='safety-list'>
+                <p>
+                  <i></i>
+                  Do not approach an active landslide
+                </p>
 
-                  <p>Do not approach an active landslide</p>
-                </div>
+                <p>
+                  <i></i>
+                  Do not ignore critical alerts
+                </p>
 
-                <div>
-                  <span className='point-dot'></span>
+                <p>
+                  <i></i>
+                  Do not cross unstable roads or slopes
+                </p>
 
-                  <p>Do not ignore critical alerts</p>
-                </div>
-
-                <div>
-                  <span className='point-dot'></span>
-
-                  <p>Do not cross unstable roads or slopes</p>
-                </div>
-
-                <div>
-                  <span className='point-dot'></span>
-
-                  <p>Do not return before official clearance</p>
-                </div>
+                <p>
+                  <i></i>
+                  Do not return before official clearance
+                </p>
               </div>
             </div>
           </div>
 
-          {/* ================= RAINFALL ADVISORY ================= */}
+          {/* RAINFALL */}
 
-          <div className='safety-bottom-note'>
-            <div className='rain-note-icon'>
-              <CloudRain size={18} />
+          <div className='rainfall-note'>
+            <div className='rainfall-icon'>
+              <CloudRain size={17} />
             </div>
 
             <div>

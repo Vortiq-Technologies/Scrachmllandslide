@@ -13,91 +13,12 @@ import {
 } from 'lucide-react';
 
 import './Alerts.css';
+import Sidebar from '../../components/Sidebar';
 
 function Alerts() {
   return (
     <div className='alerts-page'>
-      {/* ================= SIDEBAR ================= */}
-
-      <aside className='alerts-sidebar'>
-        {/* Logo */}
-        <div className='alerts-logo'>
-          <img
-            src='/images/logo.png'
-            alt='Landslide Early Warning System'
-          />
-
-          <div>
-            <h3>LANDSLIDE</h3>
-            <span>EARLY WARNING SYSTEM</span>
-          </div>
-        </div>
-
-        {/* Navigation */}
-        <nav className='alerts-navigation'>
-          <a
-            href='/dashboard'
-            className='alerts-nav-item'
-          >
-            <Home size={17} />
-            Home
-          </a>
-
-          <a
-            href='/risk-map'
-            className='alerts-nav-item'
-          >
-            <Map size={17} />
-            Risk Map
-          </a>
-
-          <a
-            href='/reports'
-            className='alerts-nav-item'
-          >
-            <FileText size={17} />
-            Reports
-          </a>
-
-          <a
-            href='/alerts'
-            className='alerts-nav-item active'
-          >
-            <Bell size={17} />
-            Alerts
-          </a>
-
-          <a
-            href='/settings'
-            className='alerts-nav-item'
-          >
-            <Settings size={17} />
-            Settings
-          </a>
-        </nav>
-
-        {/* System Status */}
-        <div className='alerts-system-status'>
-          <p>SYSTEM STATUS</p>
-
-          <div>
-            <span></span>
-            All systems operational
-          </div>
-        </div>
-
-        {/* User */}
-        <div className='alerts-user'>
-          <div className='alerts-avatar'>A</div>
-
-          <div className='alerts-user-info'>
-            <strong>Anchal</strong>
-            <span>Field Officer</span>
-          </div>
-        </div>
-      </aside>
-
-      {/* ================= MAIN ================= */}
+      <Sidebar />
 
       <main className='alerts-main'>
         {/* Header */}

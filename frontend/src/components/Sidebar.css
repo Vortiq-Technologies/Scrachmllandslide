@@ -1,117 +1,212 @@
+/* =====================================
+   SIDEBAR
+===================================== */
+
 .sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+
   width: 250px;
   height: 100vh;
-
-  background: var(--card-bg);
-  border-right: 1px solid var(--border-color);
 
   display: flex;
   flex-direction: column;
 
-  position: fixed;
-  left: 0;
-  top: 0;
+  padding: 22px 12px 14px;
 
-  z-index: 100;
+  background: var(--card-bg);
+  border-right: 1px solid var(--border-color);
 
-  padding: 24px 16px;
+  z-index: 1000;
+
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
 }
 
-/* =========================
+
+/* =====================================
    LOGO
-========================= */
+===================================== */
 
 .sidebar-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
 
-  padding: 4px 8px 28px;
+  gap: 11px;
+
+  padding: 3px 12px 23px;
+
+  border-bottom: 1px solid var(--border-color);
 }
 
 .sidebar-logo img {
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
 
   object-fit: contain;
+}
+
+.sidebar-logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .sidebar-logo h2 {
   margin: 0;
 
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 800;
+
+  letter-spacing: 0.3px;
 
   color: var(--text-primary);
 }
 
 .sidebar-logo span {
-  display: block;
+  font-size: 9px;
 
-  margin-top: 2px;
+  color: var(--text-muted);
 
-  font-size: 10px;
-  color: var(--text-secondary);
+  letter-spacing: 0.1px;
 }
 
-/* =========================
+
+/* =====================================
+   SECTION LABELS
+===================================== */
+
+.sidebar-menu-label {
+  margin: 22px 10px 8px;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  color: var(--text-muted);
+
+  letter-spacing: 0.8px;
+
+  text-transform: uppercase;
+}
+
+.ai-label {
+  margin-top: 20px;
+}
+
+
+/* =====================================
    NAVIGATION
-========================= */
+===================================== */
 
 .sidebar-nav {
   display: flex;
   flex-direction: column;
 
-  gap: 6px;
+  gap: 3px;
 }
 
+
+/* =====================================
+   NAV ITEM
+===================================== */
+
 .nav-item {
-  width: 100%;
+  position: relative;
+
+  height: 42px;
 
   display: flex;
   align-items: center;
 
   gap: 12px;
 
-  padding: 12px 14px;
+  padding: 0 12px;
 
-  border-radius: 10px;
-
-  text-decoration: none;
+  border-radius: 8px;
 
   color: var(--text-secondary);
 
-  font-size: 14px;
-  font-weight: 500;
+  text-decoration: none;
 
-  transition: 0.2s ease;
-
-  box-sizing: border-box;
-}
-
-.nav-item:hover {
-  background: var(--card-bg-hover);
-  color: var(--accent-color);
-}
-
-.nav-item.active {
-  background: var(--accent-soft);
-  color: var(--accent-color);
-
+  font-size: 12px;
   font-weight: 600;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 }
 
 .nav-item svg {
-  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+
+  color: var(--text-muted);
+
+  transition: color 0.2s ease;
 }
 
-/* Alert number */
+
+/* =====================================
+   HOVER
+===================================== */
+
+.nav-item:hover {
+  background: var(--secondary-bg);
+
+  color: var(--text-primary);
+}
+
+.nav-item:hover svg {
+  color: #14b8a6;
+}
+
+
+/* =====================================
+   ACTIVE ITEM
+===================================== */
+
+.nav-item.active {
+  background: rgba(20, 184, 166, 0.09);
+
+  color: #14b8a6;
+}
+
+.nav-item.active svg {
+  color: #14b8a6;
+}
+
+
+/* small active indicator */
+
+.nav-item.active::before {
+  content: '';
+
+  position: absolute;
+
+  left: -12px;
+
+  top: 10px;
+
+  width: 3px;
+  height: 22px;
+
+  border-radius: 0 4px 4px 0;
+
+  background: #14b8a6;
+}
+
+
+/* =====================================
+   ALERT COUNT
+===================================== */
 
 .alert-count {
   margin-left: auto;
 
-  min-width: 20px;
-  height: 20px;
+  width: 21px;
+  height: 21px;
 
   display: flex;
   align-items: center;
@@ -119,22 +214,74 @@
 
   border-radius: 50%;
 
-  background: #dc2626;
-  color: white;
+  background: #ef4444;
 
-  font-size: 10px;
+  color: #ffffff;
+
+  font-size: 9px;
   font-weight: 700;
 }
 
-/* =========================
-   BOTTOM
-========================= */
+
+/* =====================================
+   AI COPILOT
+===================================== */
+
+.nav-item[href='/copilot'] {
+  background: linear-gradient(
+    90deg,
+    rgba(20, 184, 166, 0.07),
+    rgba(16, 185, 129, 0.025)
+  );
+
+  border: 1px solid rgba(20, 184, 166, 0.10);
+}
+
+.nav-item[href='/copilot'] svg {
+  color: #14b8a6;
+}
+
+.nav-item[href='/copilot']:hover {
+  background: rgba(20, 184, 166, 0.12);
+}
+
+
+/* AI badge */
+
+.ai-badge {
+  margin-left: auto;
+
+  padding: 3px 6px;
+
+  border-radius: 4px;
+
+  background: rgba(20, 184, 166, 0.12);
+
+  color: #14b8a6;
+
+  font-size: 8px;
+  font-weight: 800;
+
+  letter-spacing: 0.4px;
+}
+
+
+/* =====================================
+   BOTTOM AREA
+===================================== */
 
 .sidebar-bottom {
   margin-top: auto;
+
+  padding-top: 14px;
+
+  border-top: 1px solid var(--border-color);
 }
 
-/* System Status */
+
+/* =====================================
+   SYSTEM STATUS
+===================================== */
 
 .system-status {
   display: flex;
@@ -142,20 +289,22 @@
 
   gap: 10px;
 
-  padding: 12px;
+  padding: 10px;
 
-  background: var(--page-bg-secondary);
+  margin-bottom: 5px;
+
+  border-radius: 9px;
+
+  background: var(--secondary-bg);
 
   border: 1px solid var(--border-color);
-
-  border-radius: 10px;
-
-  margin-bottom: 14px;
 }
 
 .status-icon {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
+
+  flex-shrink: 0;
 
   display: flex;
   align-items: center;
@@ -163,32 +312,51 @@
 
   border-radius: 8px;
 
-  background: #dcfce7;
-  color: #16a34a;
+  background: rgba(34, 197, 94, 0.10);
+
+  color: #22c55e;
+}
+
+.status-content {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
 }
 
 .status-title {
-  display: block;
-
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 10px;
+  font-weight: 700;
 
   color: var(--text-primary);
 }
 
 .status-online {
-  display: block;
+  display: flex;
+  align-items: center;
 
-  margin-top: 2px;
+  gap: 5px;
 
-  font-size: 10px;
+  font-size: 8px;
 
-  color: #16a34a;
+  color: var(--text-muted);
+
+  white-space: nowrap;
 }
 
-/* =========================
-   USER
-========================= */
+.online-dot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #22c55e;
+}
+
+
+/* =====================================
+   USER PROFILE
+===================================== */
 
 .sidebar-user {
   display: flex;
@@ -196,95 +364,164 @@
 
   gap: 10px;
 
-  padding: 12px 8px;
+  padding: 10px;
 
-  border-top: 1px solid var(--border-color);
+  border-radius: 9px;
+
+  text-decoration: none;
+
+  transition: background 0.2s ease;
+}
+
+.sidebar-user:hover {
+  background: var(--secondary-bg);
 }
 
 .user-avatar {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
 
-  border-radius: 50%;
-
-  background: var(--accent-soft);
-  color: var(--accent-color);
+  flex-shrink: 0;
 
   display: flex;
   align-items: center;
   justify-content: center;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    #0f766e,
+    #14b8a6
+  );
+
+  color: #ffffff;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
 }
 
 .user-info strong {
-  display: block;
-
-  font-size: 13px;
-
   color: var(--text-primary);
+
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .user-info span {
-  display: block;
+  color: var(--text-muted);
 
-  margin-top: 2px;
-
-  font-size: 11px;
-
-  color: var(--text-secondary);
+  font-size: 9px;
 }
 
-/* =========================
+
+/* =====================================
+   DARK MODE
+===================================== */
+
+.dark-theme .nav-item.active {
+  background: rgba(45, 212, 191, 0.10);
+
+  color: #5eead4;
+}
+
+.dark-theme .nav-item.active svg {
+  color: #5eead4;
+}
+
+.dark-theme .nav-item[href='/copilot'] {
+  background: rgba(45, 212, 191, 0.06);
+
+  border-color: rgba(45, 212, 191, 0.12);
+}
+
+.dark-theme .ai-badge {
+  background: rgba(45, 212, 191, 0.10);
+
+  color: #5eead4;
+}
+
+
+/* =====================================
    RESPONSIVE
-========================= */
+===================================== */
 
-@media (max-width: 900px) {
-  .sidebar {
-    width: 220px;
-  }
-}
-
-@media (max-width: 700px) {
+@media (max-width: 800px) {
   .sidebar {
     width: 70px;
 
-    padding: 20px 10px;
+    padding: 18px 9px;
   }
 
   .sidebar-logo {
     justify-content: center;
-    padding: 4px 0 28px;
+
+    padding: 0 0 18px;
   }
 
-  .sidebar-logo div {
+  .sidebar-logo-text {
+    display: none;
+  }
+
+  .sidebar-menu-label {
     display: none;
   }
 
   .nav-item {
     justify-content: center;
-    padding: 12px;
+
+    padding: 0;
   }
 
-  .nav-item span:not(.alert-count) {
+  .nav-item span:not(.alert-count):not(.ai-badge) {
     display: none;
+  }
+
+  .nav-item.active::before {
+    left: -9px;
   }
 
   .alert-count {
     position: absolute;
-    margin-left: 25px;
-    margin-top: -25px;
+
+    top: 2px;
+    right: 2px;
+
+    width: 16px;
+    height: 16px;
+
+    font-size: 7px;
+  }
+
+  .ai-badge {
+    position: absolute;
+
+    top: 2px;
+    right: 2px;
+
+    padding: 2px 4px;
+
+    font-size: 6px;
   }
 
   .system-status {
     justify-content: center;
-    padding: 8px;
+
+    padding: 7px;
   }
 
-  .system-status > div:not(.status-icon) {
+  .status-content {
     display: none;
   }
 
   .sidebar-user {
     justify-content: center;
+
+    padding: 7px;
   }
 
   .user-info {
