@@ -1,262 +1,481 @@
-/* =================================
+/* =========================================
    GLOBAL
-================================= */
+========================================= */
 
 * {
   box-sizing: border-box;
 }
 
-/* =================================
+/* =========================================
    PAGE
-================================= */
+========================================= */
 
 .risk-map-page {
-  width: 100%;
   min-height: 100vh;
-
   display: flex;
 
-  background: #f8fafc;
-  color: #172033;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
-/* =================================
+/* =========================================
    SIDEBAR
-================================= */
+========================================= */
 
 .map-sidebar {
-  width: 240px;
+  width: 250px;
   min-height: 100vh;
-
-  background: #ffffff;
-
-  border-right: 1px solid #e2e8f0;
-
-  padding: 24px 16px;
-
-  display: flex;
-  flex-direction: column;
+  flex-shrink: 0;
 }
 
-/* =================================
+/* =========================================
    MAIN
-================================= */
+========================================= */
 
 .map-main {
   flex: 1;
-
   min-width: 0;
 
-  padding: 32px;
+  padding: 24px 28px 35px;
 }
 
-/* =================================
-   HEADER
-================================= */
+/* =========================================
+   HERO
+========================================= */
 
-.map-header {
+.risk-hero {
+  min-height: 82px;
+
   display: flex;
-
   align-items: center;
   justify-content: space-between;
 
-  margin-bottom: 24px;
+  padding: 17px 18px;
+
+  border: 1px solid rgba(109, 40, 217, 0.35);
+  border-radius: 9px;
+
+  background: linear-gradient(
+    100deg,
+    rgba(76, 29, 149, 0.22),
+    rgba(30, 41, 59, 0.1)
+  );
+
+  margin-bottom: 14px;
 }
 
-.map-header h1 {
+.risk-hero-content {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.risk-hero-icon {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: rgba(124, 58, 237, 0.16);
+  color: #a78bfa;
+}
+
+.risk-eyebrow {
+  display: block;
+
+  margin-bottom: 3px;
+
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+
+  color: #8b5cf6;
+}
+
+.risk-hero h1 {
   margin: 0;
 
-  font-size: 26px;
+  font-size: 19px;
+  font-weight: 750;
+  letter-spacing: 0.2px;
+}
 
+.risk-hero p {
+  margin: 3px 0 0;
+
+  font-size: 9px;
+
+  color: var(--text-muted);
+}
+
+.risk-live-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 7px 11px;
+
+  border-radius: 7px;
+
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.15);
+
+  color: #4ade80;
+
+  font-size: 9px;
   font-weight: 700;
 }
 
-.map-header p {
-  margin: 6px 0 0;
+.risk-live-status span {
+  width: 6px;
+  height: 6px;
 
-  font-size: 13px;
+  border-radius: 50%;
 
-  color: #64748b;
+  background: #22c55e;
+
+  box-shadow: 0 0 7px rgba(34, 197, 94, 0.7);
 }
 
-.map-header-status {
+/* =========================================
+   RISK OVERVIEW
+========================================= */
+
+.risk-overview {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 9px;
+
+  margin-bottom: 13px;
+}
+
+.risk-stat {
+  min-height: 74px;
+
+  position: relative;
+
   display: flex;
-
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
 
-  gap: 8px;
+  padding: 10px;
 
-  padding: 9px 14px;
+  background: var(--card-bg);
 
-  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
 
-  background: #ecfdf5;
-
-  color: #15803d;
-
-  font-size: 12px;
-
-  font-weight: 600;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
 }
 
-.map-header-status span {
-  width: 7px;
-  height: 7px;
+.risk-stat:hover {
+  transform: translateY(-1px);
+  border-color: rgba(45, 212, 191, 0.35);
+}
+
+.risk-stat-icon {
+  margin-bottom: 3px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.risk-stat-icon.zones {
+  color: #a78bfa;
+}
+
+.risk-stat-icon.critical {
+  color: #fb7185;
+}
+
+.risk-stat-icon.high {
+  color: #fb923c;
+}
+
+.risk-stat-icon.normal {
+  color: #4ade80;
+}
+
+.risk-stat strong {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.risk-stat span {
+  margin-top: 3px;
+
+  font-size: 8px;
+
+  color: var(--text-muted);
+}
+
+.critical-number {
+  color: #fb7185;
+}
+
+.high-number {
+  color: #fb923c;
+}
+
+.normal-number {
+  color: #4ade80;
+}
+
+/* =========================================
+   ALERT
+========================================= */
+
+.risk-alert {
+  min-height: 47px;
+
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 8px 12px;
+
+  margin-bottom: 14px;
+
+  border: 1px solid rgba(249, 115, 22, 0.45);
+  border-radius: 8px;
+
+  background: rgba(120, 53, 15, 0.12);
+}
+
+.risk-alert-icon {
+  color: #fb923c;
+}
+
+.risk-alert strong {
+  display: block;
+
+  font-size: 9px;
+
+  color: #fdba74;
+}
+
+.risk-alert span {
+  display: block;
+
+  margin-top: 2px;
+
+  font-size: 7px;
+
+  color: var(--text-muted);
+}
+
+/* =========================================
+   MAP CARD
+========================================= */
+
+.map-card {
+  padding: 15px;
+
+  background: var(--card-bg);
+
+  border: 1px solid var(--border-color);
+  border-radius: 9px;
+
+  box-shadow: var(--card-shadow);
+
+  margin-bottom: 14px;
+}
+
+/* =========================================
+   MAP HEADER
+========================================= */
+
+.map-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 2px 2px 13px;
+}
+
+.section-label {
+  display: block;
+
+  margin-bottom: 3px;
+
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+
+  color: #2dd4bf;
+}
+
+.map-card-header h2 {
+  margin: 0;
+
+  font-size: 15px;
+}
+
+.map-card-header p {
+  margin: 3px 0 0;
+
+  font-size: 8px;
+
+  color: var(--text-muted);
+}
+
+.map-last-update {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  font-size: 8px;
+
+  color: var(--text-muted);
+}
+
+.map-last-update span {
+  width: 5px;
+  height: 5px;
 
   border-radius: 50%;
 
   background: #22c55e;
 }
 
-/* =================================
-   MAP SECTION
-================================= */
-
-.map-section {
-  background: #ffffff;
-
-  border: 1px solid #e2e8f0;
-
-  border-radius: 16px;
-
-  padding: 18px;
-
-  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
-}
-
-/* =================================
+/* =========================================
    TOOLBAR
-================================= */
+========================================= */
 
 .map-toolbar {
   display: flex;
+  gap: 7px;
 
-  gap: 10px;
-
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .map-search {
-  width: 350px;
-
-  height: 42px;
+  width: 330px;
+  height: 35px;
 
   display: flex;
-
   align-items: center;
+  gap: 7px;
 
-  gap: 9px;
+  padding: 0 10px;
 
-  padding: 0 13px;
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
 
-  border: 1px solid #e2e8f0;
+  background: var(--input-bg);
 
-  border-radius: 9px;
+  color: var(--text-muted);
+}
 
-  background: #ffffff;
-
-  color: #94a3b8;
+.map-search:focus-within {
+  border-color: #0f766e;
 }
 
 .map-search input {
   width: 100%;
 
   border: none;
-
   outline: none;
 
-  font-size: 13px;
+  background: transparent;
 
-  color: #172033;
+  color: var(--text-primary);
+
+  font-size: 9px;
 }
 
 .map-search input::placeholder {
-  color: #94a3b8;
+  color: var(--text-muted);
 }
 
-.map-filter-btn,
-.map-layer-btn {
-  height: 42px;
+.map-tool-button {
+  height: 35px;
 
   display: flex;
-
   align-items: center;
+  gap: 6px;
 
-  gap: 8px;
+  padding: 0 11px;
 
-  padding: 0 15px;
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
 
-  border: 1px solid #e2e8f0;
+  background: var(--input-bg);
 
-  border-radius: 9px;
+  color: var(--text-secondary);
 
-  background: #ffffff;
-
-  color: #475569;
-
-  font-size: 12px;
+  font-size: 9px;
 
   cursor: pointer;
+
+  transition: 0.2s ease;
 }
 
-.map-filter-btn:hover,
-.map-layer-btn:hover {
+.map-tool-button:hover {
   border-color: #0f766e;
-
-  color: #0f766e;
+  color: #2dd4bf;
 }
 
-/* =================================
+/* =========================================
    MAP
-================================= */
+========================================= */
 
 .map-container {
   position: relative;
 
   width: 100%;
-
-  height: 560px;
+  height: 510px;
 
   overflow: hidden;
 
-  border-radius: 12px;
+  border-radius: 7px;
 
-  background: #e8f0ed;
+  border: 1px solid var(--border-color);
 
-  border: 1px solid #dbe7e2;
+  background: #10201e;
 }
 
-/* =================================
+/* =========================================
    TERRAIN
-================================= */
+========================================= */
 
 .terrain {
   position: absolute;
-
   inset: 0;
 
   background:
     linear-gradient(
-      30deg,
-      transparent 35%,
-      rgba(15, 118, 110, 0.06) 35%,
-      rgba(15, 118, 110, 0.06) 36%,
-      transparent 36%
+      35deg,
+      transparent 42%,
+      rgba(45, 212, 191, 0.07) 42%,
+      rgba(45, 212, 191, 0.07) 43%,
+      transparent 43%
     ),
     linear-gradient(
-      150deg,
-      transparent 35%,
-      rgba(15, 118, 110, 0.06) 35%,
-      rgba(15, 118, 110, 0.06) 36%,
-      transparent 36%
+      145deg,
+      transparent 42%,
+      rgba(45, 212, 191, 0.06) 42%,
+      rgba(45, 212, 191, 0.06) 43%,
+      transparent 43%
     );
 
-  background-size: 180px 180px;
+  background-size: 170px 170px;
 
-  background-color: #edf5f2;
+  background-color: #10201e;
 }
-
-/* Map roads / terrain lines */
 
 .terrain::before {
   content: '';
@@ -264,14 +483,14 @@
   position: absolute;
 
   width: 150%;
-  height: 2px;
+  height: 1px;
 
   left: -20%;
-  top: 50%;
+  top: 46%;
 
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(148, 163, 184, 0.25);
 
-  transform: rotate(-15deg);
+  transform: rotate(-13deg);
 }
 
 .terrain::after {
@@ -280,119 +499,110 @@
   position: absolute;
 
   width: 150%;
-  height: 2px;
+  height: 1px;
 
   left: -20%;
-  top: 65%;
+  top: 68%;
 
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(148, 163, 184, 0.2);
 
-  transform: rotate(12deg);
+  transform: rotate(11deg);
 }
 
-/* =================================
+/* =========================================
    ZONE MARKERS
-================================= */
+========================================= */
 
 .zone-marker {
   position: absolute;
 
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
 
   cursor: pointer;
-}
 
-/* Marker */
+  z-index: 4;
+}
 
 .marker-dot {
-  width: 15px;
-  height: 15px;
+  width: 13px;
+  height: 13px;
 
+  border: 2px solid #f8fafc;
   border-radius: 50%;
 
-  border: 3px solid #ffffff;
-
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-
   position: relative;
-
   z-index: 2;
-}
 
-/* Pulse */
+  box-shadow: 0 0 10px currentColor;
+}
 
 .marker-pulse {
   position: absolute;
 
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
+
+  top: -9px;
+  left: -9px;
 
   border-radius: 50%;
 
-  opacity: 0.2;
-
-  top: -11px;
-  left: -11px;
+  opacity: 0.15;
 }
 
-/* Marker labels */
-
 .marker-label {
-  margin-top: 8px;
+  margin-top: 7px;
 
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
 
-  background: rgba(255, 255, 255, 0.9);
+  padding: 4px 7px;
 
-  padding: 5px 8px;
+  border-radius: 5px;
 
-  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.88);
 
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(148, 163, 184, 0.18);
 
   white-space: nowrap;
 }
 
 .marker-label strong {
-  font-size: 10px;
+  font-size: 9px;
 
-  color: #334155;
+  color: #f1f5f9;
 }
 
 .marker-label span {
   margin-top: 2px;
 
-  font-size: 7px;
-
+  font-size: 6px;
   font-weight: 800;
 }
 
-/* =================================
+/* =========================================
    RISK COLORS
-================================= */
+========================================= */
 
 .critical .marker-dot {
-  background: #dc2626;
+  background: #ef4444;
+  color: #ef4444;
 }
 
 .critical .marker-pulse {
-  background: #dc2626;
+  background: #ef4444;
 }
 
 .critical .marker-label span {
-  color: #dc2626;
+  color: #f87171;
 }
 
 .high .marker-dot {
   background: #f97316;
+  color: #f97316;
 }
 
 .high .marker-pulse {
@@ -400,165 +610,156 @@
 }
 
 .high .marker-label span {
-  color: #ea580c;
+  color: #fb923c;
 }
 
 .moderate .marker-dot {
-  background: #f59e0b;
+  background: #eab308;
+  color: #eab308;
 }
 
 .moderate .marker-pulse {
-  background: #f59e0b;
+  background: #eab308;
 }
 
 .moderate .marker-label span {
-  color: #d97706;
+  color: #facc15;
 }
 
 .low .marker-dot {
-  background: #16a34a;
+  background: #22c55e;
+  color: #22c55e;
 }
 
 .low .marker-pulse {
-  background: #16a34a;
+  background: #22c55e;
 }
 
 .low .marker-label span {
-  color: #15803d;
+  color: #4ade80;
 }
 
-/* =================================
+/* =========================================
    MARKER POSITIONS
-================================= */
+========================================= */
 
 .zone-a {
-  left: 24%;
-  top: 28%;
+  left: 25%;
+  top: 27%;
 }
 
 .zone-b {
   left: 47%;
-  top: 45%;
+  top: 43%;
 }
 
 .zone-c {
   right: 25%;
-  top: 22%;
+  top: 21%;
 }
 
 .zone-d {
-  left: 60%;
-  bottom: 25%;
+  left: 61%;
+  bottom: 24%;
 }
 
 .zone-e {
   right: 15%;
-  bottom: 30%;
+  bottom: 29%;
 }
 
-/* =================================
+/* =========================================
    MAP CONTROLS
-================================= */
+========================================= */
 
 .map-controls {
   position: absolute;
 
-  top: 18px;
-  right: 18px;
+  top: 14px;
+  right: 14px;
 
   display: flex;
-
   flex-direction: column;
+  gap: 5px;
 
-  gap: 6px;
+  z-index: 10;
 }
 
 .map-controls button {
-  width: 38px;
-  height: 38px;
+  width: 33px;
+  height: 33px;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
-  border: 1px solid #e2e8f0;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 6px;
 
-  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.88);
 
-  background: #ffffff;
-
-  color: #475569;
+  color: #cbd5e1;
 
   cursor: pointer;
-
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
 }
 
 .map-controls button:hover {
-  color: #0f766e;
+  color: #2dd4bf;
+  border-color: #0f766e;
 }
 
-/* =================================
+/* =========================================
    LEGEND
-================================= */
+========================================= */
 
 .map-legend {
   position: absolute;
 
-  left: 18px;
-  bottom: 18px;
+  left: 14px;
+  bottom: 14px;
 
   display: flex;
-
   align-items: center;
+  gap: 10px;
 
-  gap: 15px;
+  padding: 8px 10px;
 
-  padding: 11px 14px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 6px;
 
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(15, 23, 42, 0.9);
 
-  border: 1px solid #e2e8f0;
-
-  border-radius: 9px;
-
-  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.08);
+  z-index: 10;
 }
 
-.map-legend h4 {
-  margin: 0 5px 0 0;
-
-  font-size: 10px;
-
-  color: #475569;
+.map-legend strong {
+  font-size: 8px;
+  color: #f1f5f9;
 }
 
-.legend-item {
+.map-legend div {
   display: flex;
-
   align-items: center;
+  gap: 4px;
 
-  gap: 5px;
+  font-size: 7px;
 
-  font-size: 9px;
-
-  color: #64748b;
+  color: #94a3b8;
 }
 
 .legend-dot {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
 
   border-radius: 50%;
 }
 
 .low-dot {
-  background: #16a34a;
+  background: #22c55e;
 }
 
 .moderate-dot {
-  background: #f59e0b;
+  background: #eab308;
 }
 
 .high-dot {
@@ -566,44 +767,43 @@
 }
 
 .critical-dot {
-  background: #dc2626;
+  background: #ef4444;
 }
 
-/* =================================
+/* =========================================
    SELECTED ZONE
-================================= */
+========================================= */
 
 .selected-zone-card {
   position: absolute;
 
-  top: 18px;
-  left: 18px;
+  left: 14px;
+  top: 14px;
 
-  width: 245px;
+  width: 225px;
 
-  padding: 16px;
+  padding: 13px;
 
-  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 7px;
 
-  border: 1px solid #e2e8f0;
+  background: rgba(15, 23, 42, 0.93);
 
-  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
 
-  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.1);
+  z-index: 10;
 }
 
 .selected-zone-header {
   display: flex;
-
   align-items: flex-start;
-
   justify-content: space-between;
 }
 
-.selected-label {
-  font-size: 8px;
+.selected-zone-header span {
+  font-size: 7px;
 
-  color: #94a3b8;
+  color: #64748b;
 
   font-weight: 700;
 
@@ -611,487 +811,410 @@
 }
 
 .selected-zone-header h3 {
-  margin: 4px 0 0;
+  margin: 3px 0 0;
 
-  font-size: 17px;
+  font-size: 15px;
+
+  color: #f1f5f9;
 }
 
 .selected-zone-header button {
-  border: none;
-
-  background: #f1f5f9;
-
-  width: 26px;
-  height: 26px;
-
-  border-radius: 6px;
+  width: 24px;
+  height: 24px;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
-  color: #64748b;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 5px;
+
+  background: rgba(148, 163, 184, 0.08);
+
+  color: #94a3b8;
 
   cursor: pointer;
 }
 
-/* Risk */
+.selected-zone-header button:hover {
+  color: #f87171;
+}
+
+/* =========================================
+   SELECTED RISK
+========================================= */
 
 .selected-risk {
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
 
-  margin-top: 16px;
+  margin-top: 12px;
 
-  padding: 12px;
+  padding: 10px;
 
-  background: #fef2f2;
+  border-radius: 6px;
 
-  border-radius: 9px;
+  background: rgba(239, 68, 68, 0.08);
+
+  border: 1px solid rgba(239, 68, 68, 0.15);
 }
 
 .selected-risk span {
   display: block;
 
-  font-size: 9px;
+  font-size: 7px;
 
-  color: #64748b;
+  color: #94a3b8;
 }
 
 .selected-risk strong {
   display: block;
 
-  margin-top: 4px;
+  margin-top: 3px;
 
-  font-size: 12px;
+  font-size: 10px;
 
-  color: #dc2626;
+  color: #f87171;
 }
 
 .risk-score {
-  font-size: 25px;
+  font-size: 22px;
 
   font-weight: 800;
 
-  color: #dc2626;
+  color: #f87171;
 }
 
 .risk-score small {
-  font-size: 11px;
-
-  font-weight: 500;
-
-  color: #94a3b8;
-}
-
-.selected-zone-card > p {
-  margin: 12px 0;
-
-  font-size: 10px;
+  font-size: 9px;
 
   color: #64748b;
 }
 
-.selected-zone-card > a {
-  font-size: 11px;
+.selected-zone-card > p {
+  margin: 9px 0;
 
-  color: #0f766e;
+  font-size: 8px;
+
+  color: #94a3b8;
+}
+
+.selected-zone-card > a {
+  font-size: 9px;
+
+  color: #2dd4bf;
 
   font-weight: 700;
 
   text-decoration: none;
 }
 
-/* =================================
-   BOTTOM INFO
-================================= */
-
-.map-bottom-info {
-  margin-top: 16px;
-
-  padding: 16px 20px;
-
-  background: #ffffff;
-
-  border: 1px solid #e2e8f0;
-
-  border-radius: 12px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 40px;
+.selected-zone-card > a:hover {
+  color: #5eead4;
 }
 
-.map-bottom-info div {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 3px;
-}
-
-.map-bottom-info strong {
-  font-size: 20px;
-}
-
-.map-bottom-info span {
-  font-size: 10px;
-
-  color: #64748b;
-}
-
-.map-bottom-info p {
-  margin-left: auto;
-
-  font-size: 10px;
-
-  color: #94a3b8;
-}
-
-.critical-text {
-  color: #dc2626;
-}
-
-.high-text {
-  color: #f97316;
-}
-
-.normal-text {
-  color: #16a34a;
-}
-
-/* ============================================================
+/* =========================================
    SAFETY GUIDANCE
-============================================================ */
+========================================= */
 
 .safety-guidance {
-  margin-top: 20px;
+  padding: 16px;
 
-  padding: 22px;
+  background: var(--card-bg);
 
-  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 9px;
 
-  border: 1px solid #e2e8f0;
-
-  border-radius: 16px;
-
-  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+  box-shadow: var(--card-shadow);
 }
 
-/* =================================
+/* =========================================
    SAFETY HEADER
-================================= */
+========================================= */
 
-.safety-guidance-header {
+.safety-header {
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
 
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
-.safety-title-group {
+.safety-title {
   display: flex;
-
   align-items: center;
-
-  gap: 12px;
+  gap: 10px;
 }
 
-.safety-main-icon {
-  width: 42px;
-  height: 42px;
-
-  border-radius: 10px;
+.safety-icon {
+  width: 37px;
+  height: 37px;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
-  background: #ecfdf5;
+  border-radius: 7px;
 
-  color: #0f766e;
+  background: rgba(45, 212, 191, 0.08);
+
+  color: #2dd4bf;
 }
 
-.safety-title-group > div:last-child > span {
-  font-size: 9px;
+.safety-title span {
+  display: block;
 
+  font-size: 7px;
   font-weight: 800;
+  letter-spacing: 0.7px;
 
-  letter-spacing: 0.8px;
-
-  color: #0f766e;
+  color: #2dd4bf;
 }
 
-.safety-title-group h2 {
-  margin: 3px 0 3px;
+.safety-title h2 {
+  margin: 2px 0;
 
-  font-size: 18px;
-
-  color: #172033;
+  font-size: 14px;
 }
 
-.safety-title-group p {
+.safety-title p {
   margin: 0;
 
-  font-size: 11px;
+  font-size: 8px;
 
-  color: #64748b;
+  color: var(--text-muted);
 }
 
-.safety-info-badge {
+.stay-alert {
   display: flex;
-
   align-items: center;
+  gap: 5px;
 
-  gap: 6px;
+  padding: 6px 9px;
 
-  padding: 8px 12px;
+  border-radius: 6px;
 
-  border-radius: 20px;
+  background: rgba(234, 179, 8, 0.08);
 
-  background: #fffbeb;
+  color: #facc15;
 
-  color: #b45309;
-
-  font-size: 11px;
-
+  font-size: 8px;
   font-weight: 700;
 }
 
-/* =================================
+/* =========================================
    SAFETY GRID
-================================= */
+========================================= */
 
-.safety-guidance-grid {
+.safety-grid {
   display: grid;
 
   grid-template-columns: repeat(3, 1fr);
 
-  gap: 14px;
-}
-
-/* =================================
-   SAFETY CARD
-================================= */
-
-.safety-info-card {
-  padding: 17px;
-
-  border-radius: 12px;
-
-  background: #f8fafc;
-
-  border: 1px solid #e2e8f0;
-}
-
-/* =================================
-   CARD TOP
-================================= */
-
-.safety-card-top {
-  display: flex;
-
-  align-items: center;
-
   gap: 10px;
+}
 
-  padding-bottom: 14px;
+.safety-card {
+  padding: 13px;
 
-  margin-bottom: 13px;
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
 
-  border-bottom: 1px solid #e2e8f0;
+  background: var(--secondary-bg);
+}
+
+.safety-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding-bottom: 10px;
+
+  margin-bottom: 10px;
+
+  border-bottom: 1px solid var(--border-color);
 }
 
 .safety-card-icon {
-  width: 35px;
-  height: 35px;
-
-  border-radius: 9px;
+  width: 31px;
+  height: 31px;
 
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-}
 
-/* Warning */
+  border-radius: 6px;
+}
 
 .safety-card-icon.warning {
-  background: #fff7ed;
-
-  color: #ea580c;
+  background: rgba(249, 115, 22, 0.1);
+  color: #fb923c;
 }
-
-/* Do */
 
 .safety-card-icon.do {
-  background: #ecfdf5;
-
-  color: #16a34a;
+  background: rgba(34, 197, 94, 0.1);
+  color: #4ade80;
 }
-
-/* Don't */
 
 .safety-card-icon.dont {
-  background: #fef2f2;
-
-  color: #dc2626;
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
 }
 
-/* Card heading */
+.safety-card-heading h3 {
+  margin: 0 0 2px;
 
-.safety-card-top h3 {
-  margin: 0 0 3px;
-
-  font-size: 13px;
-
-  color: #172033;
+  font-size: 10px;
 }
 
-.safety-card-top span {
-  font-size: 9px;
+.safety-card-heading span {
+  font-size: 7px;
 
-  color: #94a3b8;
+  color: var(--text-muted);
 }
 
-/* =================================
-   SAFETY POINTS
-================================= */
+/* =========================================
+   SAFETY LIST
+========================================= */
 
-.safety-points {
+.safety-list {
   display: flex;
-
   flex-direction: column;
-
-  gap: 10px;
+  gap: 7px;
 }
 
-.safety-points div {
+.safety-list p {
   display: flex;
-
   align-items: flex-start;
+  gap: 7px;
 
-  gap: 8px;
+  margin: 0;
+
+  font-size: 8px;
+  line-height: 1.5;
+
+  color: var(--text-secondary);
 }
 
-.point-dot {
-  width: 5px;
-  height: 5px;
+.safety-list i {
+  width: 4px;
+  height: 4px;
 
-  min-width: 5px;
+  min-width: 4px;
 
-  margin-top: 6px;
+  margin-top: 4px;
 
   border-radius: 50%;
 
-  background: #0f766e;
+  background: #2dd4bf;
 }
 
-.safety-points p {
-  margin: 0;
+/* =========================================
+   RAINFALL
+========================================= */
 
-  font-size: 10px;
+.rainfall-note {
+  display: flex;
+  align-items: center;
+  gap: 9px;
 
-  line-height: 1.5;
+  margin-top: 10px;
 
-  color: #475569;
+  padding: 10px 12px;
+
+  border-radius: 6px;
+
+  background: rgba(45, 212, 191, 0.06);
+
+  border: 1px solid rgba(45, 212, 191, 0.14);
 }
 
-/* =================================
-   RAINFALL ADVISORY
-================================= */
+.rainfall-icon {
+  width: 30px;
+  height: 30px;
 
-.safety-bottom-note {
-  margin-top: 14px;
+  min-width: 30px;
 
   display: flex;
-
   align-items: center;
-
-  gap: 11px;
-
-  padding: 13px 15px;
-
-  border-radius: 10px;
-
-  background: #f0fdfa;
-
-  border: 1px solid #ccfbf1;
-}
-
-.rain-note-icon {
-  width: 34px;
-  height: 34px;
-
-  min-width: 34px;
-
-  border-radius: 8px;
-
-  display: flex;
-
-  align-items: center;
-
   justify-content: center;
 
-  background: #ccfbf1;
+  border-radius: 6px;
 
-  color: #0f766e;
+  background: rgba(45, 212, 191, 0.1);
+
+  color: #2dd4bf;
 }
 
-.safety-bottom-note strong {
+.rainfall-note strong {
   display: block;
 
-  margin-bottom: 3px;
+  font-size: 9px;
 
-  font-size: 11px;
-
-  color: #115e59;
+  color: #5eead4;
 }
 
-.safety-bottom-note p {
-  margin: 0;
+.rainfall-note p {
+  margin: 2px 0 0;
 
-  font-size: 10px;
+  font-size: 7px;
 
-  color: #64748b;
-
-  line-height: 1.5;
+  color: var(--text-muted);
 }
 
-/* =================================
+/* =========================================
    RESPONSIVE
-================================= */
+========================================= */
 
 @media (max-width: 1100px) {
-  .safety-guidance-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 900px) {
   .map-main {
-    padding: 22px;
+    padding: 20px;
+  }
+
+  .risk-overview {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .safety-grid {
+    grid-template-columns: 1fr;
   }
 
   .map-container {
-    height: 500px;
-  }
-
-  .map-bottom-info {
-    gap: 20px;
+    height: 480px;
   }
 }
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 800px) {
+  .map-main {
+    padding: 16px;
+  }
+
+  .risk-hero {
+    padding: 14px;
+  }
+
+  .risk-hero p {
+    max-width: 400px;
+  }
+
+  .map-search {
+    flex: 1;
+    width: auto;
+  }
+
+  .map-container {
+    height: 450px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
 
 @media (max-width: 700px) {
   .map-sidebar {
@@ -1099,7 +1222,52 @@
   }
 
   .map-main {
-    padding: 16px;
+    width: 100%;
+    padding: 14px;
+  }
+
+  .risk-hero {
+    min-height: auto;
+
+    align-items: flex-start;
+
+    padding: 14px;
+  }
+
+  .risk-live-status {
+    display: none;
+  }
+
+  .risk-hero h1 {
+    font-size: 17px;
+  }
+
+  .risk-hero p {
+    font-size: 8px;
+  }
+
+  .risk-overview {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .risk-stat {
+    min-height: 70px;
+  }
+
+  .risk-alert {
+    min-height: auto;
+  }
+
+  .map-card {
+    padding: 12px;
+  }
+
+  .map-card-header {
+    align-items: flex-start;
+  }
+
+  .map-last-update {
+    display: none;
   }
 
   .map-toolbar {
@@ -1108,49 +1276,78 @@
 
   .map-search {
     width: 100%;
+    flex: none;
   }
 
   .map-container {
-    height: 500px;
+    height: 430px;
   }
 
   .selected-zone-card {
-    width: 210px;
+    width: 195px;
   }
 
   .map-legend {
+    left: 10px;
+    right: 10px;
+
     flex-wrap: wrap;
 
-    gap: 8px;
+    gap: 7px;
   }
 
-  .map-bottom-info {
-    flex-wrap: wrap;
-  }
-
-  .map-bottom-info p {
-    width: 100%;
-
-    margin-left: 0;
-  }
-
-  /* Safety mobile */
-
-  .safety-guidance {
-    padding: 16px;
-  }
-
-  .safety-guidance-header {
+  .safety-header {
     align-items: flex-start;
-
-    gap: 12px;
   }
 
-  .safety-info-badge {
+  .stay-alert {
     display: none;
   }
 
-  .safety-title-group h2 {
+  .safety-title p {
+    max-width: 300px;
+  }
+
+  .safety-guidance {
+    padding: 13px;
+  }
+
+  .safety-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 420px) {
+  .risk-overview {
+    gap: 7px;
+  }
+
+  .risk-stat strong {
     font-size: 16px;
+  }
+
+  .risk-stat span {
+    font-size: 7px;
+  }
+
+  .map-container {
+    height: 400px;
+  }
+
+  .selected-zone-card {
+    width: 180px;
+    padding: 11px;
+  }
+
+  .selected-zone-card > p {
+    font-size: 7px;
+  }
+
+  .selected-zone-card > a {
+    font-size: 8px;
   }
 }

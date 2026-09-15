@@ -12,7 +12,6 @@ import {
 } from 'lucide-react';
 
 import Sidebar from '../../components/Sidebar';
-import ThemeToggle from '../../components/ThemeToggle';
 
 import { Link } from 'react-router-dom';
 
@@ -38,8 +37,6 @@ function Reports() {
           </div>
 
           <div className='reports-header-actions'>
-            <ThemeToggle />
-
             <Link
               to='/reportsIncident'
               className='create-report-btn'
