@@ -13,9 +13,23 @@ import {
 } from 'lucide-react';
 
 import Sidebar from '../../components/Sidebar';
+import { useAuth } from '../../context/AuthContext';
 import './Profile.css';
 
 function Profile() {
+  const { user } = useAuth();
+
+  const getDisplayName = () => {
+    if (!user) return 'Guest Officer';
+    return user.name || user.email?.split('@')[0] || 'User';
+  };
+
+  const getDisplayRole = () => {
+    if (!user) return 'Field Officer';
+    const role = user.role || 'field_officer';
+    return role.replace('_', ' ').toUpperCase();
+  };
+
   return (
     <div className='profile-page'>
       {/* ================= SIDEBAR ================= */}
@@ -30,7 +44,7 @@ function Profile() {
         <div className='profile-header'>
           <div>
             <h1>My Profile</h1>
-            <p>Manage your account and field officer information</p>
+            <p>Manage your account and operational credentials</p>
           </div>
 
           <button className='edit-profile-btn'>
@@ -47,8 +61,8 @@ function Profile() {
           </div>
 
           <div className='profile-main-info'>
-            <h2>Anchal</h2>
-            <p>Field Officer</p>
+            <h2>{getDisplayName()}</h2>
+            <p>{getDisplayRole()}</p>
 
             <div className='profile-status'>
               <span></span>
@@ -60,7 +74,7 @@ function Profile() {
             <ShieldCheck size={20} />
             <div>
               <span>Role</span>
-              <strong>Field Officer</strong>
+              <strong>{getDisplayRole()}</strong>
             </div>
           </div>
         </section>
@@ -90,7 +104,7 @@ function Profile() {
 
                 <div>
                   <span>Full Name</span>
-                  <strong>Anchal</strong>
+                  <strong>{user?.name || getDisplayName()}</strong>
                 </div>
               </div>
 
@@ -101,7 +115,7 @@ function Profile() {
 
                 <div>
                   <span>Email Address</span>
-                  <strong>anchal@example.com</strong>
+                  <strong>{user?.email || 'user@landslide.gov.in'}</strong>
                 </div>
               </div>
 
@@ -112,7 +126,7 @@ function Profile() {
 
                 <div>
                   <span>Phone Number</span>
-                  <strong>+91 XXXXX XXXXX</strong>
+                  <strong>{user?.phone || '+91 98765 43210'}</strong>
                 </div>
               </div>
             </div>
