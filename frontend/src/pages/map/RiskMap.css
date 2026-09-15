@@ -1,0 +1,1156 @@
+/* =================================
+   GLOBAL
+================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+/* =================================
+   PAGE
+================================= */
+
+.risk-map-page {
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+
+  background: #f8fafc;
+  color: #172033;
+}
+
+/* =================================
+   SIDEBAR
+================================= */
+
+.map-sidebar {
+  width: 240px;
+  min-height: 100vh;
+
+  background: #ffffff;
+
+  border-right: 1px solid #e2e8f0;
+
+  padding: 24px 16px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* =================================
+   MAIN
+================================= */
+
+.map-main {
+  flex: 1;
+
+  min-width: 0;
+
+  padding: 32px;
+}
+
+/* =================================
+   HEADER
+================================= */
+
+.map-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 24px;
+}
+
+.map-header h1 {
+  margin: 0;
+
+  font-size: 26px;
+
+  font-weight: 700;
+}
+
+.map-header p {
+  margin: 6px 0 0;
+
+  font-size: 13px;
+
+  color: #64748b;
+}
+
+.map-header-status {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 9px 14px;
+
+  border-radius: 20px;
+
+  background: #ecfdf5;
+
+  color: #15803d;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+.map-header-status span {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #22c55e;
+}
+
+/* =================================
+   MAP SECTION
+================================= */
+
+.map-section {
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 16px;
+
+  padding: 18px;
+
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+}
+
+/* =================================
+   TOOLBAR
+================================= */
+
+.map-toolbar {
+  display: flex;
+
+  gap: 10px;
+
+  margin-bottom: 16px;
+}
+
+.map-search {
+  width: 350px;
+
+  height: 42px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 0 13px;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  color: #94a3b8;
+}
+
+.map-search input {
+  width: 100%;
+
+  border: none;
+
+  outline: none;
+
+  font-size: 13px;
+
+  color: #172033;
+}
+
+.map-search input::placeholder {
+  color: #94a3b8;
+}
+
+.map-filter-btn,
+.map-layer-btn {
+  height: 42px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 0 15px;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  color: #475569;
+
+  font-size: 12px;
+
+  cursor: pointer;
+}
+
+.map-filter-btn:hover,
+.map-layer-btn:hover {
+  border-color: #0f766e;
+
+  color: #0f766e;
+}
+
+/* =================================
+   MAP
+================================= */
+
+.map-container {
+  position: relative;
+
+  width: 100%;
+
+  height: 560px;
+
+  overflow: hidden;
+
+  border-radius: 12px;
+
+  background: #e8f0ed;
+
+  border: 1px solid #dbe7e2;
+}
+
+/* =================================
+   TERRAIN
+================================= */
+
+.terrain {
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      30deg,
+      transparent 35%,
+      rgba(15, 118, 110, 0.06) 35%,
+      rgba(15, 118, 110, 0.06) 36%,
+      transparent 36%
+    ),
+    linear-gradient(
+      150deg,
+      transparent 35%,
+      rgba(15, 118, 110, 0.06) 35%,
+      rgba(15, 118, 110, 0.06) 36%,
+      transparent 36%
+    );
+
+  background-size: 180px 180px;
+
+  background-color: #edf5f2;
+}
+
+/* Map roads / terrain lines */
+
+.terrain::before {
+  content: '';
+
+  position: absolute;
+
+  width: 150%;
+  height: 2px;
+
+  left: -20%;
+  top: 50%;
+
+  background: rgba(255, 255, 255, 0.9);
+
+  transform: rotate(-15deg);
+}
+
+.terrain::after {
+  content: '';
+
+  position: absolute;
+
+  width: 150%;
+  height: 2px;
+
+  left: -20%;
+  top: 65%;
+
+  background: rgba(255, 255, 255, 0.8);
+
+  transform: rotate(12deg);
+}
+
+/* =================================
+   ZONE MARKERS
+================================= */
+
+.zone-marker {
+  position: absolute;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  cursor: pointer;
+}
+
+/* Marker */
+
+.marker-dot {
+  width: 15px;
+  height: 15px;
+
+  border-radius: 50%;
+
+  border: 3px solid #ffffff;
+
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+
+  position: relative;
+
+  z-index: 2;
+}
+
+/* Pulse */
+
+.marker-pulse {
+  position: absolute;
+
+  width: 38px;
+  height: 38px;
+
+  border-radius: 50%;
+
+  opacity: 0.2;
+
+  top: -11px;
+  left: -11px;
+}
+
+/* Marker labels */
+
+.marker-label {
+  margin-top: 8px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  background: rgba(255, 255, 255, 0.9);
+
+  padding: 5px 8px;
+
+  border-radius: 6px;
+
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+
+  white-space: nowrap;
+}
+
+.marker-label strong {
+  font-size: 10px;
+
+  color: #334155;
+}
+
+.marker-label span {
+  margin-top: 2px;
+
+  font-size: 7px;
+
+  font-weight: 800;
+}
+
+/* =================================
+   RISK COLORS
+================================= */
+
+.critical .marker-dot {
+  background: #dc2626;
+}
+
+.critical .marker-pulse {
+  background: #dc2626;
+}
+
+.critical .marker-label span {
+  color: #dc2626;
+}
+
+.high .marker-dot {
+  background: #f97316;
+}
+
+.high .marker-pulse {
+  background: #f97316;
+}
+
+.high .marker-label span {
+  color: #ea580c;
+}
+
+.moderate .marker-dot {
+  background: #f59e0b;
+}
+
+.moderate .marker-pulse {
+  background: #f59e0b;
+}
+
+.moderate .marker-label span {
+  color: #d97706;
+}
+
+.low .marker-dot {
+  background: #16a34a;
+}
+
+.low .marker-pulse {
+  background: #16a34a;
+}
+
+.low .marker-label span {
+  color: #15803d;
+}
+
+/* =================================
+   MARKER POSITIONS
+================================= */
+
+.zone-a {
+  left: 24%;
+  top: 28%;
+}
+
+.zone-b {
+  left: 47%;
+  top: 45%;
+}
+
+.zone-c {
+  right: 25%;
+  top: 22%;
+}
+
+.zone-d {
+  left: 60%;
+  bottom: 25%;
+}
+
+.zone-e {
+  right: 15%;
+  bottom: 30%;
+}
+
+/* =================================
+   MAP CONTROLS
+================================= */
+
+.map-controls {
+  position: absolute;
+
+  top: 18px;
+  right: 18px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+.map-controls button {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  color: #475569;
+
+  cursor: pointer;
+
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+}
+
+.map-controls button:hover {
+  color: #0f766e;
+}
+
+/* =================================
+   LEGEND
+================================= */
+
+.map-legend {
+  position: absolute;
+
+  left: 18px;
+  bottom: 18px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 11px 14px;
+
+  background: rgba(255, 255, 255, 0.95);
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 9px;
+
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.08);
+}
+
+.map-legend h4 {
+  margin: 0 5px 0 0;
+
+  font-size: 10px;
+
+  color: #475569;
+}
+
+.legend-item {
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  font-size: 9px;
+
+  color: #64748b;
+}
+
+.legend-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+}
+
+.low-dot {
+  background: #16a34a;
+}
+
+.moderate-dot {
+  background: #f59e0b;
+}
+
+.high-dot {
+  background: #f97316;
+}
+
+.critical-dot {
+  background: #dc2626;
+}
+
+/* =================================
+   SELECTED ZONE
+================================= */
+
+.selected-zone-card {
+  position: absolute;
+
+  top: 18px;
+  left: 18px;
+
+  width: 245px;
+
+  padding: 16px;
+
+  background: rgba(255, 255, 255, 0.97);
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 12px;
+
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.1);
+}
+
+.selected-zone-header {
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+}
+
+.selected-label {
+  font-size: 8px;
+
+  color: #94a3b8;
+
+  font-weight: 700;
+
+  letter-spacing: 0.5px;
+}
+
+.selected-zone-header h3 {
+  margin: 4px 0 0;
+
+  font-size: 17px;
+}
+
+.selected-zone-header button {
+  border: none;
+
+  background: #f1f5f9;
+
+  width: 26px;
+  height: 26px;
+
+  border-radius: 6px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: #64748b;
+
+  cursor: pointer;
+}
+
+/* Risk */
+
+.selected-risk {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-top: 16px;
+
+  padding: 12px;
+
+  background: #fef2f2;
+
+  border-radius: 9px;
+}
+
+.selected-risk span {
+  display: block;
+
+  font-size: 9px;
+
+  color: #64748b;
+}
+
+.selected-risk strong {
+  display: block;
+
+  margin-top: 4px;
+
+  font-size: 12px;
+
+  color: #dc2626;
+}
+
+.risk-score {
+  font-size: 25px;
+
+  font-weight: 800;
+
+  color: #dc2626;
+}
+
+.risk-score small {
+  font-size: 11px;
+
+  font-weight: 500;
+
+  color: #94a3b8;
+}
+
+.selected-zone-card > p {
+  margin: 12px 0;
+
+  font-size: 10px;
+
+  color: #64748b;
+}
+
+.selected-zone-card > a {
+  font-size: 11px;
+
+  color: #0f766e;
+
+  font-weight: 700;
+
+  text-decoration: none;
+}
+
+/* =================================
+   BOTTOM INFO
+================================= */
+
+.map-bottom-info {
+  margin-top: 16px;
+
+  padding: 16px 20px;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 12px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 40px;
+}
+
+.map-bottom-info div {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.map-bottom-info strong {
+  font-size: 20px;
+}
+
+.map-bottom-info span {
+  font-size: 10px;
+
+  color: #64748b;
+}
+
+.map-bottom-info p {
+  margin-left: auto;
+
+  font-size: 10px;
+
+  color: #94a3b8;
+}
+
+.critical-text {
+  color: #dc2626;
+}
+
+.high-text {
+  color: #f97316;
+}
+
+.normal-text {
+  color: #16a34a;
+}
+
+/* ============================================================
+   SAFETY GUIDANCE
+============================================================ */
+
+.safety-guidance {
+  margin-top: 20px;
+
+  padding: 22px;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 16px;
+
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+}
+
+/* =================================
+   SAFETY HEADER
+================================= */
+
+.safety-guidance-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 20px;
+}
+
+.safety-title-group {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.safety-main-icon {
+  width: 42px;
+  height: 42px;
+
+  border-radius: 10px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #ecfdf5;
+
+  color: #0f766e;
+}
+
+.safety-title-group > div:last-child > span {
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.8px;
+
+  color: #0f766e;
+}
+
+.safety-title-group h2 {
+  margin: 3px 0 3px;
+
+  font-size: 18px;
+
+  color: #172033;
+}
+
+.safety-title-group p {
+  margin: 0;
+
+  font-size: 11px;
+
+  color: #64748b;
+}
+
+.safety-info-badge {
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  padding: 8px 12px;
+
+  border-radius: 20px;
+
+  background: #fffbeb;
+
+  color: #b45309;
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+/* =================================
+   SAFETY GRID
+================================= */
+
+.safety-guidance-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 14px;
+}
+
+/* =================================
+   SAFETY CARD
+================================= */
+
+.safety-info-card {
+  padding: 17px;
+
+  border-radius: 12px;
+
+  background: #f8fafc;
+
+  border: 1px solid #e2e8f0;
+}
+
+/* =================================
+   CARD TOP
+================================= */
+
+.safety-card-top {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding-bottom: 14px;
+
+  margin-bottom: 13px;
+
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.safety-card-icon {
+  width: 35px;
+  height: 35px;
+
+  border-radius: 9px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+/* Warning */
+
+.safety-card-icon.warning {
+  background: #fff7ed;
+
+  color: #ea580c;
+}
+
+/* Do */
+
+.safety-card-icon.do {
+  background: #ecfdf5;
+
+  color: #16a34a;
+}
+
+/* Don't */
+
+.safety-card-icon.dont {
+  background: #fef2f2;
+
+  color: #dc2626;
+}
+
+/* Card heading */
+
+.safety-card-top h3 {
+  margin: 0 0 3px;
+
+  font-size: 13px;
+
+  color: #172033;
+}
+
+.safety-card-top span {
+  font-size: 9px;
+
+  color: #94a3b8;
+}
+
+/* =================================
+   SAFETY POINTS
+================================= */
+
+.safety-points {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+.safety-points div {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 8px;
+}
+
+.point-dot {
+  width: 5px;
+  height: 5px;
+
+  min-width: 5px;
+
+  margin-top: 6px;
+
+  border-radius: 50%;
+
+  background: #0f766e;
+}
+
+.safety-points p {
+  margin: 0;
+
+  font-size: 10px;
+
+  line-height: 1.5;
+
+  color: #475569;
+}
+
+/* =================================
+   RAINFALL ADVISORY
+================================= */
+
+.safety-bottom-note {
+  margin-top: 14px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 11px;
+
+  padding: 13px 15px;
+
+  border-radius: 10px;
+
+  background: #f0fdfa;
+
+  border: 1px solid #ccfbf1;
+}
+
+.rain-note-icon {
+  width: 34px;
+  height: 34px;
+
+  min-width: 34px;
+
+  border-radius: 8px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: #ccfbf1;
+
+  color: #0f766e;
+}
+
+.safety-bottom-note strong {
+  display: block;
+
+  margin-bottom: 3px;
+
+  font-size: 11px;
+
+  color: #115e59;
+}
+
+.safety-bottom-note p {
+  margin: 0;
+
+  font-size: 10px;
+
+  color: #64748b;
+
+  line-height: 1.5;
+}
+
+/* =================================
+   RESPONSIVE
+================================= */
+
+@media (max-width: 1100px) {
+  .safety-guidance-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .map-main {
+    padding: 22px;
+  }
+
+  .map-container {
+    height: 500px;
+  }
+
+  .map-bottom-info {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 700px) {
+  .map-sidebar {
+    display: none;
+  }
+
+  .map-main {
+    padding: 16px;
+  }
+
+  .map-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .map-search {
+    width: 100%;
+  }
+
+  .map-container {
+    height: 500px;
+  }
+
+  .selected-zone-card {
+    width: 210px;
+  }
+
+  .map-legend {
+    flex-wrap: wrap;
+
+    gap: 8px;
+  }
+
+  .map-bottom-info {
+    flex-wrap: wrap;
+  }
+
+  .map-bottom-info p {
+    width: 100%;
+
+    margin-left: 0;
+  }
+
+  /* Safety mobile */
+
+  .safety-guidance {
+    padding: 16px;
+  }
+
+  .safety-guidance-header {
+    align-items: flex-start;
+
+    gap: 12px;
+  }
+
+  .safety-info-badge {
+    display: none;
+  }
+
+  .safety-title-group h2 {
+    font-size: 16px;
+  }
+}
