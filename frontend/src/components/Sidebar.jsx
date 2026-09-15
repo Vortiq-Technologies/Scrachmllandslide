@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import {
   Home,
   Map,
@@ -7,11 +7,38 @@ import {
   Settings,
   Activity,
   User,
+  Bot,
+  LogOut,
 } from 'lucide-react';
 
+import { useAuth } from '../context/AuthContext';
 import './Sidebar.css';
 
 function Sidebar() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
+  const getDisplayName = () => {
+    if (!user) return 'Guest User';
+    return user.name || user.email?.split('@')[0] || 'User';
+  };
+
+  const getDisplayRole = () => {
+    if (!user) return 'Guest';
+    const role = user.role || 'user';
+    return role.replace('_', ' ').toUpperCase();
+  };
+
+  const getInitials = () => {
+    if (!user?.name) return 'U';
+    return user.name.charAt(0).toUpperCase();
+  };
+
   return (
     <aside className='sidebar'>
       <div className='sidebar-logo'>
@@ -35,7 +62,7 @@ function Sidebar() {
           }
         >
           <Home size={20} />
-          <span>Home</span>
+          <span>Dashboard</span>
         </NavLink>
 
         <NavLink
@@ -66,8 +93,16 @@ function Sidebar() {
         >
           <Bell size={20} />
           <span>Alerts</span>
+        </NavLink>
 
-          <span className='alert-count'>3</span>
+        <NavLink
+          to='/copilot'
+          className={({ isActive }) =>
+            isActive ? 'nav-item active' : 'nav-item'
+          }
+        >
+          <Bot size={20} />
+          <span>AI Copilot</span>
         </NavLink>
 
         <NavLink
@@ -91,21 +126,26 @@ function Sidebar() {
 
           <div>
             <span className='status-title'>System Status</span>
-
             <span className='status-online'>All systems operational</span>
           </div>
         </div>
 
-        {/* User */}
+        {/* User Profile & Logout */}
         <div className='sidebar-user'>
-          <div className='user-avatar'>
-            <User size={18} />
-          </div>
+          <div className='user-avatar'>{getInitials()}</div>
 
           <div className='user-info'>
-            <strong>Anchal</strong>
-            <span>Field Officer</span>
+            <strong>{getDisplayName()}</strong>
+            <span>{getDisplayRole()}</span>
           </div>
+
+          <button
+            className='logout-btn'
+            onClick={handleLogout}
+            title='Log out'
+          >
+            <LogOut size={16} />
+          </button>
         </div>
       </div>
     </aside>
@@ -113,3 +153,4 @@ function Sidebar() {
 }
 
 export default Sidebar;
+

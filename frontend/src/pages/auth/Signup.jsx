@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import { useNavigate, Link } from 'react-router-dom';
 import {
   Activity,
   User,
@@ -12,13 +12,57 @@ import {
   CloudRain,
   MapPin,
   Check,
+  Phone,
+  Shield,
+  Loader2,
 } from 'lucide-react';
 
+import { useAuth } from '../../context/AuthContext';
 import './Signup.css';
 
 function Signup() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState('');
+  const [role, setRole] = useState('citizen');
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [agreed, setAgreed] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const { register } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!name || !email || !password) {
+      setError('Please fill in all required fields.');
+      return;
+    }
+
+    if (!agreed) {
+      setError('You must agree to the Terms & Conditions.');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+      await register({
+        name,
+        email,
+        password,
+        role,
+        phone: phone || undefined,
+      });
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.message || 'Registration failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className='signup-page'>
@@ -27,15 +71,10 @@ function Signup() {
       ====================================== */}
 
       <div className='signup-left'>
-        {/* Background */}
         <div className='signup-background'></div>
-
-        {/* Dark overlay */}
         <div className='signup-overlay'></div>
 
-        {/* Content */}
         <div className='signup-left-content'>
-          {/* BRAND */}
           <div className='signup-brand'>
             <div className='signup-brand-icon'>
               <Activity
@@ -46,105 +85,80 @@ function Signup() {
 
             <div className='signup-brand-text'>
               <h1>LANDSLIDE</h1>
-
               <p>EARLY WARNING SYSTEM</p>
             </div>
           </div>
 
-          {/* TAGLINE */}
           <div className='signup-tagline'>
             <span>Monitor</span>
-
             <b>•</b>
-
             <span>Predict</span>
-
             <b>•</b>
-
             <span>Respond</span>
           </div>
 
-          {/* SENSOR 01 */}
           <div className='signup-sensor signup-sensor-1'>
             <div className='signup-sensor-icon normal'>
               <Activity size={17} />
             </div>
-
             <div>
               <strong>Node 01</strong>
-
               <span className='normal-text'>Normal</span>
             </div>
           </div>
 
-          {/* SENSOR 02 */}
           <div className='signup-sensor signup-sensor-2'>
             <div className='signup-sensor-icon normal'>
               <Activity size={17} />
             </div>
-
             <div>
               <strong>Node 02</strong>
-
               <span className='normal-text'>Normal</span>
             </div>
           </div>
 
-          {/* SENSOR 03 */}
           <div className='signup-sensor signup-sensor-3'>
             <div className='signup-sensor-icon watch'>
               <Activity size={17} />
             </div>
-
             <div>
               <strong>Node 03</strong>
-
               <span className='watch-text'>Watch</span>
             </div>
           </div>
 
-          {/* MAIN MESSAGE */}
           <div className='signup-message'>
             <h2>
               Smarter Monitoring.
               <br />
               Safer Communities.
             </h2>
-
             <p>Real-time landslide risk monitoring and early warning.</p>
           </div>
 
-          {/* ALERT */}
           <div className='signup-alert'>
             <div className='signup-alert-icon'>
               <AlertTriangle size={20} />
             </div>
-
             <div className='signup-alert-text'>
               <strong>LANDSLIDE DETECTED</strong>
-
               <span>Monitoring area requires attention</span>
             </div>
           </div>
 
-          {/* BOTTOM INFO */}
           <div className='signup-bottom-info'>
             <div className='signup-info-card'>
               <CloudRain size={22} />
-
               <div>
                 <strong>Heavy Rainfall</strong>
-
                 <span>32 mm (last 1h)</span>
               </div>
             </div>
 
             <div className='signup-info-card'>
               <MapPin size={22} />
-
               <div>
                 <strong>North East Region</strong>
-
                 <span>Sikkim, India</span>
               </div>
             </div>
@@ -158,7 +172,6 @@ function Signup() {
 
       <div className='signup-right'>
         <div className='signup-card'>
-          {/* TOP */}
           <div className='signup-top'>
             <div className='signup-mini-logo'>
               <Activity size={24} />
@@ -166,124 +179,170 @@ function Signup() {
 
             <div className='signup-existing'>
               <span>Already a member?</span>
-
-              <a href='/'>
+              <Link to='/login'>
                 Login
                 <ArrowRight size={14} />
-              </a>
+              </Link>
             </div>
           </div>
 
-          {/* HEADING */}
           <div className='signup-heading'>
             <h2>Create Account</h2>
-
             <p>Join the landslide monitoring network</p>
           </div>
 
-          {/* FULL NAME */}
-          <div className='signup-form-group'>
-            <label>Full Name</label>
-
-            <div className='signup-input-box'>
-              <User size={18} />
-
-              <input
-                type='text'
-                placeholder='Enter your full name'
-              />
+          {error && (
+            <div style={{
+              background: 'rgba(239, 68, 68, 0.12)',
+              border: '1px solid rgba(239, 68, 68, 0.3)',
+              color: '#ef4444',
+              padding: '10px 14px',
+              borderRadius: '8px',
+              fontSize: '13px',
+              marginBottom: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}>
+              <AlertTriangle size={18} />
+              <span>{error}</span>
             </div>
-          </div>
+          )}
 
-          {/* EMAIL */}
-          <div className='signup-form-group'>
-            <label>Email Address</label>
-
-            <div className='signup-input-box'>
-              <Mail size={18} />
-
-              <input
-                type='email'
-                placeholder='Enter your email'
-              />
+          <form onSubmit={handleSubmit}>
+            {/* FULL NAME */}
+            <div className='signup-form-group'>
+              <label>Full Name *</label>
+              <div className='signup-input-box'>
+                <User size={18} />
+                <input
+                  type='text'
+                  placeholder='Enter your full name'
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
             </div>
-          </div>
 
-          {/* PASSWORD */}
-          <div className='signup-form-group'>
-            <label>Password</label>
-
-            <div className='signup-input-box'>
-              <Lock size={18} />
-
-              <input
-                type={showPassword ? 'text' : 'password'}
-                placeholder='Create a password'
-              />
-
-              <button
-                type='button'
-                className='signup-password-toggle'
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
+            {/* EMAIL */}
+            <div className='signup-form-group'>
+              <label>Email Address *</label>
+              <div className='signup-input-box'>
+                <Mail size={18} />
+                <input
+                  type='email'
+                  placeholder='Enter your email'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
             </div>
-          </div>
 
-          {/* TERMS */}
-          <div className='signup-terms'>
-            <label>
-              <input type='checkbox' />
+            {/* ROLE & PHONE GRID */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '14px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '6px' }}>
+                  Role
+                </label>
+                <div className='signup-input-box'>
+                  <Shield size={18} />
+                  <select
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      color: 'var(--text-primary)',
+                      width: '100%',
+                      outline: 'none',
+                      fontSize: '13px'
+                    }}
+                  >
+                    <option value='citizen' style={{ background: '#1e293b', color: '#fff' }}>Citizen</option>
+                    <option value='field_officer' style={{ background: '#1e293b', color: '#fff' }}>Field Officer</option>
+                    <option value='analyst' style={{ background: '#1e293b', color: '#fff' }}>Risk Analyst</option>
+                    <option value='admin' style={{ background: '#1e293b', color: '#fff' }}>District Admin</option>
+                  </select>
+                </div>
+              </div>
 
-              <span className='custom-check'>
-                <Check size={11} />
-              </span>
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '6px' }}>
+                  Phone Number
+                </label>
+                <div className='signup-input-box'>
+                  <Phone size={18} />
+                  <input
+                    type='tel'
+                    placeholder='+91 9876543210'
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
 
-              <p>
-                I agree to the <a href='/terms'>Terms & Conditions</a> and{' '}
-                <a href='/privacy'>Privacy Policy</a>
-              </p>
-            </label>
-          </div>
+            {/* PASSWORD */}
+            <div className='signup-form-group'>
+              <label>Password *</label>
+              <div className='signup-input-box'>
+                <Lock size={18} />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder='Create a secure password'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type='button'
+                  className='signup-password-toggle'
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
 
-          {/* SIGNUP BUTTON */}
-          <button className='signup-button'>
-            <span>Create Account</span>
+            {/* TERMS */}
+            <div className='signup-terms'>
+              <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <input
+                  type='checkbox'
+                  checked={agreed}
+                  onChange={(e) => setAgreed(e.target.checked)}
+                />
+                <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+                  I agree to the Terms & Conditions and Safety Monitoring Guidelines
+                </span>
+              </label>
+            </div>
 
-            <ArrowRight size={19} />
-          </button>
-
-          {/* DIVIDER */}
-          <div className='signup-divider'>
-            <span></span>
-
-            <p>OR</p>
-
-            <span></span>
-          </div>
-
-          {/* SOCIAL LOGIN */}
-          <div className='signup-social'>
-            <button className='signup-social-button'>
-              <span className='google'>G</span>
-              Continue with Google
+            {/* SIGNUP BUTTON */}
+            <button className='signup-button' type='submit' disabled={loading}>
+              {loading ? (
+                <>
+                  <Loader2 size={18} className='animate-spin' />
+                  <span>Creating Account...</span>
+                </>
+              ) : (
+                <>
+                  <span>Create Account</span>
+                  <ArrowRight size={19} />
+                </>
+              )}
             </button>
-
-            <button className='signup-social-button'>
-              <span className='apple'>●</span>
-              Continue with Apple
-            </button>
-          </div>
+          </form>
 
           {/* LOGIN BOTTOM */}
           <div className='signup-login-bottom'>
             <span>Already have an account?</span>
-
-            <a href='/'>
+            <Link to='/login'>
               Login
               <ArrowRight size={14} />
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -292,3 +351,4 @@ function Signup() {
 }
 
 export default Signup;
+
