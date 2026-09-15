@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const env = require('../config/env');
-const ApiError = require('../utils/ApiError');
+const ApiError = require('../utils/apiError');
 
 class AuthService {
   /**

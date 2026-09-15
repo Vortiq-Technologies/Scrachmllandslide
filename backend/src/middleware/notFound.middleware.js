@@ -1,4 +1,4 @@
-const ApiError = require('../utils/ApiError');
+const ApiError = require('../utils/apiError');
 
 /**
  * Centralized 404 Route Not Found Middleware
