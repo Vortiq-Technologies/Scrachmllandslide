@@ -11,16 +11,17 @@ const singleTelemetrySchema = Joi.object({
       .required(),
   }).optional(),
   readings: Joi.object({
-    rainfall_mm: Joi.number().min(0).allow(null),
+    rainfall_mm: Joi.number().allow(null),
     pore_pressure_kpa: Joi.number().allow(null),
-    soil_moisture_pct: Joi.number().min(0).max(100).allow(null),
+    soil_moisture_pct: Joi.number().allow(null),
     tilt_degrees_x: Joi.number().allow(null),
     tilt_degrees_y: Joi.number().allow(null),
-    vibration_intensity: Joi.number().min(0).allow(null),
+    vibration_intensity: Joi.number().allow(null),
     surface_displacement_mm: Joi.number().allow(null),
     temperature_c: Joi.number().allow(null),
-    humidity_pct: Joi.number().min(0).max(100).allow(null),
+    humidity_pct: Joi.number().allow(null),
   })
+    .unknown(true)
     .required()
     .min(1)
     .messages({
@@ -42,7 +43,7 @@ const telemetryQuerySchema = Joi.object({
   endDate: Joi.date().iso(),
   limit: Joi.number().integer().min(1).max(1000).default(100),
   page: Joi.number().integer().min(1).default(1),
-  qcStatus: Joi.string().valid('VALID', 'ANOMALOUS', 'SUSPICIOUS_SPIKE', 'OUT_OF_RANGE'),
+  qcStatus: Joi.string().valid('VALID', 'ANOMALOUS', 'SUSPICIOUS_SPIKE', 'OUT_OF_RANGE', 'valid', 'anomalous', 'out_of_range'),
 });
 
 module.exports = {
