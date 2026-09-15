@@ -853,7 +853,7 @@
    LIGHT THEME
 ===================================================== */
 
-:root {
+[data-theme='light'] {
   --bg-primary: #f6f9f9;
 
   --card-bg: #ffffff;
@@ -883,7 +883,7 @@
    DARK THEME
 ===================================================== */
 
-.dark-theme {
+[data-theme='dark'] {
   --bg-primary: #07111f;
 
   --card-bg: #0d1726;
