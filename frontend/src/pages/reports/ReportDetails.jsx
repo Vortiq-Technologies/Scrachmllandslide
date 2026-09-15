@@ -78,7 +78,7 @@ function ReportDetails() {
                 </div>
 
                 <div className='info-item'>
-                  <span>Monitored Zone</span>
+                  {/* <span>Monitored Zone</span> */}
                   <strong>Zone A</strong>
                 </div>
 
