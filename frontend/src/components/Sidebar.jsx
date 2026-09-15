@@ -105,7 +105,7 @@ function Sidebar() {
         </NavLink>
       </nav>
 
-      {/* ================= BOTTOM SECTION ================= */}
+    
 
       <div className='sidebar-bottom'>
         {/* System Status */}
