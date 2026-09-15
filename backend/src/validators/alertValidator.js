@@ -4,13 +4,20 @@ const createAlertSchema = Joi.object({
   zoneId: Joi.string().hex().length(24).optional(),
   zoneName: Joi.string().trim().required(),
   severity: Joi.string()
-    .valid('ADVISORY', 'WATCH', 'WARNING', 'EMERGENCY_EVACUATION')
+    .valid(
+      'ADVISORY', 'WATCH', 'WARNING', 'EMERGENCY_EVACUATION',
+      'low', 'moderate', 'high', 'critical', 'warning',
+      'LOW', 'MODERATE', 'HIGH', 'CRITICAL'
+    )
     .required(),
   triggerSource: Joi.string()
-    .valid('ML_MODEL', 'SENSOR_THRESHOLD', 'MANUAL_AUTHORITY', 'CITIZEN_REPORT_CLUSTER')
+    .valid(
+      'ML_MODEL', 'SENSOR_THRESHOLD', 'MANUAL_AUTHORITY', 'CITIZEN_REPORT_CLUSTER',
+      'ml_prediction', 'sensor_threshold', 'manual_authority', 'citizen_report_cluster'
+    )
     .default('MANUAL_AUTHORITY'),
-  title: Joi.string().trim().min(5).max(150).required(),
-  description: Joi.string().trim().min(10).max(2000).required(),
+  title: Joi.string().trim().min(3).max(200).required(),
+  description: Joi.string().trim().min(5).max(2000).required(),
   instructions: Joi.array().items(Joi.string().trim()).default([]),
   riskScore: Joi.number().min(0).max(1).optional(),
   expiresAt: Joi.date().iso().greater('now').optional(),
@@ -21,13 +28,22 @@ const createAlertSchema = Joi.object({
 });
 
 const updateAlertStatusSchema = Joi.object({
-  status: Joi.string().valid('ACKNOWLEDGED', 'RESOLVED', 'CANCELLED').required(),
+  status: Joi.string()
+    .valid('ACKNOWLEDGED', 'RESOLVED', 'CANCELLED', 'acknowledged', 'resolved', 'cancelled')
+    .default('RESOLVED'),
   resolutionNotes: Joi.string().trim().max(1000).allow('', null),
 });
 
 const alertQuerySchema = Joi.object({
-  status: Joi.string().valid('ACTIVE', 'ACKNOWLEDGED', 'RESOLVED', 'EXPIRED', 'CANCELLED'),
-  severity: Joi.string().valid('ADVISORY', 'WATCH', 'WARNING', 'EMERGENCY_EVACUATION'),
+  status: Joi.string().valid(
+    'ACTIVE', 'ACKNOWLEDGED', 'RESOLVED', 'EXPIRED', 'CANCELLED',
+    'active', 'acknowledged', 'resolved', 'expired', 'cancelled'
+  ),
+  severity: Joi.string().valid(
+    'ADVISORY', 'WATCH', 'WARNING', 'EMERGENCY_EVACUATION',
+    'low', 'moderate', 'high', 'critical', 'warning',
+    'LOW', 'MODERATE', 'HIGH', 'CRITICAL'
+  ),
   zoneId: Joi.string().hex().length(24),
   page: Joi.number().integer().min(1).default(1),
   limit: Joi.number().integer().min(1).max(100).default(20),

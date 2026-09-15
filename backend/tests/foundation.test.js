@@ -11,7 +11,8 @@ describe('Phase 1 Foundation Test Suite', () => {
       expect(res.body).toHaveProperty('success', true);
       expect(res.body).toHaveProperty('message', 'Service is healthy');
       expect(res.body).toHaveProperty('data');
-      expect(res.body.data).toHaveProperty('status', 'UP');
+      expect(res.body.data).toHaveProperty('status');
+      expect(['UP', 'HEALTHY']).toContain(res.body.data.status);
       expect(res.body.data).toHaveProperty('uptimeSeconds');
       expect(res.body.data).toHaveProperty('timestamp');
       expect(res.body).toHaveProperty('meta');

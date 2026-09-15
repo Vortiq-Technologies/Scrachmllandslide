@@ -4,15 +4,18 @@ const CONSTANTS = require('../config/constants');
 const sensorReadingSchema = new mongoose.Schema(
   {
     deviceId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Device',
-      required: [true, 'Device reference is required'],
+      type: mongoose.Schema.Types.Mixed, // Supports ObjectId or String
+      required: [true, 'Device identifier is required'],
       index: true,
     },
     sensorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Sensor',
-      required: [true, 'Sensor reference is required'],
+      index: true,
+    },
+    deviceRef: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Device',
       index: true,
     },
     timestamp: {
@@ -23,11 +26,13 @@ const sensorReadingSchema = new mongoose.Schema(
     },
     value: {
       type: Number,
-      required: [true, 'Sensor measurement value is required'],
     },
     unit: {
       type: String,
       trim: true,
+    },
+    readings: {
+      type: mongoose.Schema.Types.Mixed,
     },
     quality: {
       type: String,
@@ -41,6 +46,21 @@ const sensorReadingSchema = new mongoose.Schema(
     qualityNotes: {
       type: String,
       trim: true,
+    },
+    qcStatus: {
+      type: String,
+      enum: ['VALID', 'OUT_OF_RANGE', 'ANOMALOUS', 'MISSING', 'INVALID', 'valid', 'out_of_range', 'anomalous', 'missing', 'invalid'],
+      default: 'VALID',
+      index: true,
+    },
+    qcFlags: {
+      type: [String],
+      default: [],
+    },
+    batteryPct: {
+      type: Number,
+      min: 0,
+      max: 100,
     },
     location: {
       type: {
@@ -76,11 +96,12 @@ const sensorReadingSchema = new mongoose.Schema(
   }
 );
 
-// High performance time-series and spatial query indexes
+// High-performance time-series and spatial query indexes
 sensorReadingSchema.index({ sensorId: 1, timestamp: -1 });
 sensorReadingSchema.index({ deviceId: 1, timestamp: -1 });
 sensorReadingSchema.index({ location: '2dsphere' });
 sensorReadingSchema.index({ quality: 1, timestamp: -1 });
+sensorReadingSchema.index({ qcStatus: 1, timestamp: -1 });
 
 const SensorReading = mongoose.model('SensorReading', sensorReadingSchema);
 

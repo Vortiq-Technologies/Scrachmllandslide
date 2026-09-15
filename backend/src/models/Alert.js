@@ -1,20 +1,28 @@
 const mongoose = require('mongoose');
-const CONSTANTS = require('../config/constants');
 
+/**
+ * Alert - Early Warning Alert document.
+ *
+ * Represents an issued early-warning alert for a geographic risk zone.
+ * Alerts can be triggered by ML predictions, sensor thresholds, manual
+ * authority decisions, or clusters of citizen reports.
+ *
+ * Uses 'zoneId' as the primary foreign key (alertService uses zoneId).
+ * Also stores zoneName directly for denormalized fast reads.
+ */
 const alertSchema = new mongoose.Schema(
   {
     alertCode: {
       type: String,
-      required: [true, 'Alert code is required'],
       unique: true,
       uppercase: true,
       trim: true,
       index: true,
     },
-    riskZoneId: {
+    // Primary risk zone reference (zoneId)
+    zoneId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'RiskZone',
-      required: [true, 'RiskZone reference is required'],
       index: true,
     },
     zoneName: {
@@ -23,21 +31,16 @@ const alertSchema = new mongoose.Schema(
       trim: true,
     },
     affectedArea: {
-      type: {
-        type: String,
-        enum: ['Polygon', 'MultiPolygon'],
-        default: 'Polygon',
-        required: true,
-      },
-      coordinates: {
-        type: mongoose.Schema.Types.Mixed,
-        required: true,
-      },
+      type: mongoose.Schema.Types.Mixed, // GeoJSON Polygon or MultiPolygon
     },
     severity: {
       type: String,
       enum: {
-        values: CONSTANTS.RISK_LEVELS.LIST,
+        values: [
+          'low', 'moderate', 'high', 'critical', 'warning',
+          'LOW', 'MODERATE', 'HIGH', 'CRITICAL', 'WARNING',
+          'EMERGENCY_EVACUATION',
+        ],
         message: 'Invalid severity: {VALUE}',
       },
       required: [true, 'Severity is required'],
@@ -46,15 +49,18 @@ const alertSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: {
-        values: CONSTANTS.ALERT_STATUS.LIST,
+        values: ['active', 'acknowledged', 'resolved', 'cancelled', 'ACTIVE', 'ACKNOWLEDGED', 'RESOLVED', 'CANCELLED'],
         message: 'Invalid alert status: {VALUE}',
       },
-      default: CONSTANTS.ALERT_STATUS.ACTIVE,
+      default: 'ACTIVE',
       index: true,
     },
     triggerSource: {
       type: String,
-      enum: ['ml_prediction', 'sensor_threshold', 'manual_authority', 'citizen_report_cluster'],
+      enum: [
+        'ml_prediction', 'sensor_threshold', 'manual_authority', 'citizen_report_cluster',
+        'ML_MODEL', 'SENSOR_THRESHOLD', 'MANUAL_AUTHORITY', 'CITIZEN_REPORT_CLUSTER',
+      ],
       required: [true, 'Trigger source is required'],
       index: true,
     },
@@ -107,6 +113,10 @@ const alertSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    broadcastChannels: {
+      type: [mongoose.Schema.Types.Mixed],
+      default: [],
+    },
   },
   {
     timestamps: true,
@@ -114,8 +124,9 @@ const alertSchema = new mongoose.Schema(
   }
 );
 
-alertSchema.index({ affectedArea: '2dsphere' });
 alertSchema.index({ status: 1, severity: 1, issuedAt: -1 });
+alertSchema.index({ zoneId: 1, status: 1 });
+alertSchema.index({ affectedArea: '2dsphere' });
 
 const Alert = mongoose.model('Alert', alertSchema);
 

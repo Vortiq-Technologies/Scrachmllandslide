@@ -23,7 +23,8 @@ const CONSTANTS = {
     MODERATE: 'moderate',
     HIGH: 'high',
     CRITICAL: 'critical',
-    LIST: ['low', 'moderate', 'high', 'critical'],
+    WARNING: 'warning',
+    LIST: ['low', 'moderate', 'high', 'critical', 'warning', 'LOW', 'MODERATE', 'HIGH', 'CRITICAL', 'WARNING'],
   },
 
   SENSOR_TYPES: {
@@ -33,7 +34,7 @@ const CONSTANTS = {
     HUMIDITY: 'humidity',
     TILT: 'tilt',
     SLOPE_MOVEMENT: 'slope_movement',
-    LIST: ['rainfall', 'soil_moisture', 'temperature', 'humidity', 'tilt', 'slope_movement', 'pore_pressure', 'vibration', 'displacement'],
+    LIST: ['rainfall', 'soil_moisture', 'temperature', 'humidity', 'tilt', 'slope_movement', 'pore_pressure', 'vibration', 'displacement', 'RAINFALL', 'SOIL_MOISTURE', 'TEMPERATURE', 'HUMIDITY', 'TILT'],
   },
 
   SENSOR_QUALITY: {
@@ -41,7 +42,7 @@ const CONSTANTS = {
     SUSPECT: 'suspect',
     INVALID: 'invalid',
     MISSING: 'missing',
-    LIST: ['valid', 'suspect', 'invalid', 'missing'],
+    LIST: ['valid', 'suspect', 'invalid', 'missing', 'VALID', 'SUSPECT', 'INVALID', 'MISSING'],
   },
 
   DEVICE_STATUS: {
@@ -49,7 +50,7 @@ const CONSTANTS = {
     OFFLINE: 'offline',
     WARNING: 'warning',
     MAINTENANCE: 'maintenance',
-    LIST: ['online', 'offline', 'warning', 'maintenance'],
+    LIST: ['online', 'offline', 'warning', 'maintenance', 'ONLINE', 'OFFLINE', 'WARNING', 'MAINTENANCE'],
   },
 
   ALERT_STATUS: {
@@ -57,7 +58,7 @@ const CONSTANTS = {
     ACKNOWLEDGED: 'acknowledged',
     RESOLVED: 'resolved',
     CANCELLED: 'cancelled',
-    LIST: ['active', 'acknowledged', 'resolved', 'cancelled'],
+    LIST: ['active', 'acknowledged', 'resolved', 'cancelled', 'ACTIVE', 'ACKNOWLEDGED', 'RESOLVED', 'CANCELLED'],
   },
 
   REPORT_STATUS: {
@@ -65,7 +66,7 @@ const CONSTANTS = {
     VERIFIED: 'verified',
     DISMISSED: 'dismissed',
     RESOLVED: 'resolved',
-    LIST: ['pending', 'verified', 'dismissed', 'resolved'],
+    LIST: ['pending', 'verified', 'dismissed', 'resolved', 'PENDING', 'VERIFIED', 'FALSE_ALARM', 'DISMISSED', 'RESOLVED'],
   },
 
   ERROR_CODES: {

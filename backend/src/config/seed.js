@@ -3,9 +3,14 @@ const { connectDB, disconnectDB } = require('./db');
 const User = require('../models/User');
 const RiskZone = require('../models/RiskZone');
 const Device = require('../models/Device');
+const Sensor = require('../models/Sensor');
 const SensorReading = require('../models/SensorReading');
 const Alert = require('../models/Alert');
-const CitizenReport = require('../models/CitizenReport');
+const Report = require('../models/Report');
+const TerrainData = require('../models/TerrainData');
+const WeatherData = require('../models/WeatherData');
+const SatelliteData = require('../models/SatelliteData');
+const HistoricalEvent = require('../models/HistoricalEvent');
 const logger = require('../utils/logger');
 
 const seedDatabase = async () => {
@@ -17,9 +22,14 @@ const seedDatabase = async () => {
       User.deleteMany({}),
       RiskZone.deleteMany({}),
       Device.deleteMany({}),
+      Sensor.deleteMany({}),
       SensorReading.deleteMany({}),
       Alert.deleteMany({}),
-      CitizenReport.deleteMany({}),
+      Report.deleteMany({}),
+      TerrainData.deleteMany({}),
+      WeatherData.deleteMany({}),
+      SatelliteData.deleteMany({}),
+      HistoricalEvent.deleteMany({}),
     ]);
 
     // 1. Seed Users
@@ -68,107 +78,78 @@ const seedDatabase = async () => {
         type: 'Polygon',
         coordinates: [
           [
-            [79.05, 30.72],
-            [79.08, 30.72],
+            [79.06, 30.73],
+            [79.08, 30.73],
             [79.08, 30.75],
-            [79.05, 30.75],
-            [79.05, 30.72], // Closes loop
+            [79.06, 30.75],
+            [79.06, 30.73],
           ],
         ],
       },
       center: {
         type: 'Point',
-        coordinates: [79.065, 30.735],
+        coordinates: [79.07, 30.74],
       },
-      baselineSlopeAngle: 42.5,
-      soilType: 'Weathered Schist & Glacial Colluvium',
-      vegetationCover: 'Sparse Alpine',
-      historicalEventsCount: 5,
       currentRiskLevel: 'HIGH',
-      currentRiskScore: 0.72,
-      activeAlertCount: 1,
+      currentRiskScore: 0.76,
       assignedOfficers: [officerUser._id],
-      demographics: {
-        estimatedPopulation: 1200,
-        criticalInfrastructure: ['Pilgrim Highway 107', 'Mandakini River Bridge'],
-      },
     });
 
     const zone2 = await RiskZone.create({
-      name: 'Chamoli Alaknanda Valley Cut',
+      name: 'Chamoli Girthi Catchment',
       code: 'ZONE-CH-02',
       boundary: {
         type: 'Polygon',
         coordinates: [
           [
-            [79.31, 30.38],
-            [79.35, 30.38],
-            [79.35, 30.41],
-            [79.31, 30.41],
-            [79.31, 30.38],
+            [79.55, 30.55],
+            [79.58, 30.55],
+            [79.58, 30.58],
+            [79.55, 30.58],
+            [79.55, 30.55],
           ],
         ],
       },
       center: {
         type: 'Point',
-        coordinates: [79.33, 30.395],
+        coordinates: [79.565, 30.565],
       },
-      baselineSlopeAngle: 36.0,
-      soilType: 'Loose Silt-Clay Matrix with Quartzite Boulders',
-      vegetationCover: 'Moderate Shrub',
-      historicalEventsCount: 2,
       currentRiskLevel: 'MODERATE',
-      currentRiskScore: 0.44,
-      activeAlertCount: 0,
+      currentRiskScore: 0.45,
       assignedOfficers: [officerUser._id],
-      demographics: {
-        estimatedPopulation: 3400,
-        criticalInfrastructure: ['Badrinath National Highway 7'],
-      },
     });
 
-    // 3. Seed Monitoring Hardware Nodes (Devices)
-    logger.info('Seeding IoT Devices...');
+    // 3. Seed Devices & Sensors
+    logger.info('Seeding Monitoring Hardware Devices & Sensors...');
     const device1 = await Device.create({
-      deviceId: 'NODE-KD-SLOPE-A',
-      name: 'Kedarnath Ridge Inclinometer Station',
-      location: {
-        type: 'Point',
-        coordinates: [79.062, 30.731],
-      },
+      deviceId: 'GW-KD-SLOPE-01',
+      name: 'Kedarnath Upper Slope Gateway',
+      type: 'gateway',
+      status: 'ONLINE',
       zoneId: zone1._id,
-      status: 'ACTIVE',
-      batteryPct: 88,
-      signalRssi: -68,
-      sensors: [
-        { sensorType: 'RAINFALL', unit: 'mm', minNormal: 0, maxNormal: 150 },
-        { sensorType: 'PORE_PRESSURE', unit: 'kPa', minNormal: 5, maxNormal: 45 },
-        { sensorType: 'TILT_X', unit: 'deg', minNormal: -5, maxNormal: 5 },
-        { sensorType: 'SOIL_MOISTURE', unit: '%', minNormal: 10, maxNormal: 70 },
-      ],
-      firmwareVersion: '2.1.4',
-    });
-
-    const device2 = await Device.create({
-      deviceId: 'NODE-CH-ALAK-B',
-      name: 'Chamoli Toe Scour Acoustic Sensor',
       location: {
         type: 'Point',
-        coordinates: [79.325, 30.392],
+        coordinates: [79.068, 30.738],
       },
-      zoneId: zone2._id,
-      status: 'ACTIVE',
-      batteryPct: 94,
-      signalRssi: -72,
-      sensors: [
-        { sensorType: 'RAINFALL', unit: 'mm', minNormal: 0, maxNormal: 100 },
-        { sensorType: 'VIBRATION', unit: 'intensity', minNormal: 0, maxNormal: 1 },
-      ],
-      firmwareVersion: '2.1.4',
+      elevationMeters: 3580,
+      batteryPct: 92,
+      firmwareVersion: 'v2.4.1',
+      sensors: ['rainfall', 'tilt', 'soil_moisture', 'pore_pressure'],
+      installationDate: new Date('2024-05-10'),
     });
 
-    // 4. Seed Sensor Readings for last 48 hours
-    logger.info('Seeding Time-series Telemetry Observations...');
+    const sensor1 = await Sensor.create({
+      deviceId: device1._id,
+      sensorId: 'SN-RAIN-01',
+      sensorType: 'rainfall',
+      unit: 'mm',
+      rangeMin: 0,
+      rangeMax: 500,
+      samplingRateSeconds: 60,
+    });
+
+    // 4. Seed 24 Hours of Time-Series Observations
+    logger.info('Seeding 24-hour Telemetry Observations...');
     const now = Date.now();
     const readings = [];
 
@@ -177,6 +158,8 @@ const seedDatabase = async () => {
       readings.push({
         deviceId: device1.deviceId,
         deviceRef: device1._id,
+        sensorId: sensor1._id,
+        value: Number((3.5 + Math.random() * 4).toFixed(1)),
         location: device1.location,
         timestamp,
         readings: {
@@ -189,7 +172,7 @@ const seedDatabase = async () => {
         },
         batteryPct: Math.round(88 - (24 - i) * 0.1),
         qcStatus: 'VALID',
-        processedForMl: false,
+        quality: 'valid',
       });
     }
 
@@ -224,7 +207,7 @@ const seedDatabase = async () => {
 
     // 6. Seed Citizen Ground Reports
     logger.info('Seeding Citizen Ground Reports...');
-    await CitizenReport.create({
+    await Report.create({
       reporterId: citizenUser._id,
       reporterName: citizenUser.name,
       reporterPhone: citizenUser.phone,
@@ -240,6 +223,50 @@ const seedDatabase = async () => {
       verifiedBy: officerUser._id,
       verifiedAt: new Date(now - 1 * 60 * 60 * 1000),
       officerNotes: 'Confirmed 50m long tension crack. Road maintenance notified to seal fissures.',
+    });
+
+    // 7. Seed Terrain, Weather, Satellite, and Historical Events
+    logger.info('Seeding Terrain, Weather, Satellite, and Historical Events...');
+    await TerrainData.create({
+      riskZoneId: zone1._id,
+      geometry: zone1.boundary,
+      elevationMinMeters: 3100,
+      elevationMaxMeters: 4200,
+      slopeAngleMeanDegrees: 38.5,
+      aspectCompassDegrees: 210,
+      soilType: 'Colluvial Scree over Schist',
+    });
+
+    await WeatherData.create({
+      zoneId: zone1._id,
+      location: zone1.center,
+      rainfallHourlyMm: 8.5,
+      rainfallAccumulated24hMm: 92.4,
+      temperatureCelsius: 11.2,
+      humidityPct: 94,
+      windSpeedKmh: 24,
+    });
+
+    await SatelliteData.create({
+      zoneId: zone1._id,
+      boundary: zone1.boundary,
+      ndvi: 0.28,
+      soilMoistureIndex: 0.78,
+      insarDisplacementMm: 14.5,
+      opticalChangeDetected: true,
+      satelliteSource: 'Sentinel-1 InSAR / Sentinel-2 MSI',
+    });
+
+    await HistoricalEvent.create({
+      name: 'Kedarnath Debris Flow 2013',
+      location: {
+        type: 'Point',
+        coordinates: [79.067, 30.734],
+      },
+      eventDate: new Date('2013-06-16'),
+      triggerType: 'cloudburst_extreme_rainfall',
+      severity: 'catastrophic',
+      damageSummary: 'Major valley scouring and catastrophic infrastructure damage downslope.',
     });
 
     logger.info('Database seeded successfully!');

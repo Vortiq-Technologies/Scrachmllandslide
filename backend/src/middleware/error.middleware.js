@@ -1,7 +1,8 @@
-const ApiError = require('../utils/ApiError');
+const ApiError = require('../utils/apiError');
 const { sendError } = require('../utils/response');
 const CONSTANTS = require('../config/constants');
 const env = require('../config/env');
+const logger = require('../utils/logger');
 
 // Centralized error handling middleware
 // eslint-disable-next-line no-unused-vars
@@ -19,6 +20,17 @@ const errorHandler = (err, req, res, next) => {
     details = { originalError: err.message };
   }
 
+  // Handle Joi Validation Error
+  if (err.isJoi || (err.details && Array.isArray(err.details) && err.details[0]?.message)) {
+    statusCode = 422;
+    code = CONSTANTS.ERROR_CODES.VALIDATION_ERROR;
+    message = 'Validation failed';
+    details = err.details.map((d) => ({
+      field: d.path ? d.path.join('.') : undefined,
+      message: d.message.replace(/"/g, ''),
+    }));
+  }
+
   // Handle Mongoose CastError (invalid ObjectId or format)
   if (err.name === 'CastError') {
     statusCode = 400;
@@ -31,13 +43,13 @@ const errorHandler = (err, req, res, next) => {
   if (err.code === 11000) {
     statusCode = 409;
     code = CONSTANTS.ERROR_CODES.CONFLICT;
-    const field = Object.keys(err.keyValue || {})[0];
+    const field = Object.keys(err.keyValue || {})[0] || 'resource';
     message = `Duplicate resource conflict on field: '${field}'`;
     details = { field, value: err.keyValue?.[field] };
   }
 
   // Handle Mongoose Schema Validation Error
-  if (err.name === 'ValidationError') {
+  if (err.name === 'ValidationError' && !err.isJoi) {
     statusCode = 422;
     code = CONSTANTS.ERROR_CODES.VALIDATION_ERROR;
     message = 'Validation failed';
@@ -65,9 +77,9 @@ const errorHandler = (err, req, res, next) => {
 
   // Log error in development or server errors in production
   if (statusCode >= 500) {
-    console.error(`[Server Error] ${req.method} ${req.originalUrl}:`, err);
+    logger.error(`[Server Error] ${req.method} ${req.originalUrl}: ${err.message}`, { stack: err.stack });
   } else if (env.NODE_ENV === 'development') {
-    console.warn(`[Client Error] (${statusCode} - ${code}) ${req.method} ${req.originalUrl}: ${message}`);
+    logger.warn(`[Client Error] (${statusCode} - ${code}) ${req.method} ${req.originalUrl}: ${message}`);
   }
 
   // Production-safe response masking

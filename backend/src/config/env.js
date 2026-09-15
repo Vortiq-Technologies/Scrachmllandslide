@@ -29,6 +29,17 @@ const validateEnv = () => {
     JWT_EXPIRES_IN: jwtExpiresIn,
     CORS_ORIGIN: process.env.CORS_ORIGIN || '*',
     LOG_LEVEL: process.env.LOG_LEVEL || (nodeEnv === 'production' ? 'info' : 'debug'),
+    DEVICE_INGEST_API_KEY: process.env.DEVICE_INGEST_API_KEY || 'hw_ingest_secret_token_secure_gateway_2026',
+    PYTHON_ML_SERVICE_URL: process.env.PYTHON_ML_SERVICE_URL || 'http://localhost:8000',
+    PYTHON_ML_API_KEY: process.env.PYTHON_ML_API_KEY || 'internal_ml_service_access_token_2026',
+    ML_REQUEST_TIMEOUT_MS: parseInt(process.env.ML_REQUEST_TIMEOUT_MS, 10) || 5000,
+    WEATHER_API_URL: process.env.WEATHER_API_URL || 'https://api.openweathermap.org/data/2.5',
+    WEATHER_API_KEY: process.env.WEATHER_API_KEY || 'demo_weather_api_key',
+    GENAI_API_URL: process.env.GENAI_API_URL || 'https://generativelanguage.googleapis.com/v1beta',
+    GENAI_API_KEY: process.env.GENAI_API_KEY || 'demo_genai_api_key',
+    GENAI_MODEL_NAME: process.env.GENAI_MODEL_NAME || 'gemini-1.5-flash',
+    RATE_LIMIT_WINDOW_MS: parseInt(process.env.RATE_LIMIT_WINDOW_MS, 10) || 15 * 60 * 1000,
+    RATE_LIMIT_MAX: parseInt(process.env.RATE_LIMIT_MAX, 10) || 200,
   };
 };
 
