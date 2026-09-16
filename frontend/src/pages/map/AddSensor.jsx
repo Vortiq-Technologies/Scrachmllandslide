@@ -1,338 +1,383 @@
 import {
-  ArrowLeft,
+  Cpu,
   MapPin,
-  CloudRain,
-  Droplets,
-  Activity,
-  Thermometer,
-  Wind,
-  AlertTriangle,
-  Clock,
-  ShieldCheck,
-  Brain,
-  TrendingUp,
+  Wifi,
+  Settings,
+  ShieldAlert,
+  ArrowLeft,
+  Plus,
+  Info,
 } from 'lucide-react';
 
-import './ZoneDetails.css';
+import './AddSensor.css';
 import Sidebar from '../../components/Sidebar';
 
-function ZoneDetails() {
+function AddSensor() {
   return (
-    <div className='zone-details-page'>
-      <aside className='zone-sidebar'>
+    <div className='add-sensor-page'>
+      {/* SIDEBAR */}
+      <aside className='add-sensor-sidebar'>
         <Sidebar />
       </aside>
 
-      <main className='zone-main'>
-        {/* Back */}
-
-        <button
-          className='back-button'
-          onClick={() => (window.location.href = '/risk-map')}
-        >
-          <ArrowLeft size={17} />
-          Back to Risk Map
-        </button>
-
-        {/* Header */}
-
-        <div className='zone-header'>
+      {/* MAIN */}
+      <main className='add-sensor-main'>
+        {/* HEADER */}
+        <div className='add-sensor-topbar'>
           <div>
-            <div className='zone-title'>
-              <MapPin size={20} />
+            <a
+              href='/sensors'
+              className='back-link'
+            >
+              <ArrowLeft size={14} />
+              Back to Sensor Network
+            </a>
 
-              <h1>Zone A</h1>
+            <div className='page-heading'>
+              <div className='page-heading-icon'>
+                <Cpu size={22} />
+              </div>
 
-              <span className='critical-badge'>CRITICAL</span>
+              <div>
+                <span>DEVICE MANAGEMENT</span>
+                <h1>ADD SENSOR</h1>
+                <p>
+                  Register a new ESP32 device and configure its monitoring
+                  settings.
+                </p>
+              </div>
             </div>
-
-            <p>High-risk landslide monitoring zone</p>
-          </div>
-
-          <div className='last-updated'>
-            <Clock size={15} />
-            Last updated: 10:24 AM
           </div>
         </div>
 
-        {/* ================= RISK OVERVIEW ================= */}
-
-        <section className='risk-overview'>
-          {/* Risk Score */}
-
-          <div className='risk-score-card'>
-            <div className='card-heading'>
-              <span>OVERALL RISK SCORE</span>
-
-              <AlertTriangle size={18} />
-            </div>
-
-            <div className='big-score'>
-              84
-              <small>/100</small>
-            </div>
-
-            <p>Very high landslide risk</p>
-
-            <div className='risk-progress'>
-              <div></div>
-            </div>
-          </div>
-
-          {/* Probability */}
-
-          <div className='probability-card'>
-            <div className='card-heading'>
-              <span>LANDSLIDE PROBABILITY</span>
-
-              <TrendingUp size={18} />
-            </div>
-
-            <div className='percentage'>84%</div>
-
-            <p>Probability of landslide event</p>
-          </div>
-
-          {/* Confidence */}
-
-          <div className='confidence-card'>
-            <div className='card-heading'>
-              <span>MODEL CONFIDENCE</span>
-
-              <ShieldCheck size={18} />
-            </div>
-
-            <div className='percentage'>89%</div>
-
-            <p>Prediction confidence</p>
-          </div>
-        </section>
-
-        {/* ================= SENSOR DATA ================= */}
-
-        <section className='section'>
-          <div className='section-title'>
-            <div>
-              <h2>Environmental Conditions</h2>
-
-              <p>Latest sensor readings from Zone A</p>
-            </div>
-
-            <span className='live-indicator'>
-              <span></span>
-              Live Data
-            </span>
-          </div>
-
-          <div className='sensor-grid'>
-            {/* Rainfall */}
-
-            <div className='sensor-card'>
-              <div className='sensor-icon rainfall'>
-                <CloudRain size={20} />
-              </div>
-
-              <div className='sensor-info'>
-                <span>Rainfall</span>
-
-                <strong>32 mm</strong>
-
-                <small>Last 1 hour</small>
-              </div>
-            </div>
-
-            {/* Soil Moisture */}
-
-            <div className='sensor-card'>
-              <div className='sensor-icon moisture'>
-                <Droplets size={20} />
-              </div>
-
-              <div className='sensor-info'>
-                <span>Soil Moisture</span>
-
-                <strong>78%</strong>
-
-                <small>Above normal</small>
-              </div>
-            </div>
-
-            {/* Tilt */}
-
-            <div className='sensor-card'>
-              <div className='sensor-icon tilt'>
-                <Activity size={20} />
-              </div>
-
-              <div className='sensor-info'>
-                <span>Slope / Tilt</span>
-
-                <strong>6.8°</strong>
-
-                <small>High movement</small>
-              </div>
-            </div>
-
-            {/* Temperature */}
-
-            <div className='sensor-card'>
-              <div className='sensor-icon temperature'>
-                <Thermometer size={20} />
-              </div>
-
-              <div className='sensor-info'>
-                <span>Temperature</span>
-
-                <strong>24°C</strong>
-
-                <small>Normal range</small>
-              </div>
-            </div>
-
-            {/* Humidity */}
-
-            <div className='sensor-card'>
-              <div className='sensor-icon humidity'>
-                <Wind size={20} />
-              </div>
-
-              <div className='sensor-info'>
-                <span>Humidity</span>
-
-                <strong>86%</strong>
-
-                <small>High</small>
-              </div>
-            </div>
-
-            {/* Sensor Status */}
-
-            <div className='sensor-card'>
-              <div className='sensor-icon status'>
-                <ShieldCheck size={20} />
-              </div>
-
-              <div className='sensor-info'>
-                <span>Sensor Network</span>
-
-                <strong>Online</strong>
-
-                <small>6 / 6 sensors active</small>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ================= RISK FACTORS ================= */}
-
-        <section className='lower-grid'>
-          {/* Main Risk Factors */}
-
-          <div className='risk-factors-card'>
-            <div className='section-title'>
+        {/* CONTENT */}
+        <div className='add-sensor-layout'>
+          {/* LEFT FORM */}
+          <section className='sensor-form-card'>
+            <div className='form-card-header'>
               <div>
-                <h2>Main Risk Factors</h2>
-
-                <p>Factors influencing the current prediction</p>
+                <h2>Sensor Information</h2>
+                <p>Enter the basic details of the new monitoring device.</p>
               </div>
 
-              <Brain size={20} />
+              <div className='required-note'>* Required</div>
             </div>
 
-            <div className='factor-list'>
-              <div className='factor'>
-                <div className='factor-number'>01</div>
+            {/* BASIC DETAILS */}
+            <div className='form-section'>
+              <div className='section-title'>
+                <Cpu size={15} />
+                <span>Basic Details</span>
+              </div>
 
-                <div className='factor-content'>
-                  <strong>Heavy Rainfall</strong>
+              <div className='form-grid'>
+                <div className='form-group'>
+                  <label>
+                    Sensor Name <span>*</span>
+                  </label>
 
-                  <span>32 mm rainfall recorded in the last hour</span>
+                  <input
+                    type='text'
+                    placeholder='e.g. East Slope Monitor'
+                  />
                 </div>
 
-                <b>High</b>
-              </div>
+                <div className='form-group'>
+                  <label>
+                    Sensor ID <span>*</span>
+                  </label>
 
-              <div className='factor'>
-                <div className='factor-number'>02</div>
+                  <input
+                    type='text'
+                    placeholder='ESP32-004'
+                  />
 
-                <div className='factor-content'>
-                  <strong>High Soil Moisture</strong>
-
-                  <span>Soil moisture is significantly above normal</span>
+                  <small>Unique ID assigned to this ESP32 device.</small>
                 </div>
 
-                <b>High</b>
+                <div className='form-group full-width'>
+                  <label>
+                    Sensor Location <span>*</span>
+                  </label>
+
+                  <div className='input-with-icon'>
+                    <MapPin size={14} />
+
+                    <input
+                      type='text'
+                      placeholder='e.g. East Slope — Main Ridge'
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* LOCATION */}
+            <div className='form-section'>
+              <div className='section-title'>
+                <MapPin size={15} />
+                <span>Location Coordinates</span>
               </div>
 
-              <div className='factor'>
-                <div className='factor-number'>03</div>
+              <div className='form-grid'>
+                <div className='form-group'>
+                  <label>Latitude</label>
 
-                <div className='factor-content'>
-                  <strong>Slope Movement</strong>
-
-                  <span>Increased tilt detected by sensor network</span>
+                  <input
+                    type='text'
+                    placeholder='31.2534'
+                  />
                 </div>
 
-                <b>High</b>
+                <div className='form-group'>
+                  <label>Longitude</label>
+
+                  <input
+                    type='text'
+                    placeholder='75.7031'
+                  />
+                </div>
+              </div>
+
+              <div className='location-info'>
+                <Info size={13} />
+                <span>
+                  Coordinates help map the sensor location and improve
+                  location-based risk analysis.
+                </span>
               </div>
             </div>
-          </div>
 
-          {/* Zone Information */}
+            {/* CONNECTION */}
+            <div className='form-section'>
+              <div className='section-title'>
+                <Wifi size={15} />
+                <span>Connection Settings</span>
+              </div>
 
-          <div className='zone-info-card'>
-            <h2>Zone Information</h2>
+              <div className='form-grid'>
+                <div className='form-group'>
+                  <label>WiFi Network</label>
 
-            <div className='info-row'>
-              <span>Location</span>
+                  <input
+                    type='text'
+                    placeholder='Network name'
+                  />
+                </div>
 
-              <strong>Sikkim, India</strong>
+                <div className='form-group'>
+                  <label>Backend API URL</label>
+
+                  <input
+                    type='text'
+                    placeholder='https://your-api-url.com'
+                  />
+                </div>
+              </div>
             </div>
 
-            <div className='info-row'>
-              <span>Zone ID</span>
+            {/* RISK SETTINGS */}
+            <div className='form-section'>
+              <div className='section-title'>
+                <ShieldAlert size={15} />
+                <span>Risk Thresholds</span>
+              </div>
 
-              <strong>ZONE-A-001</strong>
+              <p className='section-description'>
+                Configure the values used to determine sensor risk levels.
+              </p>
+
+              <div className='threshold-grid'>
+                <div className='threshold-card'>
+                  <span>Soil Moisture</span>
+
+                  <div className='threshold-input'>
+                    <input
+                      type='number'
+                      placeholder='70'
+                    />
+                    <b>%</b>
+                  </div>
+
+                  <small>High risk threshold</small>
+                </div>
+
+                <div className='threshold-card'>
+                  <span>Water Level</span>
+
+                  <div className='threshold-input'>
+                    <input
+                      type='number'
+                      placeholder='60'
+                    />
+                    <b>cm</b>
+                  </div>
+
+                  <small>High risk threshold</small>
+                </div>
+
+                <div className='threshold-card'>
+                  <span>Tilt</span>
+
+                  <div className='threshold-input'>
+                    <input
+                      type='number'
+                      step='0.1'
+                      placeholder='4.0'
+                    />
+                    <b>°</b>
+                  </div>
+
+                  <small>High risk threshold</small>
+                </div>
+
+                <div className='threshold-card'>
+                  <span>Vibration</span>
+
+                  <div className='threshold-input'>
+                    <input
+                      type='number'
+                      placeholder='3'
+                    />
+                    <b>level</b>
+                  </div>
+
+                  <small>High risk threshold</small>
+                </div>
+              </div>
             </div>
 
-            <div className='info-row'>
-              <span>Monitoring Since</span>
+            {/* ACTIONS */}
+            <div className='form-actions'>
+              <a
+                href='/sensors'
+                className='cancel-btn'
+              >
+                Cancel
+              </a>
 
-              <strong>Jan 2026</strong>
+              <button className='submit-sensor-btn'>
+                <Plus size={15} />
+                Add Sensor
+              </button>
+            </div>
+          </section>
+
+          {/* RIGHT PANEL */}
+          <aside className='sensor-info-panel'>
+            {/* PREVIEW */}
+            <div className='sensor-preview-card'>
+              <div className='preview-header'>
+                <span>DEVICE PREVIEW</span>
+
+                <div className='preview-dot'></div>
+              </div>
+
+              <div className='preview-device'>
+                <div className='preview-icon'>
+                  <Cpu size={24} />
+                </div>
+
+                <div>
+                  <strong>New Sensor</strong>
+                  <span>ESP32-004</span>
+                </div>
+              </div>
+
+              <div className='preview-status'>
+                <span className='status-dot'></span>
+                WAITING FOR CONNECTION
+              </div>
+
+              <div className='preview-readings'>
+                <div>
+                  <span>Soil</span>
+                  <strong>--</strong>
+                </div>
+
+                <div>
+                  <span>Water</span>
+                  <strong>--</strong>
+                </div>
+
+                <div>
+                  <span>Tilt</span>
+                  <strong>--</strong>
+                </div>
+
+                <div>
+                  <span>Vibration</span>
+                  <strong>--</strong>
+                </div>
+              </div>
             </div>
 
-            <div className='info-row'>
-              <span>Active Sensors</span>
+            {/* SETUP GUIDE */}
+            <div className='setup-card'>
+              <div className='setup-header'>
+                <Settings size={15} />
 
-              <strong>6 / 6</strong>
+                <div>
+                  <h2>Setup Checklist</h2>
+                  <span>Before deploying the ESP32</span>
+                </div>
+              </div>
+
+              <div className='setup-step'>
+                <div>1</div>
+
+                <section>
+                  <strong>Flash firmware</strong>
+                  <p>Upload the landslide monitoring firmware to the ESP32.</p>
+                </section>
+              </div>
+
+              <div className='setup-step'>
+                <div>2</div>
+
+                <section>
+                  <strong>Configure WiFi</strong>
+                  <p>Add WiFi credentials and the backend API URL.</p>
+                </section>
+              </div>
+
+              <div className='setup-step'>
+                <div>3</div>
+
+                <section>
+                  <strong>Set Sensor ID</strong>
+                  <p>Make sure the SENSOR_ID matches the ID above.</p>
+                </section>
+              </div>
+
+              <div className='setup-step'>
+                <div>4</div>
+
+                <section>
+                  <strong>Deploy device</strong>
+                  <p>Install the ESP32 at the selected monitoring location.</p>
+                </section>
+              </div>
             </div>
 
-            <div className='info-row'>
-              <span>Model Version</span>
+            {/* INFO */}
+            <div className='deployment-note'>
+              <Info size={15} />
 
-              <strong>v1.2</strong>
+              <div>
+                <strong>How it works</strong>
+
+                <p>
+                  Once the ESP32 connects to your backend, it will automatically
+                  appear in the Sensor Network.
+                </p>
+              </div>
             </div>
-          </div>
-        </section>
-
-        {/* ================= WARNING ================= */}
-
-        <div className='zone-warning'>
-          <AlertTriangle size={20} />
-
-          <div>
-            <strong>Critical Risk Detected</strong>
-
-            <p>
-              Current conditions indicate a high probability of landslide
-              activity. Authorities should review this zone and take appropriate
-              action.
-            </p>
-          </div>
+          </aside>
         </div>
       </main>
     </div>
   );
 }
 
-export default ZoneDetails;
+export default AddSensor;

@@ -888,10 +888,12 @@
 
 @media (max-width: 900px) {
   .sensor-sidebar {
-    width: 220px;
+    display: block;
+    width: 70px;
   }
 
   .sensor-main {
+    width: 100%;
     padding: 18px;
   }
 
@@ -914,7 +916,8 @@
 
 @media (max-width: 700px) {
   .sensor-sidebar {
-    display: none;
+    display: block;
+    width: 70px;
   }
 
   .sensor-main {

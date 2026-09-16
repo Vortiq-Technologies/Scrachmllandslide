@@ -195,10 +195,17 @@ body {
   background: var(--page-bg);
 
   color: var(--text-primary);
+  overflow-x: hidden;
 
   transition:
     background 0.3s ease,
     color 0.3s ease;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
 }
 
 /* =====================================================

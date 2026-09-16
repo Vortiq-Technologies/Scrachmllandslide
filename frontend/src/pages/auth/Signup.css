@@ -117,6 +117,14 @@
   border-radius: 14px;
 
   backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+
+.signup-brand-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .signup-brand-text h1 {
@@ -518,6 +526,7 @@
   border: 1px solid rgba(16, 185, 129, 0.35);
 
   border-radius: 12px;
+  overflow: hidden;
 }
 
 .signup-existing {
@@ -615,9 +624,9 @@
 
   padding: 0 14px;
 
-  background: #102d34;
+  background: rgba(5, 16, 22, 0.1);
 
-  border: 1px solid #31545b;
+  border: 1px solid rgba(45, 212, 191, 0.3);
 
   border-radius: 10px;
 
@@ -625,9 +634,8 @@
 }
 
 .signup-input-box:focus-within {
-  border-color: #10b981;
-
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.09);
+  border-color: rgba(45, 212, 191, 0.45);
+  box-shadow: none;
 }
 
 .signup-input-box > svg {
@@ -647,13 +655,23 @@
 
   color: #ffffff;
 
-  background: transparent;
+  background: transparent !important;
 
   font-size: 11px;
+  -webkit-text-fill-color: #e2e8f0;
 }
 
 .signup-input-box input::placeholder {
   color: #71898e;
+}
+
+.signup-input-box input:-webkit-autofill,
+.signup-input-box input:-webkit-autofill:hover,
+.signup-input-box input:-webkit-autofill:focus,
+.signup-input-box input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px rgba(5, 16, 22, 0.06) inset !important;
+  -webkit-text-fill-color: #e2e8f0 !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 /* =========================================

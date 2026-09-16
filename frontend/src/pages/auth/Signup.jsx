@@ -77,9 +77,9 @@ function Signup() {
         <div className='signup-left-content'>
           <div className='signup-brand'>
             <div className='signup-brand-icon'>
-              <Activity
-                size={30}
-                strokeWidth={2.5}
+              <img
+                src='/images/logo.png'
+                alt='Landslide Early Warning System logo'
               />
             </div>
 
@@ -174,7 +174,10 @@ function Signup() {
         <div className='signup-card'>
           <div className='signup-top'>
             <div className='signup-mini-logo'>
-              <Activity size={24} />
+              <img
+                src='/images/logo.png'
+                alt='Landslide Early Warning System logo'
+              />
             </div>
 
             <div className='signup-existing'>
@@ -192,18 +195,20 @@ function Signup() {
           </div>
 
           {error && (
-            <div style={{
-              background: 'rgba(239, 68, 68, 0.12)',
-              border: '1px solid rgba(239, 68, 68, 0.3)',
-              color: '#ef4444',
-              padding: '10px 14px',
-              borderRadius: '8px',
-              fontSize: '13px',
-              marginBottom: '16px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}>
+            <div
+              style={{
+                background: 'rgba(239, 68, 68, 0.12)',
+                border: '1px solid rgba(239, 68, 68, 0.3)',
+                color: '#ef4444',
+                padding: '10px 14px',
+                borderRadius: '8px',
+                fontSize: '13px',
+                marginBottom: '16px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+              }}
+            >
               <AlertTriangle size={18} />
               <span>{error}</span>
             </div>
@@ -241,9 +246,24 @@ function Signup() {
             </div>
 
             {/* ROLE & PHONE GRID */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '14px' }}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '12px',
+                marginBottom: '14px',
+              }}
+            >
               <div>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '6px' }}>
+                <label
+                  style={{
+                    display: 'block',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    color: 'var(--text-secondary)',
+                    marginBottom: '6px',
+                  }}
+                >
                   Role
                 </label>
                 <div className='signup-input-box'>
@@ -257,19 +277,47 @@ function Signup() {
                       color: 'var(--text-primary)',
                       width: '100%',
                       outline: 'none',
-                      fontSize: '13px'
+                      fontSize: '13px',
                     }}
                   >
-                    <option value='citizen' style={{ background: '#1e293b', color: '#fff' }}>Citizen</option>
-                    <option value='field_officer' style={{ background: '#1e293b', color: '#fff' }}>Field Officer</option>
-                    <option value='analyst' style={{ background: '#1e293b', color: '#fff' }}>Risk Analyst</option>
-                    <option value='admin' style={{ background: '#1e293b', color: '#fff' }}>District Admin</option>
+                    <option
+                      value='citizen'
+                      style={{ background: '#1e293b', color: '#fff' }}
+                    >
+                      Citizen
+                    </option>
+                    <option
+                      value='field_officer'
+                      style={{ background: '#1e293b', color: '#fff' }}
+                    >
+                      Field Officer
+                    </option>
+                    <option
+                      value='analyst'
+                      style={{ background: '#1e293b', color: '#fff' }}
+                    >
+                      Risk Analyst
+                    </option>
+                    <option
+                      value='admin'
+                      style={{ background: '#1e293b', color: '#fff' }}
+                    >
+                      District Admin
+                    </option>
                   </select>
                 </div>
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '6px' }}>
+                <label
+                  style={{
+                    display: 'block',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    color: 'var(--text-secondary)',
+                    marginBottom: '6px',
+                  }}
+                >
                   Phone Number
                 </label>
                 <div className='signup-input-box'>
@@ -308,23 +356,40 @@ function Signup() {
 
             {/* TERMS */}
             <div className='signup-terms'>
-              <label style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <label
+                style={{
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}
+              >
                 <input
                   type='checkbox'
                   checked={agreed}
                   onChange={(e) => setAgreed(e.target.checked)}
                 />
-                <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
-                  I agree to the Terms & Conditions and Safety Monitoring Guidelines
+                <span
+                  style={{ fontSize: '12px', color: 'var(--text-secondary)' }}
+                >
+                  I agree to the Terms & Conditions and Safety Monitoring
+                  Guidelines
                 </span>
               </label>
             </div>
 
             {/* SIGNUP BUTTON */}
-            <button className='signup-button' type='submit' disabled={loading}>
+            <button
+              className='signup-button'
+              type='submit'
+              disabled={loading}
+            >
               {loading ? (
                 <>
-                  <Loader2 size={18} className='animate-spin' />
+                  <Loader2
+                    size={18}
+                    className='animate-spin'
+                  />
                   <span>Creating Account...</span>
                 </>
               ) : (
@@ -351,4 +416,3 @@ function Signup() {
 }
 
 export default Signup;
-

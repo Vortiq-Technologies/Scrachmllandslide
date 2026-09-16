@@ -17,7 +17,6 @@ import {
 import { Link } from 'react-router-dom';
 
 import Sidebar from '../../components/Sidebar';
-import ThemeToggle from '../../components/ThemeToggle';
 import { reportsApi } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import './Reports.css';
@@ -171,8 +170,6 @@ function Reports() {
               />
               <span>Refresh</span>
             </button>
-
-            <ThemeToggle />
 
             <Link
               to='/reportsIncident'
