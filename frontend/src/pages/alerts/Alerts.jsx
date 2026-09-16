@@ -43,9 +43,16 @@ function Alerts() {
   const handleAcknowledge = async (alertId) => {
     try {
       setActionLoading(alertId);
-      await alertsApi.acknowledgeAlert(alertId, 'Acknowledged by emergency operator');
+      await alertsApi.acknowledgeAlert(
+        alertId,
+        'Acknowledged by emergency operator',
+      );
       setAlerts((prev) =>
-        prev.map((a) => (a._id === alertId || a.alertId === alertId ? { ...a, status: 'acknowledged' } : a))
+        prev.map((a) =>
+          a._id === alertId || a.alertId === alertId
+            ? { ...a, status: 'acknowledged' }
+            : a,
+        ),
       );
     } catch (err) {
       alert('Failed to acknowledge alert: ' + err.message);
@@ -59,7 +66,11 @@ function Alerts() {
       setActionLoading(alertId);
       await alertsApi.resolveAlert(alertId, 'Resolved by field command');
       setAlerts((prev) =>
-        prev.map((a) => (a._id === alertId || a.alertId === alertId ? { ...a, status: 'resolved' } : a))
+        prev.map((a) =>
+          a._id === alertId || a.alertId === alertId
+            ? { ...a, status: 'resolved' }
+            : a,
+        ),
       );
     } catch (err) {
       alert('Failed to resolve alert: ' + err.message);
@@ -69,17 +80,27 @@ function Alerts() {
   };
 
   const criticalCount = alerts.filter(
-    (a) => (a.severity || a.riskLevel || '').toUpperCase() === 'CRITICAL' && a.status !== 'resolved'
+    (a) =>
+      (a.severity || a.riskLevel || '').toUpperCase() === 'CRITICAL' &&
+      a.status !== 'resolved',
   ).length;
 
   const highCount = alerts.filter(
-    (a) => (a.severity || a.riskLevel || '').toUpperCase() === 'HIGH' && a.status !== 'resolved'
+    (a) =>
+      (a.severity || a.riskLevel || '').toUpperCase() === 'HIGH' &&
+      a.status !== 'resolved',
   ).length;
 
-  const resolvedCount = alerts.filter((a) => (a.status || '').toLowerCase() === 'resolved').length;
+  const resolvedCount = alerts.filter(
+    (a) => (a.status || '').toLowerCase() === 'resolved',
+  ).length;
 
-  const activeAlerts = alerts.filter((a) => (a.status || '').toLowerCase() !== 'resolved');
-  const resolvedAlerts = alerts.filter((a) => (a.status || '').toLowerCase() === 'resolved');
+  const activeAlerts = alerts.filter(
+    (a) => (a.status || '').toLowerCase() !== 'resolved',
+  );
+  const resolvedAlerts = alerts.filter(
+    (a) => (a.status || '').toLowerCase() === 'resolved',
+  );
 
   const filteredActiveAlerts = activeAlerts.filter((alert) => {
     const sev = (alert.severity || alert.riskLevel || 'MODERATE').toUpperCase();
@@ -102,8 +123,15 @@ function Alerts() {
         {/* Header */}
         <div className='alerts-header'>
           <div>
-            <h1>Alerts Center</h1>
-            <p>Monitor, acknowledge, and resolve landslide hazard warnings</p>
+            <div className='alerts-header-icon'>
+              <AlertTriangle size={19} />
+            </div>
+
+            <div>
+              <span className='page-eyebrow'>ALERT MONITORING</span>
+              <h1>Alerts Center</h1>
+              <p>Monitor, acknowledge, and resolve landslide hazard warnings</p>
+            </div>
           </div>
 
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
@@ -119,10 +147,13 @@ function Alerts() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
-                fontSize: '13px'
+                fontSize: '13px',
               }}
             >
-              <RefreshCw size={15} className={loading ? 'animate-spin' : ''} />
+              <RefreshCw
+                size={15}
+                className={loading ? 'animate-spin' : ''}
+              />
               <span>Refresh</span>
             </button>
 
@@ -216,46 +247,93 @@ function Alerts() {
           </div>
 
           {loading ? (
-            <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-secondary)' }}>
-              <Loader2 size={28} className='animate-spin' style={{ margin: '0 auto 10px' }} />
+            <div
+              style={{
+                padding: '40px',
+                textAlign: 'center',
+                color: 'var(--text-secondary)',
+              }}
+            >
+              <Loader2
+                size={28}
+                className='animate-spin'
+                style={{ margin: '0 auto 10px' }}
+              />
               <p>Fetching active alerts from server...</p>
             </div>
           ) : filteredActiveAlerts.length > 0 ? (
             <div className='alert-list'>
               {filteredActiveAlerts.map((alert) => {
                 const id = alert._id || alert.alertId;
-                const severity = (alert.severity || alert.riskLevel || 'MODERATE').toLowerCase();
-                const isCrit = severity === 'critical' || severity === 'emergency_evacuation';
+                const severity = (
+                  alert.severity ||
+                  alert.riskLevel ||
+                  'MODERATE'
+                ).toLowerCase();
+                const isCrit =
+                  severity === 'critical' ||
+                  severity === 'emergency_evacuation';
                 const isHigh = severity === 'high';
                 const status = (alert.status || 'active').toLowerCase();
-                const timeStr = alert.issuedAt || alert.createdAt
-                  ? new Date(alert.issuedAt || alert.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                  : 'Active';
+                const timeStr =
+                  alert.issuedAt || alert.createdAt
+                    ? new Date(
+                        alert.issuedAt || alert.createdAt,
+                      ).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })
+                    : 'Active';
 
                 return (
-                  <div key={id} className={`alert-card ${isCrit ? 'critical-alert' : isHigh ? 'high-alert' : 'moderate-alert'}`}>
-                    <div className={`alert-severity ${isCrit ? 'critical-severity' : isHigh ? 'high-severity' : 'moderate-severity'}`}>
+                  <div
+                    key={id}
+                    className={`alert-card ${isCrit ? 'critical-alert' : isHigh ? 'high-alert' : 'moderate-alert'}`}
+                  >
+                    <div
+                      className={`alert-severity ${isCrit ? 'critical-severity' : isHigh ? 'high-severity' : 'moderate-severity'}`}
+                    >
                       <AlertTriangle size={20} />
                     </div>
 
-                    <div className='alert-content' style={{ flex: 1 }}>
+                    <div
+                      className='alert-content'
+                      style={{ flex: 1 }}
+                    >
                       <div className='alert-top'>
                         <div>
-                          <span className='alert-type'>{(alert.severity || alert.riskLevel || 'WARNING').toUpperCase()}</span>
-                          <h3>{alert.title || alert.message || 'Landslide Alert'}</h3>
+                          <span className='alert-type'>
+                            {(
+                              alert.severity ||
+                              alert.riskLevel ||
+                              'WARNING'
+                            ).toUpperCase()}
+                          </span>
+                          <h3>
+                            {alert.title || alert.message || 'Landslide Alert'}
+                          </h3>
                         </div>
 
-                        <span className={`alert-status ${status === 'acknowledged' ? 'high-status' : ''}`}>
+                        <span
+                          className={`alert-status ${status === 'acknowledged' ? 'high-status' : ''}`}
+                        >
                           {status.toUpperCase()}
                         </span>
                       </div>
 
                       <div className='alert-location'>
                         <MapPin size={14} />
-                        {alert.zoneName || alert.zoneId?.name || 'Assigned Zone'} · Himalayan Sector
+                        {alert.zoneName ||
+                          alert.zoneId?.name ||
+                          'Assigned Zone'}{' '}
+                        · Himalayan Sector
                       </div>
 
-                      <p>{alert.message || alert.description || 'Threshold triggered by sensor telemetry.'}</p>
+                      <p>
+                        {alert.message ||
+                          alert.description ||
+                          'Threshold triggered by sensor telemetry.'}
+                      </p>
 
                       <div className='alert-meta'>
                         <span>
@@ -264,7 +342,15 @@ function Alerts() {
                         </span>
                         {alert.riskScore !== undefined && (
                           <span>
-                            Risk Score: <strong>{Math.round(alert.riskScore <= 1 ? alert.riskScore * 100 : alert.riskScore)}/100</strong>
+                            Risk Score:{' '}
+                            <strong>
+                              {Math.round(
+                                alert.riskScore <= 1
+                                  ? alert.riskScore * 100
+                                  : alert.riskScore,
+                              )}
+                              /100
+                            </strong>
                           </span>
                         )}
                         {alert.triggerSource && (
@@ -275,7 +361,13 @@ function Alerts() {
                       </div>
 
                       {/* Action response buttons */}
-                      <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          gap: '8px',
+                          marginTop: '12px',
+                        }}
+                      >
                         {status !== 'acknowledged' && (
                           <button
                             onClick={() => handleAcknowledge(id)}
@@ -290,7 +382,9 @@ function Alerts() {
                               cursor: 'pointer',
                             }}
                           >
-                            {actionLoading === id ? 'Updating...' : 'Acknowledge'}
+                            {actionLoading === id
+                              ? 'Updating...'
+                              : 'Acknowledge'}
                           </button>
                         )}
                         <button
@@ -306,7 +400,9 @@ function Alerts() {
                             cursor: 'pointer',
                           }}
                         >
-                          {actionLoading === id ? 'Updating...' : 'Resolve Alert'}
+                          {actionLoading === id
+                            ? 'Updating...'
+                            : 'Resolve Alert'}
                         </button>
                       </div>
                     </div>
@@ -315,8 +411,17 @@ function Alerts() {
               })}
             </div>
           ) : (
-            <div style={{ padding: '36px', textAlign: 'center', color: 'var(--text-secondary)' }}>
-              <ShieldCheck size={36} style={{ color: '#22c55e', margin: '0 auto 8px' }} />
+            <div
+              style={{
+                padding: '36px',
+                textAlign: 'center',
+                color: 'var(--text-secondary)',
+              }}
+            >
+              <ShieldCheck
+                size={36}
+                style={{ color: '#22c55e', margin: '0 auto 8px' }}
+              />
               <p>No active alerts matching the selected filter criteria.</p>
             </div>
           )}
@@ -333,15 +438,27 @@ function Alerts() {
             </div>
 
             {resolvedAlerts.slice(0, 4).map((alert) => (
-              <div key={alert._id || alert.alertId} className='recent-alert-row'>
+              <div
+                key={alert._id || alert.alertId}
+                className='recent-alert-row'
+              >
                 <div className='resolved-icon'>✓</div>
                 <div className='recent-alert-content'>
-                  <strong>{alert.title || alert.message || 'Resolved Alert'}</strong>
-                  <span>{alert.zoneName || alert.zoneId?.name || 'Region'}</span>
+                  <strong>
+                    {alert.title || alert.message || 'Resolved Alert'}
+                  </strong>
+                  <span>
+                    {alert.zoneName || alert.zoneId?.name || 'Region'}
+                  </span>
                 </div>
                 <span className='resolved-label'>Resolved</span>
                 <span className='recent-time'>
-                  {alert.resolvedAt ? new Date(alert.resolvedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Complete'}
+                  {alert.resolvedAt
+                    ? new Date(alert.resolvedAt).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })
+                    : 'Complete'}
                 </span>
               </div>
             ))}
@@ -353,4 +470,3 @@ function Alerts() {
 }
 
 export default Alerts;
-

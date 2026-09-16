@@ -72,11 +72,11 @@ function Sidebar() {
         </NavLink>
 
         <NavLink
-          to='/map'
+          to='/sensor-network'
           className={navClass}
         >
           <Map size={19} />
-          <span>Risk Map</span>
+          <span>Sensor Network</span>
         </NavLink>
 
         <NavLink
@@ -142,7 +142,17 @@ function Sidebar() {
 
         {/* User Profile */}
         <div className='sidebar-user'>
-          <Link to='/profile' style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', flex: 1, minWidth: 0 }}>
+          <Link
+            to='/profile'
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              textDecoration: 'none',
+              flex: 1,
+              minWidth: 0,
+            }}
+          >
             <div className='user-avatar'>{getInitials()}</div>
             <div className='user-info'>
               <strong>{getDisplayName()}</strong>
