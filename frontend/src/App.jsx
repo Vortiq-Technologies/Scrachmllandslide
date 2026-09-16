@@ -3,8 +3,8 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
 import Dashboard from './pages/dashboard/Dashboard';
-import RiskMap from './pages/map/RiskMap';
-import ZoneDetails from './pages/map/ZoneDetails';
+import AddSensor from './pages/map/AddSensor';
+import SensorNetwork from './pages/map/SensorNetwork';
 import Alerts from './pages/alerts/Alerts';
 import Reports from './pages/reports/Reports';
 import ReportIncident from './pages/reports/ReportsIncident';
@@ -32,12 +32,12 @@ function App() {
           element={<Dashboard />}
         />
         <Route
-          path='/map'
-          element={<RiskMap />}
+          path='/sensor-network'
+          element={<SensorNetwork />}
         />
         <Route
-          path='/zone-details'
-          element={<ZoneDetails />}
+          path='/add-sensor'
+          element={<AddSensor />}
         />
         <Route
           path='/alerts'

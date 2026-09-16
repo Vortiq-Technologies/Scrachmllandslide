@@ -26,7 +26,10 @@ function AICopilot() {
       role: 'assistant',
       content:
         'Hello! I am your Landslide Early Warning Copilot. I analyze live telemetry, rainfall thresholds, ML predictions, and hazard reports to provide grounded operational explanations.',
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      timestamp: new Date().toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
     },
   ]);
 
@@ -45,7 +48,9 @@ function AICopilot() {
           dashboardApi.getOverview(),
         ]);
         if (zonesData.status === 'fulfilled' && zonesData.value) {
-          const list = Array.isArray(zonesData.value) ? zonesData.value : zonesData.value.zones || [];
+          const list = Array.isArray(zonesData.value)
+            ? zonesData.value
+            : zonesData.value.zones || [];
           setZones(list);
           if (list.length > 0 && !selectedZoneId) {
             setSelectedZoneId(list[0]._id || list[0].code);
@@ -74,7 +79,10 @@ function AICopilot() {
       id: String(Date.now()),
       role: 'user',
       content: textToSend,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      timestamp: new Date().toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
     };
 
     setMessages((prev) => [...prev, userMsg]);
@@ -88,9 +96,17 @@ function AICopilot() {
         .slice(-6)
         .map((m) => ({ role: m.role, content: m.content }));
 
-      const response = await genAiApi.chat(textToSend, selectedZoneId || undefined, history);
+      const response = await genAiApi.chat(
+        textToSend,
+        selectedZoneId || undefined,
+        history,
+      );
 
-      const aiReply = response?.reply || response?.explanation || response?.message || 'Analysis complete.';
+      const aiReply =
+        response?.reply ||
+        response?.explanation ||
+        response?.message ||
+        'Analysis complete.';
       const disclaimer = response?.disclaimer || null;
 
       const assistantMsg = {
@@ -98,7 +114,10 @@ function AICopilot() {
         role: 'assistant',
         content: aiReply,
         disclaimer,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
       };
 
       setMessages((prev) => [...prev, assistantMsg]);
@@ -108,7 +127,10 @@ function AICopilot() {
         role: 'assistant',
         content: `Error synthesizing response: ${err.message}. Please verify the backend GenAI service or select a valid risk zone.`,
         isError: true,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
       };
       setMessages((prev) => [...prev, errorMsg]);
     } finally {
@@ -125,8 +147,12 @@ function AICopilot() {
       {
         id: 'welcome',
         role: 'assistant',
-        content: 'Conversation history reset. How can I assist with disaster risk assessment today?',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        content:
+          'Conversation history reset. How can I assist with disaster risk assessment today?',
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
       },
     ]);
   };
@@ -151,6 +177,7 @@ function AICopilot() {
                 <Bot size={21} />
               </div>
               <div>
+                <span className='copilot-eyebrow'>AI ADVISORY</span>
                 <h1>AI Disaster Copilot</h1>
                 <p>AI-assisted grounded decision support & risk explanations</p>
               </div>
@@ -159,7 +186,11 @@ function AICopilot() {
 
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Focus Sector:</span>
+              <span
+                style={{ fontSize: '12px', color: 'var(--text-secondary)' }}
+              >
+                Focus Sector:
+              </span>
               <select
                 value={selectedZoneId}
                 onChange={(e) => setSelectedZoneId(e.target.value)}
@@ -176,7 +207,10 @@ function AICopilot() {
               >
                 <option value=''>All Sectors</option>
                 {zones.map((z) => (
-                  <option key={z._id || z.code} value={z._id}>
+                  <option
+                    key={z._id || z.code}
+                    value={z._id}
+                  >
                     {z.name || z.code}
                   </option>
                 ))}
@@ -205,7 +239,11 @@ function AICopilot() {
                 </div>
               </div>
 
-              <button className='refresh-btn' onClick={clearChat} title='Reset conversation'>
+              <button
+                className='refresh-btn'
+                onClick={clearChat}
+                title='Reset conversation'
+              >
                 <RefreshCw size={16} />
               </button>
             </div>
@@ -225,19 +263,27 @@ function AICopilot() {
                       </div>
                     )}
 
-                    <div className={`message-bubble ${isAssistant ? 'ai-message' : 'user-message'}`}>
-                      <div className='message-label'>{isAssistant ? 'AI Copilot' : 'You'} · {msg.timestamp}</div>
-                      <p style={{ whiteSpace: 'pre-wrap', margin: 0 }}>{msg.content}</p>
+                    <div
+                      className={`message-bubble ${isAssistant ? 'ai-message' : 'user-message'}`}
+                    >
+                      <div className='message-label'>
+                        {isAssistant ? 'AI Copilot' : 'You'} · {msg.timestamp}
+                      </div>
+                      <p style={{ whiteSpace: 'pre-wrap', margin: 0 }}>
+                        {msg.content}
+                      </p>
 
                       {msg.disclaimer && (
-                        <div style={{
-                          marginTop: '10px',
-                          padding: '6px 10px',
-                          background: 'rgba(239, 68, 68, 0.08)',
-                          borderLeft: '2px solid #ef4444',
-                          fontSize: '11px',
-                          color: 'var(--text-secondary)'
-                        }}>
+                        <div
+                          style={{
+                            marginTop: '10px',
+                            padding: '6px 10px',
+                            background: 'rgba(239, 68, 68, 0.08)',
+                            borderLeft: '2px solid #ef4444',
+                            fontSize: '11px',
+                            color: 'var(--text-secondary)',
+                          }}
+                        >
                           {msg.disclaimer}
                         </div>
                       )}
@@ -257,9 +303,21 @@ function AICopilot() {
                   <div className='message-avatar'>
                     <Bot size={15} />
                   </div>
-                  <div className='ai-message' style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Loader2 size={16} className='animate-spin' />
-                    <span>Analyzing sensor telemetry & generating explanation...</span>
+                  <div
+                    className='ai-message'
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                    }}
+                  >
+                    <Loader2
+                      size={16}
+                      className='animate-spin'
+                    />
+                    <span>
+                      Analyzing sensor telemetry & generating explanation...
+                    </span>
                   </div>
                 </div>
               )}
@@ -271,15 +329,33 @@ function AICopilot() {
             <div className='quick-question-area'>
               <span>Suggested Operations</span>
               <div className='quick-question-list'>
-                <button onClick={() => handleQuickQuestion('Explain the current highest risk zone and primary contributing factors.')}>
+                <button
+                  onClick={() =>
+                    handleQuickQuestion(
+                      'Explain the current highest risk zone and primary contributing factors.',
+                    )
+                  }
+                >
                   Explain Highest Risk Sector
                   <ChevronRight size={14} />
                 </button>
-                <button onClick={() => handleQuickQuestion('Synthesize current rainfall, soil moisture, and slope movement conditions.')}>
+                <button
+                  onClick={() =>
+                    handleQuickQuestion(
+                      'Synthesize current rainfall, soil moisture, and slope movement conditions.',
+                    )
+                  }
+                >
                   Analyze Telemetry Status
                   <ChevronRight size={14} />
                 </button>
-                <button onClick={() => handleQuickQuestion('Draft a public advisory draft for local administration review.')}>
+                <button
+                  onClick={() =>
+                    handleQuickQuestion(
+                      'Draft a public advisory draft for local administration review.',
+                    )
+                  }
+                >
                   Draft Emergency Bulletin
                   <ChevronRight size={14} />
                 </button>
@@ -302,13 +378,24 @@ function AICopilot() {
                   onChange={(e) => setInputMessage(e.target.value)}
                   disabled={loading}
                 />
-                <button type='submit' disabled={loading || !inputMessage.trim()}>
-                  {loading ? <Loader2 size={17} className='animate-spin' /> : <Send size={17} />}
+                <button
+                  type='submit'
+                  disabled={loading || !inputMessage.trim()}
+                >
+                  {loading ? (
+                    <Loader2
+                      size={17}
+                      className='animate-spin'
+                    />
+                  ) : (
+                    <Send size={17} />
+                  )}
                 </button>
               </form>
 
               <p>
-                ⚠️ AI-generated decision support is assistive only. All operational warnings require human authority review.
+                ⚠️ AI-generated decision support is assistive only. All
+                operational warnings require human authority review.
               </p>
             </div>
           </section>
@@ -334,7 +421,10 @@ function AICopilot() {
                   <strong>{highestRiskZone?.name || 'Monitoring'}</strong>
                 </div>
                 <b className='critical-badge'>
-                  {Math.round((highestRiskZone?.currentRiskScore || 0.84) * (highestRiskZone?.currentRiskScore <= 1 ? 100 : 1))}
+                  {Math.round(
+                    (highestRiskZone?.currentRiskScore || 0.84) *
+                      (highestRiskZone?.currentRiskScore <= 1 ? 100 : 1),
+                  )}
                 </b>
               </div>
 
@@ -381,7 +471,11 @@ function AICopilot() {
 
               <button
                 className='analysis-tool'
-                onClick={() => handleQuickQuestion('Provide a comprehensive risk summary for all monitored sectors.')}
+                onClick={() =>
+                  handleQuickQuestion(
+                    'Provide a comprehensive risk summary for all monitored sectors.',
+                  )
+                }
               >
                 <div className='tool-icon'>
                   <AlertTriangle size={15} />
@@ -395,7 +489,11 @@ function AICopilot() {
 
               <button
                 className='analysis-tool'
-                onClick={() => handleQuickQuestion('Analyze recent precipitation rates and saturation impact.')}
+                onClick={() =>
+                  handleQuickQuestion(
+                    'Analyze recent precipitation rates and saturation impact.',
+                  )
+                }
               >
                 <div className='tool-icon'>
                   <CloudRain size={15} />
@@ -409,7 +507,11 @@ function AICopilot() {
 
               <button
                 className='analysis-tool'
-                onClick={() => handleQuickQuestion('Review IoT tilt and soil moisture readings for anomalies.')}
+                onClick={() =>
+                  handleQuickQuestion(
+                    'Review IoT tilt and soil moisture readings for anomalies.',
+                  )
+                }
               >
                 <div className='tool-icon'>
                   <Activity size={15} />
@@ -423,7 +525,11 @@ function AICopilot() {
 
               <button
                 className='analysis-tool'
-                onClick={() => handleQuickQuestion('What are the standard evacuation and safety SOP guidelines for this terrain?')}
+                onClick={() =>
+                  handleQuickQuestion(
+                    'What are the standard evacuation and safety SOP guidelines for this terrain?',
+                  )
+                }
               >
                 <div className='tool-icon'>
                   <ShieldCheck size={15} />
@@ -449,4 +555,3 @@ function AICopilot() {
 }
 
 export default AICopilot;
-

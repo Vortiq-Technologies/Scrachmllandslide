@@ -14,7 +14,6 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 
 import Sidebar from '../../components/Sidebar';
-import ThemeToggle from '../../components/ThemeToggle';
 import { reportsApi, riskApi } from '../../services/api';
 
 import './ReportIncident.css';
@@ -63,7 +62,7 @@ function ReportIncident() {
       (err) => {
         setGpsStatus(`GPS error: ${err.message}. Using regional default.`);
       },
-      { timeout: 10000, enableHighAccuracy: true }
+      { timeout: 10000, enableHighAccuracy: true },
     );
   };
 
@@ -95,7 +94,9 @@ function ReportIncident() {
       await reportsApi.submitReport(payload);
       navigate('/reportsSubmitted');
     } catch (err) {
-      setError(err.message || 'Failed to submit incident report. Please try again.');
+      setError(
+        err.message || 'Failed to submit incident report. Please try again.',
+      );
     } finally {
       setSubmitting(false);
     }
@@ -108,11 +109,13 @@ function ReportIncident() {
       <main className='report-incident-main'>
         {/* Top Navigation */}
         <div className='incident-topbar'>
-          <Link to='/reports' className='back-to-reports'>
+          <Link
+            to='/reports'
+            className='back-to-reports'
+          >
             <ArrowLeft size={17} />
             Back to Reports
           </Link>
-          <ThemeToggle />
         </div>
 
         {/* Header */}
@@ -120,31 +123,39 @@ function ReportIncident() {
           <div>
             <span className='page-eyebrow'>FIELD REPORTING</span>
             <h1>Report an Incident</h1>
-            <p>Submit a field observation or suspected landslide hazard to emergency authorities</p>
+            <p>
+              Submit a field observation or suspected landslide hazard to
+              emergency authorities
+            </p>
           </div>
           <div className='field-report-label'>GEO-TAGGED REPORT</div>
         </div>
 
         {error && (
-          <div style={{
-            background: 'rgba(239, 68, 68, 0.12)',
-            border: '1px solid rgba(239, 68, 68, 0.3)',
-            color: '#ef4444',
-            padding: '12px 16px',
-            borderRadius: '8px',
-            fontSize: '13px',
-            marginBottom: '16px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px'
-          }}>
+          <div
+            style={{
+              background: 'rgba(239, 68, 68, 0.12)',
+              border: '1px solid rgba(239, 68, 68, 0.3)',
+              color: '#ef4444',
+              padding: '12px 16px',
+              borderRadius: '8px',
+              fontSize: '13px',
+              marginBottom: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
             <AlertTriangle size={18} />
             <span>{error}</span>
           </div>
         )}
 
         {/* Form */}
-        <form className='incident-form' onSubmit={handleSubmit}>
+        <form
+          className='incident-form'
+          onSubmit={handleSubmit}
+        >
           {/* =========================
               INCIDENT INFORMATION
           ========================= */}
@@ -168,11 +179,17 @@ function ReportIncident() {
                 required
               >
                 <option value='Landslide'>Landslide / Slope Collapse</option>
-                <option value='slope_crack'>Slope Cracks / Tension Fissures</option>
+                <option value='slope_crack'>
+                  Slope Cracks / Tension Fissures
+                </option>
                 <option value='rockfall'>Rockfall / Falling Boulders</option>
-                <option value='soil_movement'>Soil Movement / Subsidence</option>
+                <option value='soil_movement'>
+                  Soil Movement / Subsidence
+                </option>
                 <option value='road_blocked'>Road Blockage / Debris</option>
-                <option value='water_accumulation'>Waterlogging / Mud Inflow</option>
+                <option value='water_accumulation'>
+                  Waterlogging / Mud Inflow
+                </option>
                 <option value='other'>Other Hazardous Anomaly</option>
               </select>
             </div>
@@ -253,7 +270,9 @@ function ReportIncident() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               ></textarea>
-              <small className='field-hint'>Please provide specific observable facts to help response teams.</small>
+              <small className='field-hint'>
+                Please provide specific observable facts to help response teams.
+              </small>
             </div>
           </section>
 
@@ -273,10 +292,16 @@ function ReportIncident() {
               {/* Zone */}
               <div className='form-group'>
                 <label>Associated Risk Zone</label>
-                <select value={zoneId} onChange={(e) => setZoneId(e.target.value)}>
+                <select
+                  value={zoneId}
+                  onChange={(e) => setZoneId(e.target.value)}
+                >
                   <option value=''>Select zone (or nearest sector)</option>
                   {zones.map((z) => (
-                    <option key={z._id || z.code} value={z._id}>
+                    <option
+                      key={z._id || z.code}
+                      value={z._id}
+                    >
                       {z.name || z.code}
                     </option>
                   ))}
@@ -310,7 +335,8 @@ function ReportIncident() {
               <div className='gps-content'>
                 <strong>Capture Current GPS Coordinates</strong>
                 <p>
-                  {gpsStatus || `Active GeoJSON Point: [${coordinates[0].toFixed(4)}, ${coordinates[1].toFixed(4)}]`}
+                  {gpsStatus ||
+                    `Active GeoJSON Point: [${coordinates[0].toFixed(4)}, ${coordinates[1].toFixed(4)}]`}
                 </p>
               </div>
               <button
@@ -333,8 +359,9 @@ function ReportIncident() {
             <div>
               <strong>Verified Disaster Management Data</strong>
               <p>
-                Please ensure all provided details are accurate. Incident reports are validated by district officers
-                and correlated with live sensor models.
+                Please ensure all provided details are accurate. Incident
+                reports are validated by district officers and correlated with
+                live sensor models.
               </p>
             </div>
           </div>
@@ -343,7 +370,10 @@ function ReportIncident() {
               ACTIONS
           ========================= */}
           <div className='form-actions'>
-            <Link to='/reports' className='cancel-button'>
+            <Link
+              to='/reports'
+              className='cancel-button'
+            >
               Cancel
             </Link>
             <button
@@ -353,7 +383,10 @@ function ReportIncident() {
             >
               {submitting ? (
                 <>
-                  <Loader2 size={18} className='animate-spin' />
+                  <Loader2
+                    size={18}
+                    className='animate-spin'
+                  />
                   <span>Transmitting Report...</span>
                 </>
               ) : (

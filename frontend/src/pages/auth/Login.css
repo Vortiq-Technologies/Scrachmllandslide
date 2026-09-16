@@ -110,6 +110,14 @@ input {
   border-radius: 14px;
 
   backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+
+.brand-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .brand h1 {
@@ -484,6 +492,17 @@ input {
   border: 1px solid rgba(16, 185, 129, 0.35);
 
   border-radius: 13px;
+  overflow: hidden;
+}
+
+.small-logo img,
+.signup-mini-logo img,
+.brand-logo img,
+.signup-brand-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .signup-top {
@@ -569,9 +588,9 @@ input {
 
   gap: 12px;
 
-  background: rgba(3, 23, 28, 0.65);
+  background: rgba(5, 16, 22, 0.1);
 
-  border: 1px solid #31545b;
+  /* border: solid rgba(45, 212, 191, 0.3); */
 
   border-radius: 12px;
 
@@ -579,9 +598,7 @@ input {
 }
 
 .input-wrapper:focus-within {
-  border-color: #10b981;
-
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  border-color: rgba(45, 212, 191, 0.45);
 }
 
 .input-wrapper svg {
@@ -595,19 +612,25 @@ input {
 
   height: 100%;
 
-  border: none;
-
-  outline: none;
-
   color: white;
 
-  background: transparent;
+  background: transparent !important;
 
   font-size: 13px;
+  -webkit-text-fill-color: #e2e8f0;
 }
 
 .input-wrapper input::placeholder {
   color: #71878b;
+}
+
+.input-wrapper input:-webkit-autofill,
+.input-wrapper input:-webkit-autofill:hover,
+.input-wrapper input:-webkit-autofill:focus,
+.input-wrapper input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px rgba(5, 16, 22, 0.06) inset !important;
+  -webkit-text-fill-color: #e2e8f0 !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 /* Eye */

@@ -17,7 +17,6 @@ import {
 import { Link } from 'react-router-dom';
 
 import Sidebar from '../../components/Sidebar';
-import ThemeToggle from '../../components/ThemeToggle';
 import { reportsApi } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import './Reports.css';
@@ -52,7 +51,16 @@ function Reports() {
       setActionLoading(reportId);
       await reportsApi.verifyReport(reportId, 'Verified by field officer');
       setReports((prev) =>
-        prev.map((r) => (r._id === reportId ? { ...r, status: 'verified', verificationStatus: 'VERIFIED', verifiedAt: new Date() } : r))
+        prev.map((r) =>
+          r._id === reportId
+            ? {
+                ...r,
+                status: 'verified',
+                verificationStatus: 'VERIFIED',
+                verifiedAt: new Date(),
+              }
+            : r,
+        ),
       );
     } catch (err) {
       alert('Verification failed: ' + err.message);
@@ -66,7 +74,16 @@ function Reports() {
       setActionLoading(reportId);
       await reportsApi.resolveReport(reportId, 'Resolved by emergency team');
       setReports((prev) =>
-        prev.map((r) => (r._id === reportId ? { ...r, status: 'resolved', verificationStatus: 'RESOLVED', resolvedAt: new Date() } : r))
+        prev.map((r) =>
+          r._id === reportId
+            ? {
+                ...r,
+                status: 'resolved',
+                verificationStatus: 'RESOLVED',
+                resolvedAt: new Date(),
+              }
+            : r,
+        ),
       );
     } catch (err) {
       alert('Resolution failed: ' + err.message);
@@ -76,13 +93,28 @@ function Reports() {
   };
 
   const totalCount = reports.length;
-  const pendingCount = reports.filter((r) => (r.verificationStatus || r.status || 'pending').toLowerCase() === 'pending').length;
-  const verifiedCount = reports.filter((r) => (r.verificationStatus || r.status || '').toLowerCase() === 'verified').length;
-  const resolvedCount = reports.filter((r) => (r.verificationStatus || r.status || '').toLowerCase() === 'resolved').length;
+  const pendingCount = reports.filter(
+    (r) =>
+      (r.verificationStatus || r.status || 'pending').toLowerCase() ===
+      'pending',
+  ).length;
+  const verifiedCount = reports.filter(
+    (r) =>
+      (r.verificationStatus || r.status || '').toLowerCase() === 'verified',
+  ).length;
+  const resolvedCount = reports.filter(
+    (r) =>
+      (r.verificationStatus || r.status || '').toLowerCase() === 'resolved',
+  ).length;
 
   const filteredReports = reports.filter((report) => {
-    const st = (report.verificationStatus || report.status || 'pending').toLowerCase();
-    if (statusFilter !== 'ALL' && st !== statusFilter.toLowerCase()) return false;
+    const st = (
+      report.verificationStatus ||
+      report.status ||
+      'pending'
+    ).toLowerCase();
+    if (statusFilter !== 'ALL' && st !== statusFilter.toLowerCase())
+      return false;
 
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
@@ -102,9 +134,18 @@ function Reports() {
         {/* ================= HEADER ================= */}
         <div className='reports-header'>
           <div>
-            <span className='page-eyebrow'>FIELD MONITORING</span>
-            <h1>Citizen & Field Reports</h1>
-            <p>Review, verify and manage crowd-sourced and field officer incident hazard logs</p>
+            <div className='reports-header-icon'>
+              <ClipboardList size={20} />
+            </div>
+
+            <div>
+              <span className='page-eyebrow'>FIELD MONITORING</span>
+              <h1>Citizen & Field Reports</h1>
+              <p>
+                Review, verify and manage crowd-sourced and field officer
+                incident hazard logs
+              </p>
+            </div>
           </div>
 
           <div className='reports-header-actions'>
@@ -120,16 +161,20 @@ function Reports() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
-                fontSize: '13px'
+                fontSize: '13px',
               }}
             >
-              <RefreshCw size={15} className={loading ? 'animate-spin' : ''} />
+              <RefreshCw
+                size={15}
+                className={loading ? 'animate-spin' : ''}
+              />
               <span>Refresh</span>
             </button>
 
-            <ThemeToggle />
-
-            <Link to='/reportsIncident' className='create-report-btn'>
+            <Link
+              to='/reportsIncident'
+              className='create-report-btn'
+            >
               <span>+</span>
               Report Incident
             </Link>
@@ -227,33 +272,67 @@ function Reports() {
             <div>
               <span className='section-label'>INCIDENT LOG</span>
               <h2>Report Feed</h2>
-              <p>Live geo-referenced observations from citizen sensors & ground patrols</p>
+              <p>
+                Live geo-referenced observations from citizen sensors & ground
+                patrols
+              </p>
             </div>
-            <span className='report-count'>{filteredReports.length} Reports</span>
+            <span className='report-count'>
+              {filteredReports.length} Reports
+            </span>
           </div>
 
           {loading ? (
-            <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-secondary)' }}>
-              <Loader2 size={28} className='animate-spin' style={{ margin: '0 auto 10px' }} />
+            <div
+              style={{
+                padding: '40px',
+                textAlign: 'center',
+                color: 'var(--text-secondary)',
+              }}
+            >
+              <Loader2
+                size={28}
+                className='animate-spin'
+                style={{ margin: '0 auto 10px' }}
+              />
               <p>Fetching incident reports...</p>
             </div>
           ) : filteredReports.length > 0 ? (
             filteredReports.map((report) => {
               const severity = (report.severity || 'MODERATE').toLowerCase();
-              const status = (report.verificationStatus || report.status || 'pending').toLowerCase();
+              const status = (
+                report.verificationStatus ||
+                report.status ||
+                'pending'
+              ).toLowerCase();
               const timeStr = report.createdAt
-                ? new Date(report.createdAt).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })
+                ? new Date(report.createdAt).toLocaleString([], {
+                    dateStyle: 'short',
+                    timeStyle: 'short',
+                  })
                 : 'Recent';
 
               const coords = report.location?.coordinates || [];
-              const coordStr = coords.length === 2 ? `[${coords[1].toFixed(3)}°N, ${coords[0].toFixed(3)}°E]` : '';
+              const coordStr =
+                coords.length === 2
+                  ? `[${coords[1].toFixed(3)}°N, ${coords[0].toFixed(3)}°E]`
+                  : '';
 
               return (
-                <div key={report._id} className='report-card'>
-                  <div className='report-card-left' style={{ flex: 1 }}>
+                <div
+                  key={report._id}
+                  className='report-card'
+                >
+                  <div
+                    className='report-card-left'
+                    style={{ flex: 1 }}
+                  >
                     <div className={`report-icon ${severity}-report`}>!</div>
 
-                    <div className='report-content' style={{ flex: 1 }}>
+                    <div
+                      className='report-content'
+                      style={{ flex: 1 }}
+                    >
                       <div className='report-title-row'>
                         <h3 style={{ textTransform: 'capitalize' }}>
                           {(report.reportType || 'Incident').replace('_', ' ')}
@@ -265,7 +344,10 @@ function Reports() {
 
                       <div className='report-location'>
                         <MapPin size={13} />
-                        {report.zoneId?.name || report.zoneName || 'Himalayan Regional Sector'} {coordStr}
+                        {report.zoneId?.name ||
+                          report.zoneName ||
+                          'Himalayan Regional Sector'}{' '}
+                        {coordStr}
                       </div>
 
                       <p>{report.description || 'No description provided.'}</p>
@@ -286,7 +368,13 @@ function Reports() {
                       </div>
 
                       {/* Management Action Buttons */}
-                      <div style={{ display: 'flex', gap: '8px', marginTop: '10px' }}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          gap: '8px',
+                          marginTop: '10px',
+                        }}
+                      >
                         {status === 'pending' && (
                           <button
                             onClick={() => handleVerify(report._id)}
@@ -298,10 +386,12 @@ function Reports() {
                               background: 'rgba(59, 130, 246, 0.15)',
                               color: '#3b82f6',
                               border: '1px solid rgba(59, 130, 246, 0.3)',
-                              cursor: 'pointer'
+                              cursor: 'pointer',
                             }}
                           >
-                            {actionLoading === report._id ? 'Verifying...' : '✓ Verify Report'}
+                            {actionLoading === report._id
+                              ? 'Verifying...'
+                              : '✓ Verify Report'}
                           </button>
                         )}
                         {status !== 'resolved' && (
@@ -315,10 +405,12 @@ function Reports() {
                               background: 'rgba(34, 197, 94, 0.15)',
                               color: '#22c55e',
                               border: '1px solid rgba(34, 197, 94, 0.3)',
-                              cursor: 'pointer'
+                              cursor: 'pointer',
                             }}
                           >
-                            {actionLoading === report._id ? 'Resolving...' : '✓ Mark Resolved'}
+                            {actionLoading === report._id
+                              ? 'Resolving...'
+                              : '✓ Mark Resolved'}
                           </button>
                         )}
                       </div>
@@ -326,16 +418,31 @@ function Reports() {
                   </div>
 
                   <div className='report-card-right'>
-                    <span className={`status-badge ${status === 'pending' ? 'pending' : status === 'verified' ? 'reviewing' : 'resolved'}`}>
-                      {status === 'pending' ? 'Pending Review' : status === 'verified' ? 'Verified Hazard' : 'Resolved'}
+                    <span
+                      className={`status-badge ${status === 'pending' ? 'pending' : status === 'verified' ? 'reviewing' : 'resolved'}`}
+                    >
+                      {status === 'pending'
+                        ? 'Pending Review'
+                        : status === 'verified'
+                          ? 'Verified Hazard'
+                          : 'Resolved'}
                     </span>
                   </div>
                 </div>
               );
             })
           ) : (
-            <div style={{ padding: '36px', textAlign: 'center', color: 'var(--text-secondary)' }}>
-              <CheckCircle2 size={36} style={{ color: '#22c55e', margin: '0 auto 8px' }} />
+            <div
+              style={{
+                padding: '36px',
+                textAlign: 'center',
+                color: 'var(--text-secondary)',
+              }}
+            >
+              <CheckCircle2
+                size={36}
+                style={{ color: '#22c55e', margin: '0 auto 8px' }}
+              />
               <p>No reports found matching your criteria.</p>
             </div>
           )}

@@ -65,9 +65,9 @@ function Login() {
           {/* Logo */}
           <div className='brand'>
             <div className='brand-logo'>
-              <Activity
-                size={38}
-                strokeWidth={2.5}
+              <img
+                src='/images/logo.png'
+                alt='Landslide Early Warning System logo'
               />
             </div>
 
@@ -169,7 +169,10 @@ function Login() {
           {/* Top */}
           <div className='login-top'>
             <div className='small-logo'>
-              <Activity size={28} />
+              <img
+                src='/images/logo.png'
+                alt='Landslide Early Warning System logo'
+              />
             </div>
 
             <div className='signup-top'>
@@ -189,18 +192,21 @@ function Login() {
 
           {/* Error Alert */}
           {error && (
-            <div className='login-error-box' style={{
-              background: 'rgba(239, 68, 68, 0.12)',
-              border: '1px solid rgba(239, 68, 68, 0.3)',
-              color: '#ef4444',
-              padding: '10px 14px',
-              borderRadius: '8px',
-              fontSize: '13px',
-              marginBottom: '16px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}>
+            <div
+              className='login-error-box'
+              style={{
+                background: 'rgba(239, 68, 68, 0.12)',
+                border: '1px solid rgba(239, 68, 68, 0.3)',
+                color: '#ef4444',
+                padding: '10px 14px',
+                borderRadius: '8px',
+                fontSize: '13px',
+                marginBottom: '16px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+              }}
+            >
               <AlertTriangle size={18} />
               <span>{error}</span>
             </div>
@@ -247,17 +253,27 @@ function Login() {
             {/* Remember + Forgot */}
             <div className='login-options'>
               <label className='remember'>
-                <input type='checkbox' defaultChecked />
+                <input
+                  type='checkbox'
+                  defaultChecked
+                />
                 <span>Remember me</span>
               </label>
               <Link to='/forgot-password'>Forgot Password?</Link>
             </div>
 
             {/* Login Button */}
-            <button className='login-button' type='submit' disabled={loading}>
+            <button
+              className='login-button'
+              type='submit'
+              disabled={loading}
+            >
               {loading ? (
                 <>
-                  <Loader2 size={18} className='animate-spin' />
+                  <Loader2
+                    size={18}
+                    className='animate-spin'
+                  />
                   <span>Signing in...</span>
                 </>
               ) : (
@@ -271,13 +287,29 @@ function Login() {
 
           {/* Quick Demo Credentials Selection */}
           <div style={{ marginTop: '20px' }}>
-            <p style={{ fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '8px', textAlign: 'center' }}>
+            <p
+              style={{
+                fontSize: '12px',
+                color: 'var(--text-secondary)',
+                marginBottom: '8px',
+                textAlign: 'center',
+              }}
+            >
               ⚡ Quick Demo Logins (Pre-seeded in DB):
             </p>
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <div
+              style={{
+                display: 'flex',
+                gap: '8px',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+              }}
+            >
               <button
                 type='button'
-                onClick={() => setDemoUser('admin@landslide.gov.in', 'Password123!')}
+                onClick={() =>
+                  setDemoUser('admin@landslide.gov.in', 'Password123!')
+                }
                 style={{
                   padding: '5px 10px',
                   fontSize: '11px',
@@ -285,14 +317,16 @@ function Login() {
                   background: 'var(--accent-soft)',
                   color: 'var(--accent-color)',
                   border: '1px solid var(--border-color)',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
                 }}
               >
                 🛡️ Admin (Dr. Aarav)
               </button>
               <button
                 type='button'
-                onClick={() => setDemoUser('officer@landslide.gov.in', 'Password123!')}
+                onClick={() =>
+                  setDemoUser('officer@landslide.gov.in', 'Password123!')
+                }
                 style={{
                   padding: '5px 10px',
                   fontSize: '11px',
@@ -300,14 +334,16 @@ function Login() {
                   background: 'var(--card-bg-hover)',
                   color: 'var(--text-primary)',
                   border: '1px solid var(--border-color)',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
                 }}
               >
                 📡 Field Officer (Rajesh)
               </button>
               <button
                 type='button'
-                onClick={() => setDemoUser('citizen@example.com', 'Password123!')}
+                onClick={() =>
+                  setDemoUser('citizen@example.com', 'Password123!')
+                }
                 style={{
                   padding: '5px 10px',
                   fontSize: '11px',
@@ -315,7 +351,7 @@ function Login() {
                   background: 'var(--card-bg-hover)',
                   color: 'var(--text-primary)',
                   border: '1px solid var(--border-color)',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
                 }}
               >
                 👤 Citizen (Sunita)
@@ -324,7 +360,10 @@ function Login() {
           </div>
 
           {/* Signup Bottom Link */}
-          <p className='signup-bottom' style={{ marginTop: '24px' }}>
+          <p
+            className='signup-bottom'
+            style={{ marginTop: '24px' }}
+          >
             Don't have an account?
             <Link to='/signup'>
               Sign Up <ArrowRight size={14} />
@@ -337,4 +376,3 @@ function Login() {
 }
 
 export default Login;
-

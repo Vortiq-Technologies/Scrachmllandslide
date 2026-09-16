@@ -721,9 +721,9 @@
 
 @media (max-width: 900px) {
   .dashboard-main {
-    margin-left: 220px;
+    margin-left: 70px;
 
-    padding: 28px;
+    padding: 24px 14px;
   }
 
   .welcome-visual {
@@ -746,7 +746,7 @@
   .dashboard-main {
     margin-left: 70px;
 
-    padding: 20px;
+    padding: 20px 14px;
   }
 
   .dashboard-header {
@@ -777,6 +777,10 @@
 }
 
 @media (max-width: 480px) {
+  .dashboard-main {
+    padding: 14px 10px;
+  }
+
   .dashboard-header {
     flex-direction: column;
   }

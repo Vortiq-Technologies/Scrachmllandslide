@@ -53,21 +53,25 @@
 
 .copilot-header {
   display: flex;
-
-  align-items: flex-start;
-
+  align-items: center;
   justify-content: space-between;
-
   gap: 20px;
-
+  min-height: 120px;
   margin-bottom: 22px;
+  padding: 18px 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  background: linear-gradient(
+    105deg,
+    rgba(15, 118, 110, 0.14),
+    rgba(15, 23, 42, 0.12)
+  );
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.14);
 }
 
 .copilot-title {
   display: flex;
-
   align-items: center;
-
   gap: 13px;
 }
 
@@ -83,11 +87,20 @@
 
   border-radius: 12px;
 
-  background: linear-gradient(135deg, #0f766e, #14b8a6);
+  background: var(--accent-soft);
+  color: var(--accent-color);
 
-  color: #ffffff;
+  box-shadow: 0 0 20px rgba(45, 212, 191, 0.1);
+}
 
-  box-shadow: 0 7px 18px rgba(15, 118, 110, 0.18);
+.copilot-header .page-eyebrow,
+.copilot-header .copilot-eyebrow {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--accent-color);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
 }
 
 .copilot-header h1 {
